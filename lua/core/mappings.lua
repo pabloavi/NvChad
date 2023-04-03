@@ -1,5 +1,36 @@
 -- n, v, i, t = mode names
 
+local function termcodes(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+-- function that creates a neorg file called "README.neorg" in current file directory
+-- if it already exists, it opens it
+local function edit_neorg_file(file)
+  local root_dir = vim.loop.cwd()
+  local neorg_file = root_dir .. "/" .. file .. ".norg"
+  vim.cmd("edit " .. neorg_file)
+end
+
+-- function that prints definition of a word under cursor
+local function define_word()
+  local word = vim.fn.expand "<cword>"
+  vim.api.nvim_exec("!node ~/scripts/js/rae/rae.js " .. word, false)
+end
+
+-- function that creates a file in /tmp/ and opens it
+local function create_tmp_file()
+  local tmp_file = "/tmp/" .. os.date "%Y-%m-%d_%H-%M-%S" .. ".txt"
+  vim.cmd("edit " .. tmp_file)
+end
+
+local function toggle_lsp_lines()
+  vim.g.lines_enabled = not vim.g.lines_enabled
+  vim.diagnostic.config { virtual_lines = vim.g.lines_enabled, virtual_text = not vim.g.lines_enabled }
+end
+
+local search_in_firefox = [[<ESC>gv"gy<ESC>:lua os.execute("firefox --search '" .. vim.fn.getreg("g") .. "'") <CR>]]
+
 local M = {}
 
 M.general = {
@@ -16,7 +47,8 @@ M.general = {
   },
 
   n = {
-    ["<Esc>"] = { ":noh <CR>", "clear highlights" },
+    ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
+
     -- switch between windows
     ["<C-h>"] = { "<C-w>h", "window left" },
     ["<C-l>"] = { "<C-w>l", "window right" },
@@ -30,8 +62,19 @@ M.general = {
     ["<C-c>"] = { "<cmd> %y+ <CR>", "copy whole file" },
 
     -- line numbers
-    ["<leader>n"] = { "<cmd> set nu! <CR>", "toggle line number" },
+    ["<leader>nu"] = { "<cmd> set nu! <CR>", "toggle line number" },
     ["<leader>rn"] = { "<cmd> set rnu! <CR>", "toggle relative number" },
+
+    -- update nvchad
+    -- ["<leader>uu"] = { "<cmd> :NvChadUpdate <CR>", "update nvchad" },
+
+    -- TODO: remove toggle_theme
+    -- ["<leader>tt"] = {
+    --   function()
+    --     require("base46").toggle_theme()
+    --   end,
+    --   "toggle theme",
+    -- },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
@@ -42,26 +85,48 @@ M.general = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
 
-    -- new buffer
+    ["n"] = { "nzzzv", "center screen on n" },
+    ["N"] = { "Nzzzv", "center screen on N" },
+    ["<C-d>"] = { "<C-d>zz", "center screen on c-d" },
+    ["<C-u>"] = { "<C-u>zz", "center screen on c-u" },
+
     ["<leader>b"] = { "<cmd> enew <CR>", "new buffer" },
-    ["<leader>ch"] = { "<cmd> NvCheatsheet <CR>", "Mapping cheatsheet" },
+
+    ["<leader>fm"] = { "<cmd> lua vim.lsp.buf.format()<CR>", "format buffer" },
+
+    ["<leader>pv"] = { vim.cmd.Ex, "file explorer netrw" },
+
+    ["<leader>mr"] = { "<cmd>CellularAutomaton make_it_rain<CR>", "make code rain" },
+    ["<leader>gl"] = { "<cmd>CellularAutomaton game_of_life<CR>", "game of life" },
+    ["<leader>pr"] = { "<cmd> VimBeGood <CR>", "vimbegood games" },
+
+    ["<leader><leader>"] = { vim.cmd.so, "source current file" },
+    ["<leader>ps"] = { "<cmd> PackerSync <CR>", "packer sync" },
+
+    ["<leader>sr"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "search and replace current word" },
+    ["<leader>mx"] = { "<cmd>!chmod +x %<CR>", "make current file executable", opts = { silent = true } },
   },
 
-  t = {
-    ["<C-x>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "escape terminal mode" },
-  },
+  t = { ["<C-x>"] = { termcodes "<C-\\><C-N>", "escape terminal mode" } },
 
   v = {
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "move up", opts = { expr = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "move down", opts = { expr = true } },
+    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
+    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
+
+    -- search visual selection in firefox
+    ["<leader>f"] = { search_in_firefox, "search visual selection in firefox", opts = { silent = true } },
   },
 
   x = {
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "move left", opts = { expr = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "move down", opts = { expr = true } },
+    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
+    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
     -- Don't copy the replaced text after pasting in visual mode
     -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
-    ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "dont copy replaced text", opts = { silent = true } },
+    -- ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', opts = { silent = true } },
+  },
+  s = {
+    ["<BS>"] = { "<C-g>s", "delete selection and enter insert mode" },
+    ["<C-i>"] = { "<C-g><ESC>`>a", "delete selection and enter insert mode" },
   },
 }
 
@@ -83,6 +148,9 @@ M.tabufline = {
       end,
       "goto prev buffer",
     },
+
+    -- pick buffers via numbers
+    ["<leader>pb"] = { "<cmd> TbufPick <CR>", "pick buffer" },
 
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
@@ -135,7 +203,7 @@ M.lspconfig = {
       "lsp definition",
     },
 
-    ["K"] = {
+    ["<leader>lh"] = {
       function()
         vim.lsp.buf.hover()
       end,
@@ -170,7 +238,7 @@ M.lspconfig = {
       "lsp rename",
     },
 
-    ["<leader>ca"] = {
+    ["<C- >"] = {
       function()
         vim.lsp.buf.code_action()
       end,
@@ -186,7 +254,7 @@ M.lspconfig = {
 
     ["<leader>f"] = {
       function()
-        vim.diagnostic.open_float { border = "rounded" }
+        vim.diagnostic.open_float()
       end,
       "floating diagnostic",
     },
@@ -198,7 +266,7 @@ M.lspconfig = {
       "goto prev",
     },
 
-    ["]d"] = {
+    ["d]"] = {
       function()
         vim.diagnostic.goto_next()
       end,
@@ -239,6 +307,23 @@ M.lspconfig = {
       end,
       "list workspace folders",
     },
+
+    -- navigation menu
+    ["<leader>nb"] = {
+      function()
+        vim.lsp.diagnostic.goto_prev { popup_opts = { border = "rounded" } }
+      end,
+      "lsp diagnostic prev",
+    },
+
+    ["<leader>nf"] = {
+      function()
+        vim.lsp.diagnostic.goto_next { popup_opts = { border = "rounded" } }
+      end,
+      "lsp diagnostic next",
+    },
+
+    ["<leader>na"] = { "<cmd> Navbuddy <CR>", "navbuddy navigation menu" },
   },
 }
 
@@ -265,6 +350,7 @@ M.telescope = {
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
+    ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
 
     -- git
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
@@ -275,6 +361,13 @@ M.telescope = {
 
     -- theme switcher
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "nvchad themes" },
+
+    -- extensions & extra
+    ["<leader>tc"] = { "<cmd> TodoTelescope <CR>", "telescope todo comments " },
+    ["<leader>sn"] = { "<cmd> Telescope luasnip <CR>", "telescope snippets" },
+    ["<leader>tu"] = { "<cmd> Telescope undo <CR>", "telescope undo history" },
+    ["<leader>tq"] = { "<cmd> Telescope quickfix <CR>", "telescope quickfix" },
+    ["<leader>gi"] = { "<cmd> Gitignore <CR>", "create gitignore template" },
   },
 }
 
@@ -329,6 +422,7 @@ M.nvterm = {
     },
 
     -- new
+
     ["<leader>h"] = {
       function()
         require("nvterm.terminal").new "horizontal"
@@ -382,7 +476,7 @@ M.blankline = {
         end
       end,
 
-      "Jump to current_context",
+      "jump to current_context",
     },
   },
 }
@@ -402,7 +496,7 @@ M.gitsigns = {
         end)
         return "<Ignore>"
       end,
-      "Jump to next hunk",
+      "jump to next hunk",
       opts = { expr = true },
     },
 
@@ -416,7 +510,7 @@ M.gitsigns = {
         end)
         return "<Ignore>"
       end,
-      "Jump to prev hunk",
+      "jump to prev hunk",
       opts = { expr = true },
     },
 
@@ -425,28 +519,260 @@ M.gitsigns = {
       function()
         require("gitsigns").reset_hunk()
       end,
-      "Reset hunk",
+      "reset hunk",
     },
 
     ["<leader>ph"] = {
       function()
         require("gitsigns").preview_hunk()
       end,
-      "Preview hunk",
+      "preview hunk",
     },
 
     ["<leader>gb"] = {
       function()
         package.loaded.gitsigns.blame_line()
       end,
-      "Blame line",
+      "blame line",
     },
 
     ["<leader>td"] = {
       function()
         require("gitsigns").toggle_deleted()
       end,
-      "Toggle deleted",
+      "toggle deleted",
+    },
+  },
+}
+
+M.luasnip = {
+  plugin = true,
+  i = {
+    ["<C-n>"] = {
+      function()
+        vim.fn.feedkeys(termcodes "<Plug>luasnip-next-choice")
+      end,
+      "next choice",
+    },
+
+    ["<C-p>"] = {
+      function()
+        vim.fn.feedkeys(termcodes "<Plug>luasnip-prev-choice")
+      end,
+      "prev choice",
+    },
+  },
+
+  s = {
+    ["<C-n>"] = {
+      function()
+        vim.fn.feedkeys(termcodes "<Plug>luasnip-next-choice")
+      end,
+      "next choice",
+    },
+
+    ["<C-p>"] = {
+      function()
+        vim.fn.feedkeys(termcodes "<Plug>luasnip-prev-choice")
+      end,
+      "prev choice",
+    },
+  },
+
+  n = {
+    ["<leader>se"] = {
+      function()
+        -- vim.cmd "PackerLoad telescope.nvim"
+        require "telescope"
+        require "dressing"
+        require("luasnip.loaders").edit_snippet_files()
+      end,
+      "edit luasnip snippets (with reload)",
+    },
+  },
+}
+
+M.truezen = {
+  plugin = true,
+  n = {
+    ["<leader>ta"] = { "<cmd> TZAtaraxis <CR>", "truzen ataraxis" },
+    ["<leader>tm"] = { "<cmd> TZMinimalist <CR>", "truzen minimal" },
+    ["<leader>tf"] = { "<cmd> TZFocus <CR>", "truzen focus" },
+  },
+}
+
+M.treesitter = {
+  plugin = true,
+  n = {
+    ["<leader>cu"] = { "<cmd> TSCaptureUnderCursor <CR>", "treesitter capture under cursor" },
+    ["K"] = {
+      function()
+        require("ts-node-action").node_action()
+      end,
+      "Trigger Node Action",
+    },
+  },
+}
+-- these werent working as expected
+vim.keymap.set("x", "iu", ':<c-u>lua require"treesitter-unit".select()<CR>')
+vim.keymap.set("o", "iu", ':<c-u>lua require"treesitter-unit".select()<CR>')
+vim.keymap.set("x", "au", ':<c-u>lua require"treesitter-unit".select(true)<CR>')
+vim.keymap.set("o", "au", ':<c-u>lua require"treesitter-unit".select(true)<CR>')
+
+M.markdownpreview = {
+  plugin = true,
+  n = {
+    ["<leader>mp"] = { "<cmd> MarkdownPreviewToggle <CR>", "toggle markdown preview" },
+  },
+}
+
+M.icon = {
+  plugin = true,
+  n = {
+    ["<leader>ici"] = { "<cmd> IconPickerInsert <CR>", "pick icon for insert mode" },
+    ["<leader>icn"] = { "<cmd> IconPickerNormal <CR>", "pick icon for normal mode" },
+    ["<leader>icy"] = { "<cmd> IconPickerYank <CR>", "pick icon and yank it" },
+  },
+}
+
+M.copilot = {
+  plugin = true,
+  n = {
+    ["<leader>cp"] = { "<cmd> Copilot panel <CR>", "copilot panel" },
+  },
+}
+
+M.dap = {
+  plugin = true,
+
+  n = {
+    ["<leader>db"] = { "<cmd> lua require'dap'.toggle_breakpoint()<CR>", "dap: toggle breakpoint" },
+    ["<leader>dc"] = { "<cmd> lua require'dap'.continue()<CR>", "dap: continue" },
+    ["<leader>di"] = { "<cmd> lua require'dap'.step_into()<CR>", "dap: step into" },
+    ["<leader>dr"] = { "<cmd> lua require'dap'.repl.open()<CR>", "dap: open repl" },
+  },
+}
+
+M.code_runner = {
+  plugin = true,
+  -- stylua: ignore
+  n = {
+    ["<leader>r"] = { "<cmd> RunCode <CR>", "run code", opts = { noremap = true, silent = false } },
+    ["<leader>rf"] = { "<cmd> RunFile <CR>", "run file", opts = { noremap = true, silent = false } },
+    ["<leader>rft"] = { "<cmd> RunFile tab<CR>", "run file in tab", opts = { noremap = true, silent = false } },
+    ["<leader>rp"] = { "<cmd> RunProject <CR>", "run project", opts = { noremap = true, silent = false } },
+    ["<leader>rc"] = { "<cmd> RunClose <CR>", "run window", opts = { noremap = true, silent = false } },
+    ["<leader>crf"] = {
+      "<cmd> CRFiletype <CR>",
+      "run code by filetype",
+      opts = { noremap = true, silent = false },
+    },
+    ["<leader>crp"] = {
+      "<cmd> CRProjects <CR>",
+      "run code by project",
+      opts = { noremap = true, silent = false },
+    },
+  },
+}
+
+M.qol = {
+  n = {
+    ["<leader>ct"] = {
+      function()
+        create_tmp_file()
+      end,
+      "create tmp file",
+    },
+  },
+}
+
+M.sniprun = {
+  plugin = true,
+  n = {
+    ["<leader>sr"] = { "<cmd> SnipRun <CR>", "sniprun run selected code" },
+  },
+  v = {
+    ["<leader>sr"] = { "<cmd> SnipRun <CR>", "sniprun run selected code" },
+  },
+}
+
+M.ufo = {
+  plugin = true,
+  n = {
+    ["zR"] = { "<cmd> lua require('ufo').openAllFolds() <CR>", "open all folds" },
+    ["zM"] = { "<cmd> lua require('ufo').closeAllFolds() <CR>", "close all folds" },
+  },
+}
+
+M.neorg = {
+  plugin = true,
+  n = {
+    ["<leader>ne"] = { "<cmd> Neorg <CR>", "neorg main command" },
+    ["<leader>nf"] = {
+      function()
+        edit_neorg_file "README"
+      end,
+      "neorg create or edit readme file",
+    },
+    -- todo
+    ["<leader>nt"] = {
+      function()
+        edit_neorg_file "todo"
+      end,
+      "neorg create or edit todo file",
+    },
+  },
+}
+
+M.latex = {
+  plugin = true,
+  n = {
+    ["<leader>tex"] = {
+      "<cmd> lua embed_latex() <CR>",
+      "open latex panel",
+      opts = { noremap = true, silent = true },
+    },
+    ["<leader>lb"] = {
+      "<cmd> Telescope bibtex format='tex' <CR>",
+      "telescope bibtex entries",
+      opts = { noremap = true, silent = true },
+    },
+  },
+}
+
+M.airlatex = {
+  n = {
+    ["<leader>la"] = { "<cmd> AirLatex <CR>", "airlatex panel" },
+  },
+}
+
+M.webtools = {
+  plugin = true,
+  n = {
+    ["<leader>wo"] = { "<cmd> BrowserOpen <CR>", "open website in browser" },
+  },
+}
+
+M.dictionary = {
+  n = {
+    ["<leader>dw"] = {
+      function()
+        define_word()
+      end,
+      "define word using rae dictionary",
+    },
+  },
+}
+
+M.lsp_lines = {
+  -- plugin = true,
+  n = {
+    ["<leader>tll"] = {
+      function()
+        toggle_lsp_lines()
+      end,
+
+      "toggle lsp lines diagnostics",
     },
   },
 }

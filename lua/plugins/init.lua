@@ -1,23 +1,29 @@
 -- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
--- List of all default plugins & their definitions
-local default_plugins = {
+local nvchad_plugins = vim.fn.stdpath "config" .. "/lua/plugins/nvchad"
+local plugins = {
 
   "nvim-lua/plenary.nvim",
 
+  {
+    "stevearc/dressing.nvim",
+    config = function()
+      require "plugins.configs.dressing"
+    end,
+  },
+
   -- nvchad plugins
-  { "NvChad/extensions", branch = "v2.0" },
+  { dir = nvchad_plugins .. "/extensions" },
 
   {
-    "NvChad/base46",
-    branch = "v2.0",
+    dir = nvchad_plugins .. "/base46",
     build = function()
       require("base46").load_all_highlights()
     end,
   },
 
   {
+    dir = nvchad_plugins .. "/extensions",
     "NvChad/ui",
-    branch = "v2.0",
     lazy = false,
     config = function()
       require "nvchad_ui"
@@ -25,7 +31,7 @@ local default_plugins = {
   },
 
   {
-    "NvChad/nvterm",
+    dit = nvchad_plugins .. "/nvterm",
     init = function()
       require("core.utils").load_mappings "nvterm"
     end,
@@ -36,9 +42,9 @@ local default_plugins = {
   },
 
   {
-    "NvChad/nvim-colorizer.lua",
+    dir = nvchad_plugins .. "/nvim-colorizer.lua",
     init = function()
-      require("core.utils").lazy_load "nvim-colorizer.lua"
+      require("core.utils").lazy_load "nvchad_colorizer"
     end,
     config = function(_, opts)
       require("colorizer").setup(opts)
@@ -89,8 +95,53 @@ local default_plugins = {
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "syntax")
       require("nvim-treesitter.configs").setup(opts)
+      vim.api.nvim_set_hl(0, "@text.emphasis", { link = "italic" })
     end,
   },
+
+  -- get highlight group under cursor
+  {
+    "nvim-treesitter/playground",
+    cmd = { "TSCaptureUnderCursor", "TSNodeUnderCursor", "TSPlaygroundToggle" },
+    opts = function()
+      return require "plugins.configs.treesitter"
+    end,
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
+  },
+
+  ["nvim-treesitter/nvim-treesitter-context"] = {
+    enable = false,
+    config = function(_, opts)
+      require("treesitter-context").setup(opts)
+    end,
+  },
+
+  { "RRethy/nvim-treesitter-textsubjects" },
+
+  { "nvim-treesitter/nvim-treesitter-textobjects" },
+
+  {
+    "chrisgrieser/nvim-various-textobjs",
+    opts = {
+      useDefaultKeymaps = true,
+    },
+    config = function(_, opts)
+      require("various-textobjs").setup(opts)
+    end,
+  },
+
+  {
+    "ckolkey/ts-node-action",
+    config = function()
+      require("ts-node-action").setup()
+    end,
+  },
+
+  { "David-Kunz/treesitter-unit" },
+
+  { "mrjones2014/nvim-ts-rainbow" },
 
   -- git stuff
   {
@@ -150,30 +201,49 @@ local default_plugins = {
     end,
   },
 
+  { "simrat39/inlay-hints.nvim", enable = false },
+
+  {
+    "simrat39/rust-tools.nvim",
+    ft = "rust",
+    dependencies = { "nvim-lspconfig", "dressing.nvim" },
+    opts = function()
+      return require "plugins.configs.rust_tools"
+    end,
+    config = function(_, opts)
+      require("rust-tools").setup(opts)
+    end,
+  },
+
+  {
+    "SmiteshP/nvim-navbuddy",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
   -- load luasnips + cmp related in insert mode only
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
       {
-        -- snippet plugin
         "L3MON4D3/LuaSnip",
-        dependencies = "rafamadriz/friendly-snippets",
-        opts = { history = true, updateevents = "TextChanged,TextChangedI" },
-        config = function(_, opts)
-          require("plugins.configs.others").luasnip(opts)
+        init = function()
+          require("core.utils").load_mappings "luasnip"
+        end,
+        config = function()
+          require "plugins.configs.luasnip"
         end,
       },
 
       -- autopairing of (){}[] etc
       {
         "windwp/nvim-autopairs",
-        opts = {
-          fast_wrap = {},
-          disable_filetype = { "TelescopePrompt", "vim" },
-        },
-        config = function(_, opts)
-          require("nvim-autopairs").setup(opts)
+        config = function()
+          require "plugins.configs.autopairs"
 
           -- setup cmp for autopairs
           local cmp_autopairs = require "nvim-autopairs.completion.cmp"
@@ -188,6 +258,7 @@ local default_plugins = {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
+        { "hrsh7th/cmp-omni", commit = "cec8d46" },
       },
     },
 
@@ -196,6 +267,33 @@ local default_plugins = {
     end,
     config = function(_, opts)
       require("cmp").setup(opts)
+    end,
+  },
+
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    init = function()
+      require("core.utils").load_mappings "copilot"
+    end,
+    config = function()
+      require("plugins.configs.others").copilot()
+    end,
+  },
+
+  {
+    "zbirenbaum/copilot-cmp",
+    enable = false,
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
+
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("plugins.configs.others").lsp_lines()
     end,
   },
 
@@ -213,6 +311,7 @@ local default_plugins = {
   -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
+    enable = false,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     init = function()
       require("core.utils").load_mappings "nvimtree"
@@ -250,6 +349,21 @@ local default_plugins = {
     end,
   },
 
+  { "benfowler/telescope-luasnip.nvim", cmd = "Telescope luasnip" },
+
+  { "debugloop/telescope-undo.nvim", cmd = "Telescope undo" },
+
+  { "wintermute-cell/gitignore.nvim", cmd = "Gitignore" },
+
+  {
+    "potamides/pantran.nvim",
+    enable = false,
+    cmd = "Pantran",
+    config = function()
+      require("plugins.configs.others").pantran()
+    end,
+  },
+
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
@@ -265,12 +379,260 @@ local default_plugins = {
       require("which-key").setup(opts)
     end,
   },
+
+  {
+    "folke/todo-comments.nvim",
+    init = function()
+      require("core.lazy_load").on_file_open "todo-comments.nvim"
+    end,
+    config = function()
+      require("todo-comments").setup()
+    end,
+  },
+
+  {
+    "RRethy/vim-illuminate",
+    init = function()
+      require("core.lazy_load").on_file_open "vim-illuminate"
+    end,
+    config = function()
+      require("plugins.configs.others").illuminate()
+    end,
+  },
+
+  -- motion
+  {
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup()
+    end,
+  },
+
+  -- fast moving (like vimium)
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").add_default_mappings()
+    end,
+  },
+
+  -- misc
+  {
+    "Pocco81/TrueZen.nvim",
+    cmd = {
+      "TZAtaraxis",
+      "TZMinimalist",
+      "TZFocus",
+    },
+    init = function()
+      require("core.utils").load_mappings "truezen"
+    end,
+    config = function()
+      require("plugins.configs.others").truezen()
+    end,
+  },
+
+  {
+    "Pocco81/auto-save.nvim",
+    config = function()
+      require("plugins.configs.others").autosave()
+    end,
+  },
+
+  {
+    "folke/noice.nvim",
+    enable = false,
+    config = function()
+      require "plugins.configs.noice"
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
+
+  -- ft plugins
+  {
+    "nvim-neorg/neorg",
+    ft = "norg",
+    build = ":Neorg sync-parsers",
+    dependencies = { "nvim-treesitter", "nvim-cmp" },
+    init = function()
+      require("plugins.configs.neorg").autocmd()
+      require("core.utils").load_mappings "neorg"
+    end,
+    config = function()
+      require("plugins.configs.neorg").setup()
+    end,
+  },
+
+  {
+    "lervag/vimtex",
+    ft = "tex",
+    setup = function()
+      require("core.utils").load_mappings "latex"
+    end,
+  },
+
+  { "barreiroleo/ltex-extra.nvim" },
+
+  -- airlatex
+  {
+    "pabloavi/AirLatex.vim",
+    -- enable = false,
+    -- build = ":UpdateRemotePlugins",
+    -- commit = "6854677",
+    -- cmd = "AirLatex",
+  },
+
+  { "nvim-telescope/telescope-bibtex.nvim", cmd = "Telescope bibtex" },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    ft = { "markdown" },
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+      require("core.utils").load_mappings "markdownpreview"
+    end,
+  },
+
+  -- Preview websites
+  {
+    "ray-x/web-tools.nvim",
+    ft = { "html", "css", "js" },
+    config = function()
+      require("web-tools").setup()
+    end,
+  },
+
+  -- TODO: improve dap config and usage
+  {
+    "mfussenegger/nvim-dap",
+    ft = { "python", "rust" },
+    init = function()
+      require("core.utils").load_mappings "dap"
+    end,
+    config = function()
+      vim.defer_fn(function()
+        require "plugins.configs.dap"
+      end, 5000)
+    end,
+  },
+
+  {
+    "rcarriga/nvim-dap-ui",
+    config = function()
+      require("plugins.configs.others").dapui()
+    end,
+  },
+
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    config = function()
+      require("plugins.configs.others").dap_virtual_text()
+    end,
+  },
+
+  { "nvim-telescope/telescope-dap.nvim", cmd = "Telescope dap" },
+
+  -- TODO: lazy load
+  {
+    "CRAG666/code_runner.nvim",
+    ft = { "python", "lua", "sh", "c", "fortran", "rust" },
+    dependencies = "nvim-lua/plenary.nvim",
+    init = function()
+      require("core.utils").load_mappings "code_runner"
+    end,
+    config = function()
+      require("plugins.configs.others").code_runner()
+    end,
+  },
+
+  -- TODO: lazy load
+  -- {"michaelb/sniprun",
+  --   -- TODO: improve list
+  --   -- TODO: configure it
+  --   ft = { "python", "lua", "bash", "c" },
+  --   init = function()
+  --     require("core.utils").load_mappings "sniprun"
+  --   end,
+  --   config = function()
+  --     require("plugins.configs.others").sniprun()
+  --   end,
+  -- },
+
+  -- TODO: dont load it until enabled
+  ["ziontee113/icon-picker.nvim"] = {
+    cmd = { "IconPickerInsert", "IconPickerNormal", "IconPickerYank" },
+    setup = function()
+      require("core.utils").load_mappings "icon"
+    end,
+    config = function()
+      require("icon-picker").setup {}
+    end,
+    dependencies = "stevearc/dressing.nvim",
+  },
+
+  { "dstein64/vim-startuptime" },
+
+  {
+    "smjonas/snippet-converter.nvim",
+    config = function()
+      require("plugins.configs.others").snippet_converter()
+    end,
+  },
+
+  {
+    "chentoast/marks.nvim",
+    init = function()
+      require("core.lazy_load").on_file_open "marks.nvim"
+    end,
+    config = function()
+      require("marks").setup()
+    end,
+  },
+
+  -- fix nested neovims
+  -- TODO: lazy loa
+  { "samjwill/nvim-unception" },
+
+  { "eanrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
+
+  { "ThePrimeagen/vim-be-good", cmd = "VimBeGood" },
+
+  -- folds
+  -- TODO: lazy load
+  {
+    "kevinhwang91/nvim-ufo",
+    enable = false,
+    dependencies = "kevinhwang91/promise-async",
+    init = function()
+      require("core.lazy_load").on_file_open "nvim-ufo"
+      require("core.utils").load_mappings "ufo"
+    end,
+    config = function()
+      require("plugins.configs.others").ufo()
+    end,
+  },
+
+  {
+    "glacambre/firenvim",
+    config = function()
+      require("plugins.configs.others").firenvim()
+    end,
+    build = function()
+      vim.fn["firenvim#install"](0)
+    end,
+  },
+
+  { "AndrewRadev/bufferize.vim", enabled = false },
 }
 
 local config = require("core.utils").load_config()
 
 if #config.plugins > 0 then
-  table.insert(default_plugins, { import = config.plugins })
+  table.insert(plugins, { import = config.plugins })
 end
 
-require("lazy").setup(default_plugins, config.lazy_nvim)
+require("lazy").setup(plugins, config.lazy_nvim)

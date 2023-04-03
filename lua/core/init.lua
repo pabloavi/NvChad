@@ -2,25 +2,27 @@ local opt = vim.opt
 local g = vim.g
 local config = require("core.utils").load_config()
 
--------------------------------------- globals -----------------------------------------
 g.nvchad_theme = config.ui.theme
-g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
-g.toggle_theme_icon = "   "
+g.toggle_theme_icon = "   " -- TODO: remove toggle theme
 g.transparency = config.ui.transparency
+g.theme_switcher_loaded = false
 
--------------------------------------- options ------------------------------------------
+g.lsp_lines_enabled = false -- custom
+
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
 
 opt.clipboard = "unnamedplus"
 opt.cursorline = true
+opt.scrolloff = 8
 
 -- Indenting
 opt.expandtab = true
 opt.shiftwidth = 2
+-- opt.autoindent = true
 opt.smartindent = true
 opt.tabstop = 2
-opt.softtabstop = 2
+opt.softtabstop = 0 -- default was 2
 
 opt.fillchars = { eob = " " }
 opt.ignorecase = true
@@ -31,9 +33,14 @@ opt.mouse = "a"
 opt.number = true
 opt.numberwidth = 2
 opt.ruler = false
+opt.relativenumber = true
 
--- disable nvim intro
-opt.shortmess:append "sI"
+-- Completion
+opt.pumheight = 8
+opt.cmdheight = 1
+
+-- disable nvim intro & swapfile attention message
+opt.shortmess:append "sIA"
 
 opt.signcolumn = "yes"
 opt.splitbelow = true
@@ -41,6 +48,13 @@ opt.splitright = true
 opt.termguicolors = true
 opt.timeoutlen = 400
 opt.undofile = true
+
+-- nvim-ufo
+vim.o.foldcolumn = "1"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250
@@ -51,8 +65,40 @@ opt.whichwrap:append "<>[]hl"
 
 g.mapleader = " "
 
+-- vimtex
+g.vimtex_syntax_enabled = 1
+g.vimtex_syntax_conceal_disable = 1
+g.use_treesitter = true -- custom made (for snippets, to use vimtex o treesitter syntax)
+
+g.tex_flavor = "latex"
+g.AirLatexUsername =
+  "cookies:overleaf_session2=s%3AH3rvx-AdIlpr-4f3oF65AxCS-Dvvm8ve.R7PDw%2Fllr8gPzdssL2fDbK70jkLt4NVwzdTDCDJ9rEk"
+g.AirLatexAllowInsecure = 1
+-- g.AirLatexLogLevel = "DEBUG"
+g.AirLatexCookieBrowser = "firefox"
+
+-- neovide options
+if vim.g.neovide then
+  vim.opt.guifont = { "JetBrainsMono Nerd Font:h12" }
+  vim.g.neovide_cursor_vfx_mode = "railgun"
+  vim.g.neovide_transparency = 1
+  vim.g.neovide_floating_opacity = 1
+end
+
+-- firenvim
+if vim.g.started_by_firenvim == true then
+  opt.laststatus = 0
+  opt.cmdheight = 0
+  opt.pumheight = 1
+end
+
+-- netrw
+g.netrw_localrmdir = "rmtrash -r"
+g.netrw_localcopydircmd = "cp -r"
+g.netrw_banner = 0
+
 -- disable some default providers
-for _, provider in ipairs { "node", "perl", "python3", "ruby" } do
+for _, provider in ipairs { "node", "perl", "ruby" } do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
 
@@ -73,10 +119,7 @@ autocmd("FileType", {
 
 -- reload some chadrc options on-save
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = vim.tbl_map(
-    vim.fs.normalize,
-    vim.fn.glob(vim.fn.stdpath "config" .. "/lua/custom/**/*.lua", true, true, true)
-  ),
+  pattern = vim.tbl_map(vim.fs.normalize, vim.fn.glob(vim.fn.stdpath "config" .. "/lua/**/*.lua", true, true, true)),
   group = vim.api.nvim_create_augroup("ReloadNvChad", {}),
 
   callback = function(opts)
@@ -86,7 +129,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
     require("plenary.reload").reload_module "base46"
     require("plenary.reload").reload_module(module)
-    require("plenary.reload").reload_module "custom.chadrc"
+    require("plenary.reload").reload_module "core.config"
 
     config = require("core.utils").load_config()
 

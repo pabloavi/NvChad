@@ -1,5 +1,43 @@
 local options = {
-  ensure_installed = { "lua-language-server" }, -- not an option from mason.nvim
+  ensure_installed = {
+    --webdev
+    -- "html-lsp",
+    -- "css-lsp",
+    -- "prettierd",
+    -- "eslint-lsp",
+    -- "eslint_d",
+    -- lua
+    "lua-language-server",
+    "stylua",
+    -- -- python
+    "pyright",
+    "black",
+    "debugpy",
+    -- latex
+    "ltex-ls", -- latex and markdown
+    "texlab",
+    -- yaml
+    "yaml-language-server",
+    "yamlfmt",
+    --bash
+    "bash-language-server",
+    "shfmt",
+    -- vim
+    "vim-language-server",
+    -- fortran
+    "fortls",
+    -- markdown
+    "marksman",
+    "markdownlint",
+    -- c
+    -- "clangd",
+    -- "clang-format", -- c and java
+    -- java
+    -- "jdtls",
+    -- rust
+    "rust-analyzer",
+    "rustfmt",
+  },
 
   PATH = "skip",
 

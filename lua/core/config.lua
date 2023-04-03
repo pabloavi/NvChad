@@ -1,5 +1,3 @@
--- Chadrc overrides this file
-
 local M = {}
 
 M.options = {
