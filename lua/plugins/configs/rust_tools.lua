@@ -1,3 +1,6 @@
+local utils = require "core.utils"
+local rust_tools = require "rust-tools"
+
 local options = {
   tools = {
     executor = require("rust-tools.executors").termopen, -- termopen/quickfix

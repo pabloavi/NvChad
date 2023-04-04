@@ -6,9 +6,6 @@ local plugins = {
 
   {
     "stevearc/dressing.nvim",
-    config = function()
-      require "plugins.configs.dressing"
-    end,
   },
 
   -- nvchad plugins
@@ -22,8 +19,7 @@ local plugins = {
   },
 
   {
-    dir = nvchad_plugins .. "/extensions",
-    "NvChad/ui",
+    dir = nvchad_plugins .. "/ui",
     lazy = false,
     config = function()
       require "nvchad_ui"
@@ -31,7 +27,15 @@ local plugins = {
   },
 
   {
-    dit = nvchad_plugins .. "/nvterm",
+    "jcdickinson/wpm.nvim",
+    config = function()
+      require("wpm").setup()
+    end,
+  },
+
+  {
+    dir = nvchad_plugins .. "/nvterm",
+    lazy = false,
     init = function()
       require("core.utils").load_mappings "nvterm"
     end,
@@ -43,8 +47,11 @@ local plugins = {
 
   {
     dir = nvchad_plugins .. "/nvim-colorizer.lua",
+    opts = function()
+      return require("plugins.configs.others").colorizer
+    end,
     init = function()
-      require("core.utils").lazy_load "nvchad_colorizer"
+      require("core.utils").lazy_load "nvim-colorizer.lua"
     end,
     config = function(_, opts)
       require("colorizer").setup(opts)
@@ -86,6 +93,7 @@ local plugins = {
     "nvim-treesitter/nvim-treesitter",
     init = function()
       require("core.utils").lazy_load "nvim-treesitter"
+      require("core.utils").load_mappings "treesitter"
     end,
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
@@ -97,6 +105,13 @@ local plugins = {
       require("nvim-treesitter.configs").setup(opts)
       vim.api.nvim_set_hl(0, "@text.emphasis", { link = "italic" })
     end,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "RRethy/nvim-treesitter-textsubjects",
+      "chrisgrieser/nvim-various-textobjs",
+      "David-Kunz/treesitter-unit",
+      "mrjones2014/nvim-ts-rainbow",
+    },
   },
 
   -- get highlight group under cursor
@@ -112,15 +127,25 @@ local plugins = {
   },
 
   ["nvim-treesitter/nvim-treesitter-context"] = {
-    enable = false,
+    enabled = false,
     config = function(_, opts)
       require("treesitter-context").setup(opts)
     end,
   },
 
-  { "RRethy/nvim-treesitter-textsubjects" },
+  {
+    "RRethy/nvim-treesitter-textsubjects",
+    init = function()
+      require("core.utils").lazy_load "nvim-treesitter-textsubjects"
+    end,
+  },
 
-  { "nvim-treesitter/nvim-treesitter-textobjects" },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    init = function()
+      require("core.utils").lazy_load "nvim-treesitter-textobjects"
+    end,
+  },
 
   {
     "chrisgrieser/nvim-various-textobjs",
@@ -141,7 +166,9 @@ local plugins = {
 
   { "David-Kunz/treesitter-unit" },
 
-  { "mrjones2014/nvim-ts-rainbow" },
+  {
+    "mrjones2014/nvim-ts-rainbow",
+  },
 
   -- git stuff
   {
@@ -201,7 +228,17 @@ local plugins = {
     end,
   },
 
-  { "simrat39/inlay-hints.nvim", enable = false },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    init = function()
+      require("core.utils").lazy_load "null-ls.nvim"
+    end,
+    config = function()
+      require "plugins.configs.null-ls"
+    end,
+  },
+
+  { "simrat39/inlay-hints.nvim", enabled = false },
 
   {
     "simrat39/rust-tools.nvim",
@@ -242,7 +279,12 @@ local plugins = {
       -- autopairing of (){}[] etc
       {
         "windwp/nvim-autopairs",
-        config = function()
+        opts = {
+          fast_wrap = {},
+          disable_filetype = { "TelescopePrompt", "vim" },
+        },
+        config = function(_, opts)
+          require("nvim-autopairs").setup(opts)
           require "plugins.configs.autopairs"
 
           -- setup cmp for autopairs
@@ -284,7 +326,7 @@ local plugins = {
 
   {
     "zbirenbaum/copilot-cmp",
-    enable = false,
+    enabled = false,
     config = function()
       require("copilot_cmp").setup()
     end,
@@ -292,6 +334,9 @@ local plugins = {
 
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    init = function()
+      require("core.utils").lazy_load "lsp_lines.nvim"
+    end,
     config = function()
       require("plugins.configs.others").lsp_lines()
     end,
@@ -299,7 +344,7 @@ local plugins = {
 
   {
     "numToStr/Comment.nvim",
-    -- keys = { "gc", "gb" },
+    keys = { "gc", "gb" },
     init = function()
       require("core.utils").load_mappings "comment"
     end,
@@ -311,7 +356,7 @@ local plugins = {
   -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
-    enable = false,
+    enabled = false,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     init = function()
       require("core.utils").load_mappings "nvimtree"
@@ -323,6 +368,17 @@ local plugins = {
       dofile(vim.g.base46_cache .. "nvimtree")
       require("nvim-tree").setup(opts)
       vim.g.nvimtree_side = opts.view.side
+    end,
+  },
+
+  {
+    "prichrd/netrw.nvim",
+    lazy = false,
+    opts = function()
+      return require("plugins.configs.others").netrw
+    end,
+    config = function(_, opts)
+      require("netrw").setup(opts)
     end,
   },
 
@@ -355,9 +411,13 @@ local plugins = {
 
   { "wintermute-cell/gitignore.nvim", cmd = "Gitignore" },
 
+  { "nvim-telescope/telescope-bibtex.nvim", cmd = "Telescope bibtex" },
+
+  { "nvim-telescope/telescope-dap.nvim", cmd = "Telescope dap" },
+
   {
     "potamides/pantran.nvim",
-    enable = false,
+    enabled = false,
     cmd = "Pantran",
     config = function()
       require("plugins.configs.others").pantran()
@@ -383,7 +443,7 @@ local plugins = {
   {
     "folke/todo-comments.nvim",
     init = function()
-      require("core.lazy_load").on_file_open "todo-comments.nvim"
+      require("core.utils").lazy_load "todo-comments.nvim"
     end,
     config = function()
       require("todo-comments").setup()
@@ -393,7 +453,7 @@ local plugins = {
   {
     "RRethy/vim-illuminate",
     init = function()
-      require("core.lazy_load").on_file_open "vim-illuminate"
+      require("core.utils").lazy_load "vim-illuminate"
     end,
     config = function()
       require("plugins.configs.others").illuminate()
@@ -403,6 +463,7 @@ local plugins = {
   -- motion
   {
     "kylechui/nvim-surround",
+    event = "VeryLazy",
     config = function()
       require("nvim-surround").setup()
     end,
@@ -411,6 +472,7 @@ local plugins = {
   -- fast moving (like vimium)
   {
     "ggandor/leap.nvim",
+    event = "VeryLazy",
     config = function()
       require("leap").add_default_mappings()
     end,
@@ -441,7 +503,7 @@ local plugins = {
 
   {
     "folke/noice.nvim",
-    enable = false,
+    enabled = false,
     config = function()
       require "plugins.configs.noice"
     end,
@@ -479,13 +541,12 @@ local plugins = {
   -- airlatex
   {
     "pabloavi/AirLatex.vim",
-    -- enable = false,
-    -- build = ":UpdateRemotePlugins",
+    lazy = false,
+    -- enabled = false,
+    build = ":UpdateRemotePlugins",
     -- commit = "6854677",
     -- cmd = "AirLatex",
   },
-
-  { "nvim-telescope/telescope-bibtex.nvim", cmd = "Telescope bibtex" },
 
   {
     "iamcco/markdown-preview.nvim",
@@ -510,6 +571,7 @@ local plugins = {
   {
     "mfussenegger/nvim-dap",
     ft = { "python", "rust" },
+    enabled = true,
     init = function()
       require("core.utils").load_mappings "dap"
     end,
@@ -517,6 +579,16 @@ local plugins = {
       vim.defer_fn(function()
         require "plugins.configs.dap"
       end, 5000)
+    end,
+  },
+
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    opts = {
+      ensure_installed = { "python" },
+    },
+    config = function(_, opts)
+      require("mason-nvim-dap").setup(opts)
     end,
   },
 
@@ -533,8 +605,6 @@ local plugins = {
       require("plugins.configs.others").dap_virtual_text()
     end,
   },
-
-  { "nvim-telescope/telescope-dap.nvim", cmd = "Telescope dap" },
 
   -- TODO: lazy load
   {
@@ -563,21 +633,22 @@ local plugins = {
   -- },
 
   -- TODO: dont load it until enabled
-  ["ziontee113/icon-picker.nvim"] = {
+  {
+    "ziontee113/icon-picker.nvim",
     cmd = { "IconPickerInsert", "IconPickerNormal", "IconPickerYank" },
-    setup = function()
-      require("core.utils").load_mappings "icon"
+    init = function()
+      require("core.utils").load_mappings "icon_picker"
     end,
     config = function()
       require("icon-picker").setup {}
     end,
-    dependencies = "stevearc/dressing.nvim",
   },
 
   { "dstein64/vim-startuptime" },
 
   {
     "smjonas/snippet-converter.nvim",
+    enabled = false,
     config = function()
       require("plugins.configs.others").snippet_converter()
     end,
@@ -586,7 +657,7 @@ local plugins = {
   {
     "chentoast/marks.nvim",
     init = function()
-      require("core.lazy_load").on_file_open "marks.nvim"
+      require("core.utils").lazy_load "marks.nvim"
     end,
     config = function()
       require("marks").setup()
@@ -594,10 +665,10 @@ local plugins = {
   },
 
   -- fix nested neovims
-  -- TODO: lazy loa
+  -- TODO: lazy lua
   { "samjwill/nvim-unception" },
 
-  { "eanrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
+  { "eandrju/cellular-automaton.nvim" },
 
   { "ThePrimeagen/vim-be-good", cmd = "VimBeGood" },
 
@@ -605,10 +676,10 @@ local plugins = {
   -- TODO: lazy load
   {
     "kevinhwang91/nvim-ufo",
-    enable = false,
+    enabled = false,
     dependencies = "kevinhwang91/promise-async",
     init = function()
-      require("core.lazy_load").on_file_open "nvim-ufo"
+      require("core.utils").lazy_load "nvim-ufo"
       require("core.utils").load_mappings "ufo"
     end,
     config = function()
@@ -630,9 +701,5 @@ local plugins = {
 }
 
 local config = require("core.utils").load_config()
-
-if #config.plugins > 0 then
-  table.insert(plugins, { import = config.plugins })
-end
 
 require("lazy").setup(plugins, config.lazy_nvim)

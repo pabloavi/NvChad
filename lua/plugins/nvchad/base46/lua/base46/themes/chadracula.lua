@@ -1,5 +1,5 @@
 -- Credits to original theme https://github.com/dracula/vim
--- This is a modified version 
+-- This is a modified version
 
 local M = {}
 

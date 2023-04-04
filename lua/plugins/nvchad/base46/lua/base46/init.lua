@@ -4,16 +4,12 @@ local config = require("core.utils").load_config()
 local base46_path = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
 
 M.get_theme_tb = function(type)
-  local default_path = "base46.themes." .. g.nvchad_theme
-  local user_path = "custom.themes." .. g.nvchad_theme
+  local path = "base46.themes." .. g.nvchad_theme
 
-  local present1, default_theme = pcall(require, default_path)
-  local present2, user_theme = pcall(require, user_path)
+  local present, theme = pcall(require, path)
 
-  if present1 then
-    return default_theme[type]
-  elseif present2 then
-    return user_theme[type]
+  if present then
+    return theme[type]
   else
     error "No such theme!"
   end

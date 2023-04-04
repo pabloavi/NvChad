@@ -4,7 +4,6 @@ if not present then
   return
 end
 
-local load_override = require("core.utils").load_override
 local utils = require "core.utils"
 
 local snippets_snips_dir = {
@@ -32,7 +31,6 @@ local options = {
   },
 }
 
-options = load_override(options, "L3MON4D3/LuaSnip")
 luasnip.config.set_config(options)
 -- FIX: remove this when forked friendly-snippets
 require("luasnip.loaders.from_vscode").lazy_load {

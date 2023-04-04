@@ -1,23 +1,11 @@
 local present1, autopairs = pcall(require, "nvim-autopairs")
 local present2, cmp = pcall(require, "cmp")
 
-local load_override = require("core.utils").load_override
 local utils = require "core.utils"
 
 if not (present1 and present2) then
   return
 end
-
-local options = {
-  fast_wrap = {},
-  disable_filetype = { "TelescopePrompt", "vim" },
-}
-
-local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
-options = load_override(options, "windwp/nvim-autopairs")
-autopairs.setup(options)
 
 local Rule = require "nvim-autopairs.rule"
 local cond = require "nvim-autopairs.conds"

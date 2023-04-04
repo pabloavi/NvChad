@@ -36,7 +36,7 @@ opt.ruler = false
 opt.relativenumber = true
 
 -- Completion
-opt.pumheight = 8
+opt.pumheight = 5
 opt.cmdheight = 1
 
 -- disable nvim intro & swapfile attention message
@@ -50,11 +50,11 @@ opt.timeoutlen = 400
 opt.undofile = true
 
 -- nvim-ufo
-vim.o.foldcolumn = "1"
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+-- vim.o.foldcolumn = "1"
+-- vim.o.foldlevel = 99
+-- vim.o.foldlevelstart = 99
+-- vim.o.foldenable = true
+-- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250
@@ -71,8 +71,7 @@ g.vimtex_syntax_conceal_disable = 1
 g.use_treesitter = true -- custom made (for snippets, to use vimtex o treesitter syntax)
 
 g.tex_flavor = "latex"
-g.AirLatexUsername =
-  "cookies:overleaf_session2=s%3AH3rvx-AdIlpr-4f3oF65AxCS-Dvvm8ve.R7PDw%2Fllr8gPzdssL2fDbK70jkLt4NVwzdTDCDJ9rEk"
+g.AirLatexUsername = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from env var for security reasons
 g.AirLatexAllowInsecure = 1
 -- g.AirLatexLogLevel = "DEBUG"
 g.AirLatexCookieBrowser = "firefox"
@@ -117,6 +116,31 @@ autocmd("FileType", {
   end,
 })
 
+-- fix neovim startup artifact
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  callback = function()
+    local pid, WINCH = vim.fn.getpid(), vim.loop.constants.SIGWINCH
+    vim.defer_fn(function()
+      vim.loop.kill(pid, WINCH)
+    end, 20)
+  end,
+})
+
+-- resize splits when resizing the window
+autocmd({ "VimResized" }, {
+  callback = function()
+    vim.cmd [[wincmd =]]
+  end,
+})
+
+-- give .config/sxhkd/sxhkdrc its own filetype
+autocmd({ "BufReadPost" }, {
+  pattern = "/sxhkdrc",
+  callback = function()
+    vim.bo.filetype = "sxhkdrc"
+  end,
+})
+
 -- reload some chadrc options on-save
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = vim.tbl_map(vim.fs.normalize, vim.fn.glob(vim.fn.stdpath "config" .. "/lua/**/*.lua", true, true, true)),
@@ -150,4 +174,23 @@ local new_cmd = vim.api.nvim_create_user_command
 
 new_cmd("NvChadUpdate", function()
   require "nvchad.update"()
+end, {})
+
+new_cmd("EnableAutosave", function()
+  require("auto-save").setup()
+end, {})
+
+new_cmd("EnableSnippetConverter", function()
+  require "snippet-converter"
+end, {})
+
+-- cd to current file's directory
+new_cmd("C", function()
+  vim.cmd "silent cd %:h"
+end, {})
+-- vim.cmd "C"
+
+new_cmd("VimStartupTime", function()
+  require "vim-startuptime"
+  vim.cmd "StartupTime"
 end, {})

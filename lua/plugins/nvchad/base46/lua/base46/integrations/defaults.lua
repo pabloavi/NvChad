@@ -16,10 +16,10 @@ local defaults = {
 
   MatchParen = { link = "MatchWord" },
 
-  Comment = { fg = colors.grey_fg },
+  Comment = { fg = colors.grey_fg2 },
 
   CursorLineNr = { fg = colors.white },
-  LineNr = { fg = colors.grey },
+  LineNr = { fg = colors.grey_fg2 },
 
   -- floating windows
   FloatBorder = { fg = colors.blue },

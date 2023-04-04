@@ -8,21 +8,18 @@ M.options = {
 }
 
 M.ui = {
-  ------------------------------- base46 -------------------------------------
-  -- hl = highlights
-  hl_add = {},
-  hl_override = {},
+  theme = "rosepine",
+  hl_add = require("core.highlights").new_hlgroups,
+  hl_override = require("core.highlights").overriden_hlgroups,
   changed_themes = {},
   theme_toggle = { "onedark", "one_light" },
-  theme = "onedark", -- default theme
   transparency = false,
 
-  -- cmp themeing
   cmp = {
     icons = true,
     lspkind_text = true,
-    style = "default", -- default/flat_light/flat_dark/atom/atom_colored
-    border_color = "grey_fg", -- only applicable for "default" style, use color names from base30 variables
+    style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
+    border_color = "black", -- only applicable for "default" style, use color names from base30 variables
     selected_item_bg = "colored", -- colored / simple
   },
 
@@ -30,13 +27,22 @@ M.ui = {
     style = "borderless", -- borderless / bordered
   },
 
-  ------------------------------- nvchad_ui modules -----------------------------
   statusline = {
-    theme = "default", -- default/vscode/vscode_colored/minimal
+    theme = "minimal", -- default/vscode/vscode_colored/minimal
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
-    separator_style = "default",
+    separator_style = "block",
     overriden_modules = nil,
+    -- function()
+    --   local st_modules = require "nvchad_ui.statusline.default"
+    --   local wpm = require "wpm"
+    --   -- this is just default table of statusline modules
+    --   return {
+    --     fileInfo = function()
+    --       return st_modules.fileInfo() .. "%#St_pos_text#" .. "WPM " .. wpm.wpm() .. " "
+    --     end,
+    --   }
+    -- end,
   },
 
   -- lazyload it when there are 1+ buffers
@@ -44,7 +50,13 @@ M.ui = {
     show_numbers = false,
     enabled = true,
     lazyload = true,
-    overriden_modules = nil,
+    overriden_modules = function()
+      return {
+        buttons = function()
+          return "%@TbCloseAllBufs@%#TbLineCloseAllBufsBtn#" .. "  " .. "%X"
+        end,
+      }
+    end,
   },
 
   -- nvdash (dashboard)
@@ -52,29 +64,28 @@ M.ui = {
     load_on_startup = false,
 
     header = {
-      "           ▄ ▄                   ",
-      "       ▄   ▄▄▄     ▄ ▄▄▄ ▄ ▄     ",
-      "       █ ▄ █▄█ ▄▄▄ █ █▄█ █ █     ",
-      "    ▄▄ █▄█▄▄▄█ █▄█▄█▄▄█▄▄█ █     ",
-      "  ▄ █▄▄█ ▄ ▄▄ ▄█ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ",
-      "  █▄▄▄▄ ▄▄▄ █ ▄ ▄▄▄ ▄ ▄▄▄ ▄ ▄ █ ▄",
-      "▄ █ █▄█ █▄█ █ █ █▄█ █ █▄█ ▄▄▄ █ █",
-      "█▄█ ▄ █▄▄█▄▄█ █ ▄▄█ █ ▄ █ █▄█▄█ █",
-      "    █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄█▄▄▄█    ",
+      "                                                     ",
+      "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+      "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+      "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+      "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+      "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+      "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+      "                                                     ",
     },
 
     buttons = {
-      { "  Find File", "Spc f f", "Telescope find_files" },
-      { "  Recent Files", "Spc f o", "Telescope oldfiles" },
-      { "  Find Word", "Spc f w", "Telescope live_grep" },
-      { "  Bookmarks", "Spc b m", "Telescope marks" },
-      { "  Themes", "Spc t h", "Telescope themes" },
-      { "  Mappings", "Spc c h", "NvCheatsheet" },
+      { "  Find File", "Space f f", "Telescope find_files" },
+      { "  Recent Files", "Space f o", "Telescope oldfiles" },
+      { "  Find Word", "Space f w", "Telescope live_grep" },
+      { "  Bookmarks", "Space b m", "Telescope marks" },
+      { "  Themes", "Space t h", "Telescope themes" },
+      { "  Mappings", "Space c h", "NvCheatsheet" },
     },
   },
 
   cheatsheet = {
-    theme = "grid", -- simple/grid
+    theme = "simple", -- simple/grid
   },
 
   lsp = {
@@ -86,11 +97,9 @@ M.ui = {
   },
 }
 
-M.plugins = "" -- path i.e "custom.plugins" -> custom/plugins.lua only and not custom/plugins/init.lua!!!!
-
 M.lazy_nvim = require "plugins.configs.lazy_nvim" -- config for lazy.nvim startup options
 
 -- these are default mappings, check core.mappings for table structure
-M.mappings = {}
+M.mappings = require "core.mappings"
 
 return M

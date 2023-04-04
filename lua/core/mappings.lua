@@ -114,7 +114,7 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
 
     -- search visual selection in firefox
-    ["<leader>f"] = { search_in_firefox, "search visual selection in firefox", opts = { silent = true } },
+    ["<leader>f"] = { search_in_firefox, "search visual selection in firefox", opts = { expr = true, silent = true } },
   },
 
   x = {
@@ -127,6 +127,13 @@ M.general = {
   s = {
     ["<BS>"] = { "<C-g>s", "delete selection and enter insert mode" },
     ["<C-i>"] = { "<C-g><ESC>`>a", "delete selection and enter insert mode" },
+  },
+}
+
+M.lazy = {
+  n = {
+    ["<leader>l"] = { "<cmd> Lazy <CR>", "lazy package manager window" },
+    ["<leader>ls"] = { "<cmd> Lazy sync <CR>", "sync plugins" },
   },
 }
 
@@ -582,8 +589,6 @@ M.luasnip = {
   n = {
     ["<leader>se"] = {
       function()
-        -- vim.cmd "PackerLoad telescope.nvim"
-        require "telescope"
         require "dressing"
         require("luasnip.loaders").edit_snippet_files()
       end,
@@ -626,7 +631,7 @@ M.markdownpreview = {
   },
 }
 
-M.icon = {
+M.icon_picker = {
   plugin = true,
   n = {
     ["<leader>ici"] = { "<cmd> IconPickerInsert <CR>", "pick icon for insert mode" },
@@ -650,6 +655,9 @@ M.dap = {
     ["<leader>dc"] = { "<cmd> lua require'dap'.continue()<CR>", "dap: continue" },
     ["<leader>di"] = { "<cmd> lua require'dap'.step_into()<CR>", "dap: step into" },
     ["<leader>dr"] = { "<cmd> lua require'dap'.repl.open()<CR>", "dap: open repl" },
+
+    --dapui
+    ["<leader>do"] = { "<cmd> lua require'dapui'.open()<CR>", "dap: open dap ui" },
   },
 }
 

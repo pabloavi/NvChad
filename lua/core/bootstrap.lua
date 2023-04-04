@@ -38,7 +38,6 @@ M.lazy = function(install_path)
       if packages:match "%S" == nil then
         vim.schedule(function()
           vim.api.nvim_buf_delete(0, { force = true })
-          M.echo "Now please read the docs at nvchad.com!! 󰕹 󰱬"
         end)
       end
     end)
