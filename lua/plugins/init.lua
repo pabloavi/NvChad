@@ -1,15 +1,20 @@
+---@type NvPluginSpec[]
 -- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
 local nvchad_plugins = vim.fn.stdpath "config" .. "/lua/plugins/nvchad"
 local plugins = {
 
   "nvim-lua/plenary.nvim",
 
-  {
-    "stevearc/dressing.nvim",
-  },
+  "stevearc/dressing.nvim",
 
   -- nvchad plugins
-  { dir = nvchad_plugins .. "/extensions" },
+  {
+    dir = nvchad_plugins .. "/extensions",
+    cmd = "AutosaveToggle",
+    config = function()
+      require("nvchad.autosave").setup()
+    end,
+  },
 
   {
     dir = nvchad_plugins .. "/base46",
@@ -383,6 +388,18 @@ local plugins = {
   },
 
   {
+    "kevinhwang91/rnvimr",
+    enabled = false,
+    cmd = "RnvimrToggle",
+    init = function()
+      require("core.utils").load_mappings "rnvimr"
+    end,
+    config = function()
+      require("plugins.configs.others").rnvimr()
+    end,
+  },
+
+  {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
     init = function()
@@ -496,6 +513,7 @@ local plugins = {
 
   {
     "Pocco81/auto-save.nvim",
+    enabled = false,
     config = function()
       require("plugins.configs.others").autosave()
     end,
@@ -517,8 +535,8 @@ local plugins = {
   {
     "nvim-neorg/neorg",
     ft = "norg",
-    build = ":Neorg sync-parsers",
-    dependencies = { "nvim-treesitter", "nvim-cmp" },
+    -- build = ":Neorg sync-parsers",
+    -- dependencies = { "nvim-treesitter", "nvim-cmp" },
     init = function()
       require("plugins.configs.neorg").autocmd()
       require("core.utils").load_mappings "neorg"
@@ -527,6 +545,8 @@ local plugins = {
       require("plugins.configs.neorg").setup()
     end,
   },
+
+  { "elkowar/yuck.vim", ft = "yuck" },
 
   {
     "lervag/vimtex",
@@ -543,14 +563,14 @@ local plugins = {
     "pabloavi/AirLatex.vim",
     lazy = false,
     -- enabled = false,
-    build = ":UpdateRemotePlugins",
+    -- build = ":UpdateRemotePlugins",
     -- commit = "6854677",
     -- cmd = "AirLatex",
   },
 
   {
     "iamcco/markdown-preview.nvim",
-    ft = { "markdown" },
+    cmd = "MarkdownPreviewToggle",
     build = "cd app && npm install",
     init = function()
       vim.g.mkdp_filetypes = { "markdown" }
@@ -570,15 +590,13 @@ local plugins = {
   -- TODO: improve dap config and usage
   {
     "mfussenegger/nvim-dap",
-    ft = { "python", "rust" },
     enabled = true,
     init = function()
       require("core.utils").load_mappings "dap"
     end,
     config = function()
-      vim.defer_fn(function()
-        require "plugins.configs.dap"
-      end, 5000)
+      require "dressing"
+      require "plugins.configs.dap"
     end,
   },
 
@@ -619,20 +637,18 @@ local plugins = {
     end,
   },
 
-  -- TODO: lazy load
-  -- {"michaelb/sniprun",
-  --   -- TODO: improve list
-  --   -- TODO: configure it
-  --   ft = { "python", "lua", "bash", "c" },
-  --   init = function()
-  --     require("core.utils").load_mappings "sniprun"
-  --   end,
-  --   config = function()
-  --     require("plugins.configs.others").sniprun()
-  --   end,
-  -- },
+  {
+    "michaelb/sniprun",
+    cmd = "SnipRun",
+    build = "cargo build --release",
+    opts = function()
+      return require("plugins.configs.others").sniprun
+    end,
+    config = function(_, opts)
+      require("sniprun").setup(opts)
+    end,
+  },
 
-  -- TODO: dont load it until enabled
   {
     "ziontee113/icon-picker.nvim",
     cmd = { "IconPickerInsert", "IconPickerNormal", "IconPickerYank" },
@@ -640,11 +656,23 @@ local plugins = {
       require("core.utils").load_mappings "icon_picker"
     end,
     config = function()
+      require "dressing"
       require("icon-picker").setup {}
     end,
   },
 
-  { "dstein64/vim-startuptime" },
+  {
+    "ziontee113/color-picker.nvim",
+    cmd = { "PickColor", "PickColorInsert" },
+    init = function()
+      require("core.utils").load_mappings "color_picker"
+    end,
+    config = function()
+      require "color-picker"
+    end,
+  },
+
+  { "dstein64/vim-startuptime", cmd = "StartupTime" },
 
   {
     "smjonas/snippet-converter.nvim",
@@ -666,9 +694,9 @@ local plugins = {
 
   -- fix nested neovims
   -- TODO: lazy lua
-  { "samjwill/nvim-unception" },
+  { "samjwill/nvim-unception", event = "VeryLazy" },
 
-  { "eandrju/cellular-automaton.nvim" },
+  { "eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
 
   { "ThePrimeagen/vim-be-good", cmd = "VimBeGood" },
 

@@ -261,22 +261,12 @@ M.dapui = function()
   dapui.setup()
 end
 
-M.sniprun = function()
-  local present, sniprun = pcall(require, "sniprun")
-
-  if not present then
-    return
-  end
-
-  local options = {
-    borders = "single",
-    display = {
-      "TempFloatingWindow",
-    },
-  }
-
-  sniprun.setup(options)
-end
+M.sniprun = {
+  borders = "single",
+  display = {
+    "TempFloatingWindow",
+  },
+}
 
 M.delaytrain = function()
   local present, delaytrain = pcall(require, "delaytrain")

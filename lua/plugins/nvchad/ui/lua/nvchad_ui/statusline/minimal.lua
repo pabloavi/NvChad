@@ -78,6 +78,12 @@ M.fileInfo = function()
   return gen_block(icon, filename, "%#St_file_sep#", "%#St_file_bg#", "%#St_file_txt#")
 end
 
+M.wpm = function()
+  local wpm = require("wpm").wpm
+
+  return "%#St_wpm#" .. "WPM " .. wpm() .. " "
+end
+
 M.git = function()
   if not vim.b.gitsigns_head or vim.b.gitsigns_git_status then
     return ""
@@ -156,9 +162,8 @@ M.cwd = function()
   ) or ""
 end
 
-
 M.cursor_position = function()
-    gen_block("", "%l/%c", "%#St_Pos_sep#", "%#St_Pos_bg#", "%#St_Pos_txt#")
+  gen_block("", "%l/%c", "%#St_Pos_sep#", "%#St_Pos_bg#", "%#St_Pos_txt#")
 end
 
 M.run = function()
@@ -171,6 +176,7 @@ M.run = function()
   return table.concat {
     modules.mode(),
     modules.fileInfo(),
+    modules.wpm(),
     modules.git(),
 
     "%=",
@@ -181,7 +187,7 @@ M.run = function()
     modules.LSP_Diagnostics(),
     modules.LSP_status() or "",
     modules.cwd(),
-    modules.cursor_position()
+    modules.cursor_position(),
   }
 end
 

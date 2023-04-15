@@ -45,11 +45,12 @@ local function char_count_same(c1, c2)
 end
 
 local function pair(pair_begin, pair_end, expand_func, ...)
-  return s(
-    { trig = pair_begin, wordTrig = false },
-    { t { pair_begin }, i(1), t { pair_end } },
-    { condition = part(expand_func, part(..., pair_begin, pair_end)) }
-  )
+  return s({ trig = pair_begin, wordTrig = false }, { t { pair_begin }, i(1), t { pair_end } }, {
+    condition = part(expand_func, part(..., pair_begin, pair_end)),
+    show_condition = function()
+      return false
+    end,
+  })
 end
 
 snips = {

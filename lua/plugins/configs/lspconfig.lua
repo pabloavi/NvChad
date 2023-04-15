@@ -20,13 +20,19 @@ local servers = { -- lua_ls, texlab, ltex are configured appart
   "vimls",
   "fortls",
   "marksman",
-  -- "rust_analyzer",
-  -- "html",
-  -- "cssls",
-  -- "clangd",
-  -- "jdtls",
-  -- "eslint",
 }
+
+if vim.g.c_enabled then
+  table.insert(servers, "clangd")
+end
+
+if vim.g.java_enabled then
+  table.insert(servers, "jdtls")
+end
+
+if vim.g.webdev_enabled then
+  table.insert(servers, { "html", "cssls", "eslint" })
+end
 
 -- export on_attach & capabilities for custom lspconfigs
 
@@ -81,12 +87,15 @@ lspconfig.lua_ls.setup {
   settings = {
     Lua = {
       diagnostics = {
-        globals = { "vim" },
+        globals = { "vim", "awesome", "client", "screen" },
       },
       workspace = {
         library = {
           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/extensions/nvchad_types"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          "/usr/share/awesome/lib",
         },
         maxPreload = 100000,
         preloadFileSize = 10000,
@@ -95,27 +104,32 @@ lspconfig.lua_ls.setup {
   },
 }
 
-lspconfig["ltex"].setup {
-  on_attach = function(client, bufnr)
-    M.on_attach(client, bufnr)
-    require("ltex_extra").setup {
-      load_langs = { "es", "en" }, -- languages for witch dictionaries will be loaded
-      init_check = true, -- load dictionaries on startup
-      path = nil, -- where to store dictionaries. relative = from cwd
-      log_level = "none",
-    }
-  end,
-  settings = {
-    ["ltex"] = {
-      enabled = true,
-      language = "es",
-      checkFrequency = "save", -- edit, save, manual
-    },
-  },
-}
+-- lspconfig["ltex"].setup {
+--   on_attach = function(client, bufnr)
+--     M.on_attach(client, bufnr)
+--     require("ltex_extra").setup {
+--       load_langs = { "es", "en" }, -- languages for witch dictionaries will be loaded
+--       init_check = true, -- load dictionaries on startup
+--       path = nil, -- where to store dictionaries. relative = from cwd
+--       log_level = "none",
+--     }
+--   end,
+--   settings = {
+--     ["ltex"] = {
+--       enabled = true,
+--       language = "es",
+--       checkFrequency = "save", -- edit, save, manual
+--     },
+--   },
+-- }
 
 -- texlab config
 lspconfig["texlab"].setup {
+  on_attach = function(client, bufnr)
+    M.on_attach(client, bufnr)
+    require("nvim-navbuddy").attach(client, bufnr)
+  end,
+  capabilities = M.capabilities,
   settings = {
     texlab = {
       auxDirectory = ".",

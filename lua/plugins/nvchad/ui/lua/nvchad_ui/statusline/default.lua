@@ -72,6 +72,12 @@ M.fileInfo = function()
   return "%#St_file_info#" .. icon .. filename .. "%#St_file_sep#" .. sep_r
 end
 
+M.wpm = function()
+  local wpm = require("wpm").wpm
+
+  return "%#St_wpm#" .. " WPM " .. wpm()
+end
+
 M.git = function()
   if not vim.b.gitsigns_head or vim.b.gitsigns_git_status then
     return ""
@@ -172,6 +178,7 @@ M.run = function()
   return table.concat {
     modules.mode(),
     modules.fileInfo(),
+    modules.wpm(),
     modules.git(),
 
     "%=",

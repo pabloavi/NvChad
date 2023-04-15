@@ -7,17 +7,15 @@ end
 local b = null_ls.builtins
 
 local sources = {
-  -- b.formatting.prettier.with { filetypes = { "html", "css" } },
   b.formatting.stylua,
 
   b.formatting.shfmt,
   b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
+  b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json" } },
 
   b.formatting.yamlfmt,
 
   b.formatting.markdownlint,
-
-  -- b.formatting.clang_format,
 
   b.formatting.black, -- python
 
@@ -28,6 +26,17 @@ local sources = {
 
   b.formatting.rustfmt,
 }
+
+if vim.g.c_enabled or vim.g.java_enabled then
+  table.insert(sources, b.formatting.clang_format)
+end
+
+if vim.g.webdev_enabled then
+  local add = {
+    b.diagnostics.eslint_d,
+  }
+  table.insert(sources, add)
+end
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup {

@@ -1,7 +1,7 @@
 ---@meta
 
 ---@type ThemeName
-vim.g.nvchad_theme = 'onedark'
+vim.g.nvchad_theme = "onedark"
 
 ---@alias ThemeName
 ---| '"yoru"'
@@ -54,6 +54,7 @@ vim.g.nvchad_theme = 'onedark'
 ---| '"chocolate"'
 ---| '"chadtain"'
 ---| '"chadracula"'
+---| '"catppuccin_latte"'
 ---| '"catppuccin"'
 ---| '"blossom_light"'
 ---| '"bearded-arc"'

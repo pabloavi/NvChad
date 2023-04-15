@@ -1,11 +1,5 @@
 local options = {
   ensure_installed = {
-    --webdev
-    -- "html-lsp",
-    -- "css-lsp",
-    -- "prettierd",
-    -- "eslint-lsp",
-    -- "eslint_d",
     -- lua
     "lua-language-server",
     "stylua",
@@ -14,7 +8,7 @@ local options = {
     "black",
     "debugpy",
     -- latex
-    "ltex-ls", -- latex and markdown
+    -- "ltex-ls", -- latex and markdown
     "texlab",
     -- yaml
     "yaml-language-server",
@@ -29,11 +23,6 @@ local options = {
     -- markdown
     "marksman",
     "markdownlint",
-    -- c
-    -- "clangd",
-    -- "clang-format", -- c and java
-    -- java
-    -- "jdtls",
     -- rust
     "rust-analyzer",
     "rustfmt",
@@ -62,5 +51,17 @@ local options = {
 
   max_concurrent_installers = 10,
 }
+
+if vim.g.c_enabled then
+  table.insert(options.ensure_installed, { "clangd", "clang-format" })
+end
+
+if vim.g.java_enabled then
+  table.insert(options.ensure_installed, { "clangd", "jdtls" })
+end
+
+if vim.g.webdev_enabled then
+  table.insert(options.ensure_installed, { "html-lsp", "css-lsp", "prettierd", "eslint-lsp", "eslint_d" })
+end
 
 return options

@@ -48,6 +48,12 @@ M.default = {
     bold = true,
   },
 
+  St_wpm = {
+    fg = colors.light_grey,
+    bg = colors.statusline_bg,
+    bold = true,
+  },
+
   St_LspStatus = {
     fg = colors.nord_blue,
     bg = colors.statusline_bg,
@@ -195,6 +201,11 @@ M.vscode_colored = {
 
 M.minimal = {
   StatusLine = {
+    bg = colors.black,
+  },
+
+  St_wpm = {
+    fg = generate_color(colors.white, -8),
     bg = colors.black,
   },
 

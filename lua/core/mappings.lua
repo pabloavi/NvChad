@@ -1,3 +1,4 @@
+---@type MappingsTable
 -- n, v, i, t = mode names
 
 local function termcodes(str)
@@ -68,22 +69,23 @@ M.general = {
     -- update nvchad
     -- ["<leader>uu"] = { "<cmd> :NvChadUpdate <CR>", "update nvchad" },
 
-    -- TODO: remove toggle_theme
-    -- ["<leader>tt"] = {
-    --   function()
-    --     require("base46").toggle_theme()
-    --   end,
-    --   "toggle theme",
-    -- },
+    ["<leader>tt"] = {
+      function()
+        require("base46").toggle_theme()
+      end,
+      "toggle theme",
+    },
+
+    ["<leader>as"] = { "<cmd> AutosaveToggle <CR>", "toggle autosave" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
     -- empty mode is same as using <cmd> :map
     -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
+    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "move up", opts = { expr = true } },
+    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "move down", opts = { expr = true } },
+    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "move up", opts = { expr = true } },
+    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "move down", opts = { expr = true } },
 
     ["n"] = { "nzzzv", "center screen on n" },
     ["N"] = { "Nzzzv", "center screen on N" },
@@ -355,6 +357,7 @@ M.telescope = {
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
     ["<leader>fw"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
+    ["<leader>fc"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "grep current buffer" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
@@ -617,12 +620,15 @@ M.treesitter = {
       "Trigger Node Action",
     },
   },
+  x = {
+    ["iu"] = { ':<c-u>lua require"treesitter-unit".select()<CR>', "select inner unit" },
+    ["au"] = { ':<c-u>lua require"treesitter-unit".select(true)<CR>', "select outer unit" },
+  },
+  o = {
+    ["iu"] = { ':<c-u>lua require"treesitter-unit".select()<CR>', "select inner unit" },
+    ["au"] = { ':<c-u>lua require"treesitter-unit".select(true)<CR>', "select outer unit" },
+  },
 }
--- these werent working as expected
-vim.keymap.set("x", "iu", ':<c-u>lua require"treesitter-unit".select()<CR>')
-vim.keymap.set("o", "iu", ':<c-u>lua require"treesitter-unit".select()<CR>')
-vim.keymap.set("x", "au", ':<c-u>lua require"treesitter-unit".select(true)<CR>')
-vim.keymap.set("o", "au", ':<c-u>lua require"treesitter-unit".select(true)<CR>')
 
 M.markdownpreview = {
   plugin = true,
@@ -634,9 +640,17 @@ M.markdownpreview = {
 M.icon_picker = {
   plugin = true,
   n = {
-    ["<leader>ici"] = { "<cmd> IconPickerInsert <CR>", "pick icon for insert mode" },
-    ["<leader>icn"] = { "<cmd> IconPickerNormal <CR>", "pick icon for normal mode" },
-    ["<leader>icy"] = { "<cmd> IconPickerYank <CR>", "pick icon and yank it" },
+    ["<leader>pii"] = { "<cmd> IconPickerInsert <CR>", "pick icon for insert mode" },
+    ["<leader>pin"] = { "<cmd> IconPickerNormal <CR>", "pick icon for normal mode" },
+    ["<leader>piy"] = { "<cmd> IconPickerYank <CR>", "pick icon and yank it" },
+  },
+}
+
+M.color_picker = {
+  plugin = true,
+  n = {
+    ["<leader>pc"] = { "<cmd> PickColor <CR>", "pick color" },
+    ["<leader>pci"] = { "<cmd> PickColorInsert <CR>", "pick color" },
   },
 }
 
@@ -695,12 +709,11 @@ M.qol = {
 }
 
 M.sniprun = {
-  plugin = true,
   n = {
-    ["<leader>sr"] = { "<cmd> SnipRun <CR>", "sniprun run selected code" },
+    ["<leader>sc"] = { "<cmd> SnipRun <CR>", "sniprun run selected code" },
   },
   v = {
-    ["<leader>sr"] = { "<cmd> SnipRun <CR>", "sniprun run selected code" },
+    ["<leader>sc"] = { "<cmd> SnipRun <CR>", "sniprun run selected code" },
   },
 }
 

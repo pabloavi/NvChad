@@ -1,13 +1,17 @@
 local opt = vim.opt
 local g = vim.g
 local config = require("core.utils").load_config()
+local utils = require "core.utils"
 
 g.nvchad_theme = config.ui.theme
-g.toggle_theme_icon = "   " -- TODO: remove toggle theme
+g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
+g.toggle_theme_icon = ""
 g.transparency = config.ui.transparency
-g.theme_switcher_loaded = false
 
 g.lsp_lines_enabled = false -- custom
+g.c_enabled = true -- custom
+g.java_enabled = false -- custom
+g.webdev_enabled = false -- custom
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
@@ -71,21 +75,22 @@ g.vimtex_syntax_conceal_disable = 1
 g.use_treesitter = true -- custom made (for snippets, to use vimtex o treesitter syntax)
 
 g.tex_flavor = "latex"
+
 g.AirLatexUsername = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from env var for security reasons
 g.AirLatexAllowInsecure = 1
 -- g.AirLatexLogLevel = "DEBUG"
 g.AirLatexCookieBrowser = "firefox"
 
 -- neovide options
-if vim.g.neovide then
-  vim.opt.guifont = { "JetBrainsMono Nerd Font:h12" }
-  vim.g.neovide_cursor_vfx_mode = "railgun"
-  vim.g.neovide_transparency = 1
-  vim.g.neovide_floating_opacity = 1
+if g.neovide then
+  opt.guifont = { "JetBrainsMono Nerd Font:h12" }
+  g.neovide_cursor_vfx_mode = "railgun"
+  g.neovide_transparency = 1
+  g.neovide_floating_opacity = 1
 end
 
 -- firenvim
-if vim.g.started_by_firenvim == true then
+if g.started_by_firenvim == true then
   opt.laststatus = 0
   opt.cmdheight = 0
   opt.pumheight = 1
@@ -107,6 +112,7 @@ vim.env.PATH = vim.env.PATH .. (is_windows and ";" or ":") .. vim.fn.stdpath "da
 
 -------------------------------------- autocmds ------------------------------------------
 local autocmd = vim.api.nvim_create_autocmd
+local home = os.getenv "HOME"
 
 -- dont list quickfix buffers
 autocmd("FileType", {
@@ -135,9 +141,46 @@ autocmd({ "VimResized" }, {
 
 -- give .config/sxhkd/sxhkdrc its own filetype
 autocmd({ "BufReadPost" }, {
-  pattern = "/sxhkdrc",
+  pattern = "sxhkdrc",
   callback = function()
     vim.bo.filetype = "sxhkdrc"
+  end,
+})
+
+-- give .rasi filetype
+autocmd({ "BufReadPost" }, {
+  pattern = "*.rasi",
+  callback = function()
+    vim.bo.filetype = "rasi"
+  end,
+})
+
+-- append awesome filetype to all awesome files
+autocmd({ "BufReadPost" }, {
+  pattern = "*.lua",
+  callback = function()
+    -- if path CONTAINS .config/awesome
+    if vim.fn.expand("%:p:h"):find(home .. "/.config/awesome/bindings") then
+      vim.bo.filetype = "lua.awesome"
+    end
+  end,
+})
+
+-- add luasnips filetype to all files in snippets dir so that they are successfully loaded
+autocmd("BufRead,BufNewFile", {
+  pattern = "*.lua",
+  callback = function()
+    if utils.is_snippets_snips_dir() then
+      vim.bo.filetype = "lua.luasnips"
+    end
+  end,
+})
+
+-- autocmd to reload awesomewm on save of .config/awesome/theme/vars.lua
+autocmd("BufWritePost", {
+  pattern = home .. "/.config/awesome/theme/vars.lua",
+  callback = function()
+    os.execute "echo 'awesome.restart()' | awesome-client"
   end,
 })
 
@@ -190,7 +233,25 @@ new_cmd("C", function()
 end, {})
 -- vim.cmd "C"
 
-new_cmd("VimStartupTime", function()
-  require "vim-startuptime"
-  vim.cmd "StartupTime"
-end, {})
+------------------------------------- test -----------------------------------------------
+function ReloadTheme()
+  local fp = vim.fn.fnamemodify(vim.fs.normalize(vim.api.nvim_buf_get_name(opts.buf)), ":r") --[[@as string]]
+  local app_name = vim.env.NVIM_APPNAME and vim.env.NVIM_APPNAME or "nvim"
+  local module = string.gsub(fp, "^.*/" .. app_name .. "/lua/", ""):gsub("/", ".")
+
+  require("plenary.reload").reload_module "base46"
+  require("plenary.reload").reload_module(module)
+  require("plenary.reload").reload_module "core.config"
+
+  config = require("core.utils").load_config()
+
+  vim.g.nvchad_theme = config.ui.theme
+  vim.g.transparency = config.ui.transparency
+
+  -- statusline
+  require("plenary.reload").reload_module("nvchad_ui.statusline." .. config.ui.statusline.theme)
+  vim.opt.statusline = "%!v:lua.require('nvchad_ui.statusline." .. config.ui.statusline.theme .. "').run()"
+
+  require("base46").load_all_highlights()
+  -- vim.cmd("redraw!")
+end
