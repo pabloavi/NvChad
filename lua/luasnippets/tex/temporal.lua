@@ -68,7 +68,7 @@ snips = {
 
 autosnips = {
   s(
-    { trig = "([vnrFUV])([ipkxyz])", name = "fluidos.r,v,nabla", dscr = "fluidos.r,v,nabla", regTrig = true },
+    { trig = "([vnrUV])([ipkxyz])", name = "fluidos.r,v,nabla", dscr = "fluidos.r,v,nabla", regTrig = true },
     fmt(
       [[
     <>_<> <>
@@ -217,6 +217,19 @@ autosnips = {
   --   { t "{\\siguiente} ", i(0) },
   --   { condition = tex.in_text, show_condition = tex.in_text }
   -- ),
+
+  -- electromagnetism II, EM
+  s(
+    { trig = "Fi", name = "electromagnetismo.tensor", dscr = "electromagnetismo.tensor" },
+    { t "\\tensor{F}{^i^j} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
+  s(
+    { trig = "fi", name = "electromagnetismo.tensor", dscr = "electromagnetismo.tensor" },
+    { t "\\tensor{F}{_i_j} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
 }
 
 if enabled then

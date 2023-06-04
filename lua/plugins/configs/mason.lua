@@ -8,7 +8,6 @@ local options = {
     "black",
     "debugpy",
     -- latex
-    -- "ltex-ls", -- latex and markdown
     "texlab",
     -- yaml
     "yaml-language-server",
@@ -62,6 +61,10 @@ end
 
 if vim.g.webdev_enabled then
   table.insert(options.ensure_installed, { "html-lsp", "css-lsp", "prettierd", "eslint-lsp", "eslint_d" })
+end
+
+if vim.g.ltex_enabled then
+  table.insert(options.ensure_installed, "ltex-ls")
 end
 
 return options

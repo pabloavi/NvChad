@@ -7,7 +7,6 @@ local plugins = {
 
   "stevearc/dressing.nvim",
 
-  -- nvchad plugins
   {
     dir = nvchad_plugins .. "/extensions",
     cmd = "AutosaveToggle",
@@ -31,7 +30,7 @@ local plugins = {
     end,
   },
 
-  {
+  { -- wpm count to statusline
     "jcdickinson/wpm.nvim",
     config = function()
       require("wpm").setup()
@@ -50,7 +49,7 @@ local plugins = {
     end,
   },
 
-  {
+  { -- adds color to Blue or #0000FF
     dir = nvchad_plugins .. "/nvim-colorizer.lua",
     opts = function()
       return require("plugins.configs.others").colorizer
@@ -378,12 +377,21 @@ local plugins = {
 
   {
     "prichrd/netrw.nvim",
+    enaled = false, -- make it false when not using oil.nvim
     lazy = false,
     opts = function()
       return require("plugins.configs.others").netrw
     end,
     config = function(_, opts)
       require("netrw").setup(opts)
+    end,
+  },
+
+  {
+    "stevearc/oil.nvim",
+    lazy = false,
+    config = function()
+      require("oil").setup()
     end,
   },
 
@@ -430,7 +438,7 @@ local plugins = {
 
   { "nvim-telescope/telescope-bibtex.nvim", cmd = "Telescope bibtex" },
 
-  { "nvim-telescope/telescope-dap.nvim", cmd = "Telescope dap" },
+  -- { "nvim-telescope/telescope-dap.nvim", cmd = "Telescope dap" },
 
   {
     "potamides/pantran.nvim",
@@ -548,9 +556,12 @@ local plugins = {
 
   { "elkowar/yuck.vim", ft = "yuck" },
 
+  { "theRealCarneiro/hyprland-vim-syntax", ft = "hypr" },
+
   {
     "lervag/vimtex",
-    ft = "tex",
+    -- ft = "tex",
+    lazy = false,
     setup = function()
       require("core.utils").load_mappings "latex"
     end,
@@ -682,7 +693,7 @@ local plugins = {
     end,
   },
 
-  {
+  { -- show marks (a,b...) in statuscolumn
     "chentoast/marks.nvim",
     init = function()
       require("core.utils").lazy_load "marks.nvim"
@@ -717,6 +728,7 @@ local plugins = {
 
   {
     "glacambre/firenvim",
+    lazy = false,
     config = function()
       require("plugins.configs.others").firenvim()
     end,

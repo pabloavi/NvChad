@@ -9,7 +9,7 @@ M.options = {
 }
 
 M.ui = {
-  theme = 'tokyonight',
+  theme = 'onedark',
   hl_add = require("core.highlights").new_hlgroups,
   hl_override = require("core.highlights").overriden_hlgroups,
   changed_themes = {},

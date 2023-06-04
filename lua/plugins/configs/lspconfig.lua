@@ -14,7 +14,7 @@ local lsp_utils = require "plugins.configs.utils.lsp"
 local servers = { -- lua_ls, texlab, ltex are configured appart
   "pyright",
   "texlab",
-  "ltex",
+  -- "ltex",
   "yamlls",
   "bashls",
   "vimls",
@@ -95,7 +95,7 @@ lspconfig.lua_ls.setup {
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
           [vim.fn.stdpath "data" .. "/lazy/extensions/nvchad_types"] = true,
           [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
-          "/usr/share/awesome/lib",
+          -- "/usr/share/awesome/lib",
         },
         maxPreload = 100000,
         preloadFileSize = 10000,
@@ -104,6 +104,7 @@ lspconfig.lua_ls.setup {
   },
 }
 
+-- if vim.g.ltex_enabled then
 -- lspconfig["ltex"].setup {
 --   on_attach = function(client, bufnr)
 --     M.on_attach(client, bufnr)
@@ -122,6 +123,7 @@ lspconfig.lua_ls.setup {
 --     },
 --   },
 -- }
+-- end
 
 -- texlab config
 lspconfig["texlab"].setup {

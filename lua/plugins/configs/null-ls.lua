@@ -8,23 +8,19 @@ local b = null_ls.builtins
 
 local sources = {
   b.formatting.stylua,
-
+  b.formatting.yamlfmt,
+  b.formatting.black, -- python
   b.formatting.shfmt,
-  b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
+  b.formatting.fprettify, -- installed through pip
+  b.formatting.rustfmt,
+  b.formatting.markdownlint,
   b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json" } },
 
-  b.formatting.yamlfmt,
+  b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
+  b.diagnostics.jsonlint,
 
-  b.formatting.markdownlint,
-
-  b.formatting.black, -- python
-
-  b.formatting.fprettify, -- installed through pip
-
-  -- b.formatting.latexindent, -- installed through texlive, now using texlab
+  b.formatting.latexindent, -- installed through texlive, now using texlab
   -- b.diagnostics.chktex, -- installed through texlive, now using texlab
-
-  b.formatting.rustfmt,
 }
 
 if vim.g.c_enabled or vim.g.java_enabled then

@@ -19,6 +19,7 @@ local m = extras.m
 local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
+local matches = require("luasnip.extras.postfix").matches
 
 snips = {
   -- with open as
@@ -144,6 +145,9 @@ snips = {
     ),
     { condition = expand.line_begin }
   ),
+
+  -- converts the line to print(line) using lambda
+  postfix({ trig = ".p", match_pattern = matches.line }, { l("print(" .. l.POSTFIX_MATCH .. ")") }),
 }
 
 autosnips = {}

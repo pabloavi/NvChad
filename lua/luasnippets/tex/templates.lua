@@ -33,7 +33,7 @@ snips = {
     },
     fmt(
       [[ 
-    \documentclass[a4paper]{article}
+    \documentclass[a4paper,12pt]{article}
     
     \usepackage[utf8]{inputenc}
     \usepackage[T1]{fontenc}
@@ -41,6 +41,13 @@ snips = {
     \usepackage[spanish]{babel}
     \usepackage{amsmath, amssymb}
     \usepackage{bm}
+    \usepackage[a4paper,margin=2.25cm]{geometry}
+    \usepackage{enumitem}
+    \setlist{
+    	listparindent=\parindent,
+    	% parsep=0pt,
+    }
+
     
     
     % figure support
@@ -78,6 +85,7 @@ snips = {
     \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
     \DeclareMathOperator{\diff}{\mathrm{d}\!}
+    \DeclareMathOperator{\bdiff}{\\mathchar'26\\mkern-10mu\\mathrm{d}\!}
     \DeclareMathOperator{\sen}{\mathrm{sen}}
     \DeclareMathOperator{\senh}{\mathrm{senh}}
 
@@ -85,7 +93,7 @@ snips = {
     
     \begin{document}
         \title{<>}
-    	\date{<>}
+    	  \date{<>}
         \author{Pablo Avilés Mogío}
         \maketitle
         %
@@ -113,8 +121,15 @@ snips = {
     \usepackage{textcomp}
     \usepackage[spanish]{babel}
     \usepackage{amsmath, amssymb}
+    \usepackage[a4paper,margin=2.25cm]{geometry}
+    \usepackage{enumitem}
+    \setlist{
+    	listparindent=\parindent,
+    	% parsep=0pt,
+    }
     
     \DeclareMathOperator{\diff}{\mathrm{d}\!}
+    \DeclareMathOperator{\bdiff}{\\mathchar'26\\mkern-10mu\\mathrm{d}\!}
     \DeclareMathOperator{\sen}{\mathrm{sen}}
     \DeclareMathOperator{\senh}{\mathrm{senh}}
     
@@ -182,10 +197,11 @@ snips = {
       \cfoot{}
 
       \DeclareMathOperator{\diff}{\mathrm{d}\!}
+      \DeclareMathOperator{\bdiff}{\\mathchar'26\\mkern-10mu\\mathrm{d}\!}
       \DeclareMathOperator{\sen}{\mathrm{sen}}
       \DeclareMathOperator{\senh}{\mathrm{senh}}
-      \renewcommnad{\sin}{\sen}
-      \renewcommnad{\sinh}{\senh}
+      \renewcommand{\sin}{\sen}
+      \renewcommand{\sinh}{\senh}
       
       \begin{document}
       \thispagestyle{fancy}

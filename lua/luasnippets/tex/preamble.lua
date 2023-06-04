@@ -65,6 +65,19 @@ snips = {
     ),
     { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
   ),
+  -- broken difff
+  s(
+    { trig = "setupbdiff", name = "Setup inexact differential", dscr = "Setup inexact differential" },
+    fmt(
+      [[
+      \DeclareMathOperator{\bdiff}{\\mathchar'26\\mkern-10mu\\mathrm{d}\!}
+    ]],
+      {},
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+  ),
+
   -- setup sen and senh
   s(
     { trig = "setupsen", name = "Setup sen and senh", dscr = "Setup sen and senh" },
@@ -99,6 +112,18 @@ snips = {
       { delimiters = "<>" }
     ),
     { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+  ),
+
+  s(
+    { trig = "setupgriffiths", name = "setup griffiths-like font", dscr = "setup griffiths-like font" },
+    fmt(
+      [[
+      \usepackage{newtxtext,newtxmath} % griffiths style
+      ]],
+      { inputs },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text, show_condition = tex.in_text }
   ),
 
   s(
@@ -156,7 +181,7 @@ snips = {
     { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
   ),
   s(
-    { trig = "geometry", name = "geometry package", dscr = "geometry package" },
+    { trig = "setupgeometry", name = "geometry package", dscr = "geometry package" },
     fmt(
       [[
     \usepackage[a4paper,margin=2.25cm]{geometry}

@@ -12,6 +12,7 @@ g.lsp_lines_enabled = false -- custom
 g.c_enabled = true -- custom
 g.java_enabled = false -- custom
 g.webdev_enabled = false -- custom
+g.ltex_enabled = false -- custom
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
@@ -70,7 +71,9 @@ opt.whichwrap:append "<>[]hl"
 g.mapleader = " "
 
 -- vimtex
+g.vimtex_view_method = "zathura"
 g.vimtex_syntax_enabled = 1
+g.vimtex_quickfix_mode = 0
 g.vimtex_syntax_conceal_disable = 1
 g.use_treesitter = true -- custom made (for snippets, to use vimtex o treesitter syntax)
 
@@ -102,7 +105,7 @@ g.netrw_localcopydircmd = "cp -r"
 g.netrw_banner = 0
 
 -- disable some default providers
-for _, provider in ipairs { "node", "perl", "ruby" } do
+for _, provider in ipairs { "perl", "ruby" } do
   vim.g["loaded_" .. provider .. "_provider"] = 0
 end
 

@@ -17,10 +17,14 @@ local options = {
   updateevents = "TextChanged,TextChangedI",
   ft_func = function()
     local ft = require("luasnip.extras.filetype_functions").from_pos_or_filetype()
-    -- ft is a table. if it contains latex, replace it by tex
+    local replace = { -- for some edge cases where the function returns the wrong filetype
+      latex = "tex",
+      bash = "sh",
+      bibtex = "bib",
+    }
     for i, v in ipairs(ft) do
-      if v == "latex" then
-        ft[i] = "tex"
+      if replace[v] then
+        ft[i] = replace[v]
       end
     end
     return ft

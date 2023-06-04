@@ -22,6 +22,7 @@ local n = extras.nonempty
 local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
+local matches = require("luasnip.extras.postfix").matches
 
 local frac_no_parens = {
   f(function(_, snip)
@@ -560,6 +561,13 @@ autosnips = {
     { t "\\diff " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  -- db: "broken" differential (inexact, with a line)
+  s(
+    { trig = "db", name = "đx", dscr = "Inexact, broken differential đx" },
+    { t "\\bdiff " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
   s(
     { trig = "pp", name = "partial", dscr = "Partial derivative of x" },
     { t "\\partial " },
@@ -656,6 +664,12 @@ autosnips = {
     { t "_{", i(1), t "}" },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  s(
+    { trig = "sup", name = "superscript", dscr = "superscript", wordTrig = false },
+    { t "^{", i(1), t "}" },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
   s({
     trig = "([%a])(%d)",
     name = "auto subscript",
@@ -685,6 +699,12 @@ autosnips = {
   s(
     { trig = "//", name = "fraction", dscr = "fraction" },
     { t "\\frac{", i(1), t "}{", i(2), t "} ", i(0) },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
+  s(
+    { trig = "\\/", name = "fraction", dscr = "fraction", wordTrig = false },
+    { t "/" },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
@@ -791,6 +811,7 @@ autosnips = {
   postfix("mrm", { l("\\mathrm{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("cal", { l("\\mathcal{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("bmm", { l("\\bm{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
 }
 
 -- add greek letters to autosnips table: one snippet for each letter and one for each letter with first capital
