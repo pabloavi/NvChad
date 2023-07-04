@@ -52,15 +52,21 @@ local options = {
 }
 
 if vim.g.c_enabled then
-  table.insert(options.ensure_installed, { "clangd", "clang-format" })
+  for _, element in ipairs({ "clangd", "clang-format" }) do
+    table.insert(options.ensure_installed, element)
+  end
 end
 
 if vim.g.java_enabled then
-  table.insert(options.ensure_installed, { "clangd", "jdtls" })
+  for _, element in ipairs({ "clangd", "jdtls" }) do
+    table.insert(options.ensure_installed, element)
+  end
 end
 
 if vim.g.webdev_enabled then
-  table.insert(options.ensure_installed, { "html-lsp", "css-lsp", "prettierd", "eslint-lsp", "eslint_d" })
+  for _, element in ipairs({ "html-lsp", "css-lsp", "prettierd", "eslint-lsp", "eslint_d" }) do
+    table.insert(options.ensure_installed, element)
+  end
 end
 
 if vim.g.ltex_enabled then

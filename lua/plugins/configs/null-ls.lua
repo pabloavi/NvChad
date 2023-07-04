@@ -4,6 +4,8 @@ if not present then
   return
 end
 
+local latexindent_file = vim.fn.stdpath "config" .. "/latexindent.yaml"
+
 local b = null_ls.builtins
 
 local sources = {
@@ -19,7 +21,8 @@ local sources = {
   b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
   b.diagnostics.jsonlint,
 
-  b.formatting.latexindent, -- installed through texlive, now using texlab
+  -- latexindent -m -r -l=/home/pablo/latexindent.yaml  resultados.tex
+  b.formatting.latexindent.with { args = { "-m", "-r", "-l=" .. latexindent_file, "-" } }, -- installed through texlive, now using texlab
   -- b.diagnostics.chktex, -- installed through texlive, now using texlab
 }
 

@@ -54,13 +54,6 @@ opt.termguicolors = true
 opt.timeoutlen = 400
 opt.undofile = true
 
--- nvim-ufo
--- vim.o.foldcolumn = "1"
--- vim.o.foldlevel = 99
--- vim.o.foldlevelstart = 99
--- vim.o.foldenable = true
--- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250
 
@@ -76,18 +69,20 @@ g.vimtex_syntax_enabled = 1
 g.vimtex_quickfix_mode = 0
 g.vimtex_syntax_conceal_disable = 1
 g.use_treesitter = true -- custom made (for snippets, to use vimtex o treesitter syntax)
-
 g.tex_flavor = "latex"
 
-g.AirLatexUsername = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from env var for security reasons
-g.AirLatexAllowInsecure = 1
+-- g.AirLatexUsername = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from env var for security reasons
+-- g.AirLatexAllowInsecure = 1
 -- g.AirLatexLogLevel = "DEBUG"
-g.AirLatexCookieBrowser = "firefox"
+-- g.AirLatexCookieBrowser = "firefox"
+
+g.AirLatexCookieDB = "~/.mozilla/firefox/edf6ashr.default-release-1659959683595/cookies.sqlite"
 
 -- neovide options
 if g.neovide then
-  opt.guifont = { "JetBrainsMono Nerd Font:h12" }
-  g.neovide_cursor_vfx_mode = "railgun"
+  opt.guifont = { "JetBrainsMono Nerd Font:h18" }
+  -- g.neovide_cursor_vfx_mode = "railgun"
+  g.neovide_cursor_vfx_mode = "pixiedust"
   g.neovide_transparency = 1
   g.neovide_floating_opacity = 1
 end
@@ -117,16 +112,8 @@ vim.env.PATH = vim.env.PATH .. (is_windows and ";" or ":") .. vim.fn.stdpath "da
 local autocmd = vim.api.nvim_create_autocmd
 local home = os.getenv "HOME"
 
--- dont list quickfix buffers
-autocmd("FileType", {
-  pattern = "qf",
-  callback = function()
-    vim.opt_local.buflisted = false
-  end,
-})
-
 -- fix neovim startup artifact
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
+autocmd({ "VimEnter" }, {
   callback = function()
     local pid, WINCH = vim.fn.getpid(), vim.loop.constants.SIGWINCH
     vim.defer_fn(function()
@@ -169,21 +156,29 @@ autocmd({ "BufReadPost" }, {
   end,
 })
 
--- add luasnips filetype to all files in snippets dir so that they are successfully loaded
-autocmd("BufRead,BufNewFile", {
-  pattern = "*.lua",
-  callback = function()
-    if utils.is_snippets_snips_dir() then
-      vim.bo.filetype = "lua.luasnips"
-    end
-  end,
-})
-
 -- autocmd to reload awesomewm on save of .config/awesome/theme/vars.lua
 autocmd("BufWritePost", {
   pattern = home .. "/.config/awesome/theme/vars.lua",
   callback = function()
     os.execute "echo 'awesome.restart()' | awesome-client"
+  end,
+})
+
+-- Remember cursor position
+autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    if vim.fn.line "'\"" > 1 and vim.fn.line "'\"" <= vim.fn.line "$" then
+      vim.cmd [[normal! g`" | call timer\_start(1, {tid -> execute("normal! zz")}) ]]
+    end
+  end,
+})
+
+-- cursorcolumn on yaml
+autocmd("BufEnter", {
+  pattern = "*.yaml",
+  callback = function()
+    vim.wo.cursorcolumn = true
   end,
 })
 

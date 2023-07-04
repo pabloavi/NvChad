@@ -816,9 +816,18 @@ autosnips = {
 
 -- add greek letters to autosnips table: one snippet for each letter and one for each letter with first capital
 for _, greek_letter in ipairs(greek_letters) do
+  override = {
+    { "epsilon", "eps" },
+    { "theta", "the" },
+  }
   local trig = greek_letter
-  if greek_letter == "epsilon" then
-    trig = "eps" -- to avoid conflict with psi
+  -- if greek_letter == "epsilon" then
+  --   trig = "eps" -- to avoid conflict with psi
+  -- end
+  for _, override in ipairs(override) do
+    if greek_letter == override[1] then
+      trig = override[2]
+    end
   end
   local name = greek_letter
   local dscr = "Greek letter " .. greek_letter
@@ -834,8 +843,13 @@ for _, greek_letter in ipairs(greek_letters) do
   -- capital greek letters: make capital only first letter
   trig = greek_letter:gsub("^%l", string.upper)
   name = trig
-  if greek_letter == "epsilon" then
-    trig = "Eps" -- to avoid conflict with psi
+  -- if greek_letter == "epsilon" then
+  --   trig = "Eps" -- to avoid conflict with psi
+  -- end
+  for _, override in ipairs(override) do
+    if greek_letter == override[1] then
+      trig = override[2]:gsub("^%l", string.upper)
+    end
   end
   dscr = "Greek letter " .. trig
   table.insert(

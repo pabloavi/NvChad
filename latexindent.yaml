@@ -1,0 +1,21 @@
+defaultIndent: '  '
+modifyLineBreaks:
+  # textWrapOptions:
+  #   columns: 80
+  # oneSentencePerLine:
+  #   manipulateSentences: 1
+  #   removeSentenceLineBreaks: 1
+  #   multipleSpacesToSingle: 1
+  environments:
+    BeginStartsOnOwnLine: 1
+    BodyStartsOnOwnLine: 1
+    EndStartsOnOwnLine: 1
+    EndFinishesWithLineBreak: 1
+specialBeginEnd:
+  displayMath:
+    begin: \.?\,?(?<!\\)\\\]
+    end: \\\]
+    lookForThis: 1
+# replacements:
+#   - substitution: s/(^[A-Z])/\t$1/mg
+#     when: after

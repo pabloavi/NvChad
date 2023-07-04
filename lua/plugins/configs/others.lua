@@ -13,6 +13,7 @@ M.blankline = {
     "mason",
     "nvdash",
     "nvcheatsheet",
+    "oil_preview",
     "",
   },
   buftype_exclude = { "terminal" },
@@ -44,7 +45,7 @@ M.colorizer = {
   user_default_options = {
     RGB = true, -- #RGB hex codes
     RRGGBB = true, -- #RRGGBB hex codes
-    names = true, -- "Name" codes like Blue
+    names = false, -- "Name" codes like Blue
     RRGGBBAA = false, -- #RRGGBBAA hex codes
     rgb_fn = false, -- CSS rgb() and rgba() functions
     hsl_fn = false, -- CSS hsl() and hsla() functions
@@ -94,6 +95,8 @@ M.illuminate = function()
       "latex",
       "tex",
       "plaintex",
+      "oil",
+      "oil-preview",
     },
   }
 end
@@ -290,49 +293,37 @@ M.delaytrain = function()
   delaytrain.setup(options)
 end
 
-M.ufo = function()
-  local present, ufo = pcall(require, "ufo")
+M.ufo = {
+  init = function()
+    vim.o.foldcolumn = "1"
+    vim.o.foldlevel = 99
+    vim.o.foldlevelstart = 99
+    vim.o.foldenable = true
+    -- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+    vim.o.statuscolumn = "%= %s%{%&number ?(v:relnum ?"
+      .. 'printf("%"..len(line("$")).."s", v:relnum)'
+      .. ":v:lnum):"
+      .. '""'
+      .. " %}%= %#FoldColumn#%{foldlevel(v:lnum) > foldlevel(v:lnum - 1)? (foldclosed(v:lnum) == -1"
+      .. '? ""'
+      .. ':  ""'
+      .. ")"
+      .. ': " "'
+      .. "}%= "
+    -- vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    --   pattern = "*.tex",
+    --   callback = function()
+    --     vim.cmd [[normal! zM]]
+    --   end,
+    -- })
+  end,
 
-  if not present then
-    return
-  end
-
-  local handler = function(virtText, lnum, endLnum, width, truncate)
-    local newVirtText = {}
-    local suffix = ("  %d "):format(endLnum - lnum)
-    local sufWidth = vim.fn.strdisplaywidth(suffix)
-    local targetWidth = width - sufWidth
-    local curWidth = 0
-    for _, chunk in ipairs(virtText) do
-      local chunkText = chunk[1]
-      local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-      if targetWidth > curWidth + chunkWidth then
-        table.insert(newVirtText, chunk)
-      else
-        chunkText = truncate(chunkText, targetWidth - curWidth)
-        local hlGroup = chunk[2]
-        table.insert(newVirtText, { chunkText, hlGroup })
-        chunkWidth = vim.fn.strdisplaywidth(chunkText)
-        -- str width returned from truncate() may less than 2nd argument, need padding
-        if curWidth + chunkWidth < targetWidth then
-          suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-        end
-        break
-      end
-      curWidth = curWidth + chunkWidth
-    end
-    table.insert(newVirtText, { suffix, "MoreMsg" })
-    return newVirtText
-  end
-
-  local options = {
-    provider_selector = function(bufnr, filetype, buftype)
-      return { "treesitter", "indent" }
-    end,
-    fold_virt_text_handler = handler,
-  }
-  ufo.setup(options)
-end
+  options = function()
+    return {
+      open_fold_hl_timeout = 0,
+    }
+  end,
+}
 
 M.firenvim = function()
   local present, _ = pcall(require, "firenvim")

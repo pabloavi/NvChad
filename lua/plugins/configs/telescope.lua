@@ -49,7 +49,7 @@ local options = {
     },
   },
 
-  extensions_list = { "themes", "terms", "luasnip", "bibtex", "undo" },
+  extensions_list = { "themes", "terms", "luasnip", "bibtex", "undo", "lazygit" },
 }
 
 return options

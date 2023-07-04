@@ -144,12 +144,6 @@ autosnips = {
   --   end, {}),
   -- }, { condition = tex.in_mathzone }),
 
-  s(
-    { trig = "noin", name = "noindent", dscr = "\noindent in line begin" },
-    { t "\\noindent" },
-    { condition = tex.in_text * expand.line_begin }
-  ),
-
   -- TODO: make space as exit for m(...)
   s(
     { trig = "pd", name = "Super partial derivative", dscr = "Super partial/partial" },

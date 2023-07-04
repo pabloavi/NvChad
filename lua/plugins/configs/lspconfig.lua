@@ -11,9 +11,9 @@ local M = {}
 local utils = require "core.utils"
 local lsp_utils = require "plugins.configs.utils.lsp"
 
-local servers = { -- lua_ls, texlab, ltex are configured appart
+local servers = { -- lua_ls, texlab, ltex and clangd are configured appart
   "pyright",
-  "texlab",
+  -- "texlab",
   -- "ltex",
   "yamlls",
   "bashls",
@@ -21,10 +21,6 @@ local servers = { -- lua_ls, texlab, ltex are configured appart
   "fortls",
   "marksman",
 }
-
-if vim.g.c_enabled then
-  table.insert(servers, "clangd")
-end
 
 if vim.g.java_enabled then
   table.insert(servers, "jdtls")
@@ -67,6 +63,21 @@ M.capabilities.textDocument.completion.completionItem = {
   },
 }
 
+if vim.g.c_enabled then
+  lspconfig["clangd"].setup {
+    on_attach = function(client, bufnr)
+      M.on_attach(client, bufnr)
+      require("nvim-navbuddy").attach(client, bufnr)
+    end,
+    capabilities = function()
+      cmd = {
+        "clangd",
+        "--offset-encoding=utf-16",
+      }
+    end,
+  }
+end
+
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = function(client, bufnr)
@@ -104,26 +115,26 @@ lspconfig.lua_ls.setup {
   },
 }
 
--- if vim.g.ltex_enabled then
--- lspconfig["ltex"].setup {
---   on_attach = function(client, bufnr)
---     M.on_attach(client, bufnr)
---     require("ltex_extra").setup {
---       load_langs = { "es", "en" }, -- languages for witch dictionaries will be loaded
---       init_check = true, -- load dictionaries on startup
---       path = nil, -- where to store dictionaries. relative = from cwd
---       log_level = "none",
---     }
---   end,
---   settings = {
---     ["ltex"] = {
---       enabled = true,
---       language = "es",
---       checkFrequency = "save", -- edit, save, manual
---     },
---   },
--- }
--- end
+if vim.g.ltex_enabled then
+  lspconfig["ltex"].setup {
+    on_attach = function(client, bufnr)
+      M.on_attach(client, bufnr)
+      require("ltex_extra").setup {
+        load_langs = { "es", "en" }, -- languages for witch dictionaries will be loaded
+        init_check = true, -- load dictionaries on startup
+        path = vim.fn.stdpath "config" .. "/spell", -- where to store dictionaries. relative = from cwd
+        log_level = "none",
+      }
+    end,
+    settings = {
+      ["ltex"] = {
+        enabled = true,
+        language = "es",
+        checkFrequency = "save", -- edit, save, manual
+      },
+    },
+  }
+end
 
 -- texlab config
 lspconfig["texlab"].setup {
@@ -138,7 +149,7 @@ lspconfig["texlab"].setup {
       bibtexFormatter = "texlab",
       build = {
         -- args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", get_main_file() },
-        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%p" },
+        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
         executable = "latexmk",
         forwardSearchAfter = false,
         onSave = false, -- now using vimtex
@@ -147,12 +158,17 @@ lspconfig["texlab"].setup {
         onEdit = false,
         onOpenAndSave = true,
       },
-      diagnosticsDelay = 30,
+      diagnosticsDelay = 300,
       formatterLineLength = 80,
       forwardSearch = {
         executable = "zathura",
-        -- TODO: add pdf file detection
-        args = { "--synctex-forward", "%l:1:%f", "%p" },
+        args = {
+          "--synctex-editor-command",
+          [[nvim-texlabconfig -file '%%%{input}' -line %%%{line} -server ]] .. vim.v.servername,
+          "--synctex-forward",
+          "%l:1:%f",
+          "%p",
+        },
         onSave = false, -- now using vimtex
       },
       latexFormatter = "latexindent",

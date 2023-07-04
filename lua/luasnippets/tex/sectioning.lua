@@ -111,7 +111,7 @@ snips = {
 
 autosnips = {
   s(
-    { trig = "input", name = "input", dscr = "Insert input" },
+    { trig = "inp", name = "input", dscr = "Insert input" },
     fmt(
       [[ 
       \input{<>}

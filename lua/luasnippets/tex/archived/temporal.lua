@@ -1,4 +1,4 @@
-local enabled = true
+local enabled = false
 local snips, autosnips = {}, {}
 
 local tex = vim.g.use_treesitter and require "luasnippets.tex.utils.ts_utils" or require "luasnippets.utils.tex.utils"

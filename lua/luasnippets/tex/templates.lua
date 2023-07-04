@@ -85,7 +85,7 @@ snips = {
     \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
     \DeclareMathOperator{\diff}{\mathrm{d}\!}
-    \DeclareMathOperator{\bdiff}{\\mathchar'26\\mkern-10mu\\mathrm{d}\!}
+    \DeclareMathOperator{\bdiff}{\mathchar'26\mkern-10mu\mathrm{d}\!}
     \DeclareMathOperator{\sen}{\mathrm{sen}}
     \DeclareMathOperator{\senh}{\mathrm{senh}}
 

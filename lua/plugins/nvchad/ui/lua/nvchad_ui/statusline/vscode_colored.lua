@@ -94,19 +94,21 @@ M.LSP_progress = function()
     return ""
   end
 
-  local Lsp = vim.lsp.util.get_progress_messages()[1]
+  local Lsp = vim.lsp.status()
 
   if vim.o.columns < 120 or not Lsp then
     return ""
   end
 
-  local msg = Lsp.message or ""
-  local percentage = Lsp.percentage or 0
-  local title = Lsp.title or ""
+  local percentage = string.match(Lsp, "%d+")
+  local msg = string.match(Lsp, ":(.*),") or string.match(Lsp, ":(.*)") or ""
+  if not percentage then
+    return ""
+  end
   local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
   local ms = vim.loop.hrtime() / 1000000
   local frame = math.floor(ms / 120) % #spinners
-  local content = string.format(" %%<%s %s %s (%s%%%%) ", spinners[frame + 1], title, msg, percentage)
+  local content = string.format(" %%<%s %s (%s%%%%) ", spinners[frame + 1], msg, percentage)
 
   if config.lsprogress_len then
     content = string.sub(content, 1, config.lsprogress_len)

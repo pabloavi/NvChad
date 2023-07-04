@@ -1,6 +1,8 @@
 local M = {}
 
 M.new_hlgroups = {
+  -- vim
+  Folded = { fg = "grey", bg = "black" },
   -- nvim ufo
   FoldColumn = { fg = "grey", bg = "black" },
   UfoFoldedBg = { fg = "grey", bg = "black" }, -- fix the flicker

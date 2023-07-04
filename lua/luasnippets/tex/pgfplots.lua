@@ -1,4 +1,5 @@
 local enabled = true
+
 local snips, autosnips = {}, {}
 
 local tex = vim.g.use_treesitter and require "luasnippets.tex.utils.ts_utils" or require "luasnippets.tex.utils.utils"
@@ -23,26 +24,6 @@ local n = extras.nonempty
 local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
-
-snips = {}
-
-autosnips = {
-  s({
-    trig = "([AvViI])([ivso])",
-    name = "gain voltage current subindex",
-    dscr = "gain voltage current subindex",
-    regTrig = true,
-  }, {
-    f(function(_, snip)
-      return snip.captures[1]
-    end),
-    t "_",
-    f(function(_, snip)
-      return snip.captures[2]
-    end),
-    t " ",
-  }, { condition = tex.in_mathzone, show_condition = tex.in_mathzone }),
-}
 
 if enabled then
   return snips, autosnips

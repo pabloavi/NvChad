@@ -5,7 +5,14 @@ local plugins = {
 
   "nvim-lua/plenary.nvim",
 
-  "stevearc/dressing.nvim",
+  {
+    "stevearc/dressing.nvim",
+    init = function()
+      vim.defer_fn(function()
+        require "dressing"
+      end, 5000)
+    end,
+  },
 
   {
     dir = nvchad_plugins .. "/extensions",
@@ -114,7 +121,7 @@ local plugins = {
       "RRethy/nvim-treesitter-textsubjects",
       "chrisgrieser/nvim-various-textobjs",
       "David-Kunz/treesitter-unit",
-      "mrjones2014/nvim-ts-rainbow",
+      "hiphish/nvim-ts-rainbow2",
     },
   },
 
@@ -130,12 +137,12 @@ local plugins = {
     end,
   },
 
-  ["nvim-treesitter/nvim-treesitter-context"] = {
-    enabled = false,
-    config = function(_, opts)
-      require("treesitter-context").setup(opts)
-    end,
-  },
+  -- ["nvim-treesitter/nvim-treesitter-context"] = {
+  --   enabled = false,
+  --   config = function(_, opts)
+  --     require("treesitter-context").setup(opts)
+  --   end,
+  -- },
 
   {
     "RRethy/nvim-treesitter-textsubjects",
@@ -171,7 +178,7 @@ local plugins = {
   { "David-Kunz/treesitter-unit" },
 
   {
-    "mrjones2014/nvim-ts-rainbow",
+    "hiphish/nvim-ts-rainbow2",
   },
 
   -- git stuff
@@ -202,6 +209,15 @@ local plugins = {
     end,
   },
 
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = { "LazyGit", "LazyGitCurrentFile", "LazyGitConfig", "LazyGitFilter", "LazyGitFilterCurrentFile" },
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+  },
+
   -- lsp stuff
   {
     "williamboman/mason.nvim",
@@ -215,6 +231,7 @@ local plugins = {
 
       -- custom nvchad cmd to install all mason binaries listed
       vim.api.nvim_create_user_command("MasonInstallAll", function()
+        -- all elements of table opts.ensure_installed are installed
         vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
       end, {})
 
@@ -377,7 +394,7 @@ local plugins = {
 
   {
     "prichrd/netrw.nvim",
-    enaled = false, -- make it false when not using oil.nvim
+    enabled = false, -- make it false when not using oil.nvim
     lazy = false,
     opts = function()
       return require("plugins.configs.others").netrw
@@ -390,8 +407,11 @@ local plugins = {
   {
     "stevearc/oil.nvim",
     lazy = false,
-    config = function()
-      require("oil").setup()
+    opts = function()
+      return { keymaps = { ["q"] = "actions.close" } }
+    end,
+    config = function(_, opts)
+      require("oil").setup(opts)
     end,
   },
 
@@ -504,20 +524,20 @@ local plugins = {
   },
 
   -- misc
-  {
-    "Pocco81/TrueZen.nvim",
-    cmd = {
-      "TZAtaraxis",
-      "TZMinimalist",
-      "TZFocus",
-    },
-    init = function()
-      require("core.utils").load_mappings "truezen"
-    end,
-    config = function()
-      require("plugins.configs.others").truezen()
-    end,
-  },
+  -- {
+  --   "Pocco81/TrueZen.nvim",
+  --   cmd = {
+  --     "TZAtaraxis",
+  --     "TZMinimalist",
+  --     "TZFocus",
+  --   },
+  --   init = function()
+  --     require("core.utils").load_mappings "truezen"
+  --   end,
+  --   config = function()
+  --     require("plugins.configs.others").truezen()
+  --   end,
+  -- },
 
   {
     "Pocco81/auto-save.nvim",
@@ -526,6 +546,16 @@ local plugins = {
       require("plugins.configs.others").autosave()
     end,
   },
+
+  {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    init = function()
+      require("core.utils").load_mappings "zenmode"
+    end,
+  },
+
+  { "folke/twilight.nvim" },
 
   {
     "folke/noice.nvim",
@@ -543,8 +573,7 @@ local plugins = {
   {
     "nvim-neorg/neorg",
     ft = "norg",
-    -- build = ":Neorg sync-parsers",
-    -- dependencies = { "nvim-treesitter", "nvim-cmp" },
+    build = ":Neorg sync-parsers",
     init = function()
       require("plugins.configs.neorg").autocmd()
       require("core.utils").load_mappings "neorg"
@@ -554,34 +583,38 @@ local plugins = {
     end,
   },
 
-  { "elkowar/yuck.vim", ft = "yuck" },
+  { "elkowar/yuck.vim", ft = "yuck", enabled = false },
 
-  { "theRealCarneiro/hyprland-vim-syntax", ft = "hypr" },
+  { "theRealCarneiro/hyprland-vim-syntax", ft = "hypr", enabled = false },
+
+  { "lervag/vimtex", ft = "tex", lazy = false, enabled = true },
 
   {
-    "lervag/vimtex",
-    -- ft = "tex",
-    lazy = false,
-    setup = function()
-      require("core.utils").load_mappings "latex"
+    "f3fora/nvim-texlabconfig",
+    enabled = false,
+    config = function()
+      require("texlabconfig").setup()
     end,
+    ft = { "tex", "bib" }, -- Lazy-load on filetype
+    build = "go build -o ~/.local/bin/",
   },
 
   { "barreiroleo/ltex-extra.nvim" },
 
   -- airlatex
+  -- {
+  --   "pabloavi/AirLatex.vim",
+  --   lazy = false,
+  -- },
   {
-    "pabloavi/AirLatex.vim",
+    "dmadisetti/AirLatex.vim",
     lazy = false,
-    -- enabled = false,
-    -- build = ":UpdateRemotePlugins",
-    -- commit = "6854677",
-    -- cmd = "AirLatex",
   },
 
   {
     "iamcco/markdown-preview.nvim",
     cmd = "MarkdownPreviewToggle",
+    ft = "markdown",
     build = "cd app && npm install",
     init = function()
       vim.g.mkdp_filetypes = { "markdown" }
@@ -635,10 +668,9 @@ local plugins = {
     end,
   },
 
-  -- TODO: lazy load
   {
     "CRAG666/code_runner.nvim",
-    ft = { "python", "lua", "sh", "c", "fortran", "rust" },
+    cmd = { "RunCode", "RunFile", "RunProject", "RunClose", "CRFiletype", "CRProjects" },
     dependencies = "nvim-lua/plenary.nvim",
     init = function()
       require("core.utils").load_mappings "code_runner"
@@ -703,6 +735,12 @@ local plugins = {
     end,
   },
 
+  {
+    "AckslD/muren.nvim",
+    cmd = { "MurenToggle", "MurenOpen", "MurenClose", "MurenFresh", "MurenUnique" },
+    config = true,
+  },
+
   -- fix nested neovims
   -- TODO: lazy lua
   { "samjwill/nvim-unception", event = "VeryLazy" },
@@ -717,12 +755,16 @@ local plugins = {
     "kevinhwang91/nvim-ufo",
     enabled = false,
     dependencies = "kevinhwang91/promise-async",
+    opts = function()
+      return require("plugins.configs.others").ufo.options()
+    end,
     init = function()
       require("core.utils").lazy_load "nvim-ufo"
       require("core.utils").load_mappings "ufo"
+      require("plugins.configs.others").ufo.init()
     end,
-    config = function()
-      require("plugins.configs.others").ufo()
+    config = function(_, opts)
+      require("ufo").setup(opts)
     end,
   },
 

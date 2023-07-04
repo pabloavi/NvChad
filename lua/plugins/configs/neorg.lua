@@ -19,7 +19,7 @@ M.setup = function()
         },
       },
 
-      ["core.norg.dirman"] = {
+      ["core.dirman"] = {
         config = {
           workspaces = {
             fluidos = "~/Documentos/OneDrive/UEx/SEMESTRE 5/FÍSICA DE FLUIDOS",
@@ -28,7 +28,7 @@ M.setup = function()
         },
       },
 
-      ["core.norg.concealer"] = {
+      ["core.concealer"] = {
         config = {
           icons = {
             todo = icons.todo,
@@ -53,7 +53,7 @@ M.setup = function()
       --   }
       -- },
 
-      ["core.norg.completion"] = {
+      ["core.completion"] = {
         config = {
           engine = "nvim-cmp",
           name = "[Neorg]",

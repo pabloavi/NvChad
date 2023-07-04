@@ -96,7 +96,8 @@ M.general = {
 
     ["<leader>fm"] = { "<cmd> lua vim.lsp.buf.format()<CR>", "format buffer" },
 
-    ["<leader>pv"] = { vim.cmd.Ex, "file explorer netrw" },
+    -- ["<leader>pv"] = { vim.cmd.Ex, "file explorer netrw" },
+    ["<leader>e"] = { "<cmd> Oil <CR>", "file explorer Oil" },
 
     ["<leader>mr"] = { "<cmd>CellularAutomaton make_it_rain<CR>", "make code rain" },
     ["<leader>gl"] = { "<cmd>CellularAutomaton game_of_life<CR>", "game of life" },
@@ -336,17 +337,17 @@ M.lspconfig = {
   },
 }
 
-M.nvimtree = {
-  plugin = true,
-
-  n = {
-    -- toggle
-    ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
-
-    -- focus
-    ["<leader>e"] = { "<cmd> NvimTreeFocus <CR>", "focus nvimtree" },
-  },
-}
+-- M.nvimtree = {
+--   plugin = true,
+--
+--   n = {
+--     -- toggle
+--     ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
+--
+--     -- focus
+--     ["<leader>e"] = { "<cmd> NvimTreeFocus <CR>", "focus nvimtree" },
+--   },
+-- }
 
 M.telescope = {
   plugin = true,
@@ -555,6 +556,15 @@ M.gitsigns = {
   },
 }
 
+M.lazygit = {
+  n = {
+    ["<leader>gg"] = { "<cmd> LazyGit <CR>", "lazygit" },
+    ["<leader>gb"] = { "<cmd> LazyGitCurrentFile <CR>", "lazygit in project root of current buffer" },
+    ["<leader>gc"] = { "<cmd> LazyGitFilter <CR>", "lazygit commits" },
+    ["<leader>gd"] = { "<cmd> LazyGitFilterCurrentFile <CR>", "lazygit commits for current buffer" },
+  },
+}
+
 M.luasnip = {
   plugin = true,
   i = {
@@ -600,12 +610,10 @@ M.luasnip = {
   },
 }
 
-M.truezen = {
+M.zenmode = {
   plugin = true,
   n = {
-    ["<leader>ta"] = { "<cmd> TZAtaraxis <CR>", "truzen ataraxis" },
-    ["<leader>tm"] = { "<cmd> TZMinimalist <CR>", "truzen minimal" },
-    ["<leader>tf"] = { "<cmd> TZFocus <CR>", "truzen focus" },
+    ["<leader>z"] = { "<cmd> ZenMode <CR>", "toggle zen mode" },
   },
 }
 
@@ -745,8 +753,14 @@ M.neorg = {
   },
 }
 
+local grep_string = function(title, string)
+  require("telescope.builtin").grep_string {
+    search = string,
+    prompt_title = title,
+  }
+end
 M.latex = {
-  plugin = true,
+  plugin = true, -- lazy load mappings
   n = {
     ["<leader>tex"] = {
       "<cmd> lua embed_latex() <CR>",
@@ -756,6 +770,31 @@ M.latex = {
     ["<leader>lb"] = {
       "<cmd> Telescope bibtex format='tex' <CR>",
       "telescope bibtex entries",
+      opts = { noremap = true, silent = true },
+    },
+    ["<leader>le"] = {
+      function()
+        grep_string("Search Equation", "\\label{eq:")
+      end,
+      "search equations by label",
+    },
+    ["<leader>lf"] = {
+      function()
+        grep_string("Search Figure", "\\label{fig:")
+      end,
+      "search figures by label",
+    },
+    ["<leader>lt"] = {
+      function()
+        grep_string("Search Figure", "\\label{tab:")
+      end,
+      "search tables by label",
+    },
+  },
+  i = {
+    ["<C-l>"] = {
+      "<C-g>u<Esc>[s1z=`]a<C-g>u",
+      "fix last miss-spelling",
       opts = { noremap = true, silent = true },
     },
   },
@@ -795,6 +834,14 @@ M.lsp_lines = {
 
       "toggle lsp lines diagnostics",
     },
+  },
+}
+
+M.muren = {
+  n = {
+    ["<leader>mt"] = { "<cmd> MurenToggle <CR>", "toggle muren panel" },
+    ["<leader>mf"] = { "<cmd> MurenFresh <CR>", "open muren fresh (clear previous)" },
+    ["<leader>mu"] = { "<cmd> MurenUnique <CR>", "open muren with latest search in buffer" },
   },
 }
 
