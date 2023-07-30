@@ -12,7 +12,7 @@ local utils = require "core.utils"
 local lsp_utils = require "plugins.configs.utils.lsp"
 
 local servers = { -- lua_ls, texlab, ltex and clangd are configured appart
-  "pyright",
+  "pylyzer",
   -- "texlab",
   -- "ltex",
   "yamlls",

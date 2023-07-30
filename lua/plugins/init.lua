@@ -743,7 +743,7 @@ local plugins = {
 
   -- fix nested neovims
   -- TODO: lazy lua
-  { "samjwill/nvim-unception", event = "VeryLazy" },
+  { "samjwill/nvim-unception", enabled = false, event = "VeryLazy" },
 
   { "eandrju/cellular-automaton.nvim", cmd = "CellularAutomaton" },
 

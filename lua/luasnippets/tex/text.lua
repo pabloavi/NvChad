@@ -46,12 +46,6 @@ snips = {
   ),
 
   s(
-    { trig = "noin", name = "noindent", dscr = "\noindent in line begin" },
-    { t "\\noindent" },
-    { condition = tex.in_text * expand.line_begin }
-  ),
-
-  s(
     {
       trig = " cref",
       name = "cref",
@@ -115,6 +109,12 @@ snips = {
   ),
 }
 
-autosnips = {}
+autosnips = {
+  s(
+    { trig = "noin", name = "noindent", dscr = "\noindent in line begin" },
+    { t "\\noindent" },
+    { condition = tex.in_text * expand.line_begin }
+  ),
+}
 
 return snips, autosnips

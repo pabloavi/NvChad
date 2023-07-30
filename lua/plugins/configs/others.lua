@@ -97,6 +97,7 @@ M.illuminate = function()
       "plaintex",
       "oil",
       "oil-preview",
+      "lazy",
     },
   }
 end

@@ -71,6 +71,18 @@ g.vimtex_syntax_conceal_disable = 1
 g.use_treesitter = true -- custom made (for snippets, to use vimtex o treesitter syntax)
 g.tex_flavor = "latex"
 
+-- to use tikzexternalize
+g.vimtex_compiler_latexmk = {
+  options = {
+    "-pdf",
+    "-shell-escape",
+    "-verbose",
+    "-file-line-error",
+    "-synctex=1",
+    "-interaction=nonstopmode",
+  },
+}
+
 -- g.AirLatexUsername = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from env var for security reasons
 -- g.AirLatexAllowInsecure = 1
 -- g.AirLatexLogLevel = "DEBUG"
@@ -171,6 +183,14 @@ autocmd("BufReadPost", {
     if vim.fn.line "'\"" > 1 and vim.fn.line "'\"" <= vim.fn.line "$" then
       vim.cmd [[normal! g`" | call timer\_start(1, {tid -> execute("normal! zz")}) ]]
     end
+  end,
+})
+
+-- disable auto comment in newlines
+autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.bo.formatoptions = vim.bo.formatoptions:gsub("[cro]", "")
   end,
 })
 

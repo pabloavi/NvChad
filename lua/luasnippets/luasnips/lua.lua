@@ -127,6 +127,18 @@ autosnips = {
     )
   ),
   s(
+    { trig = "c(%d) ", regTrig = true, name = "auto choice node", dscr = "automatic choice node in snippets" },
+    fmt(
+      [[
+      c(<>, { <> }), 
+      ]],
+      { f(function(_, snip)
+        return snip.captures[1]
+      end), i(1) },
+      { delimiters = "<>" }
+    )
+  ),
+  s(
     { trig = "rep(%d)", regTrig = true, name = "auto rep index with ,", dscr = "automatic rep indexes in snippets" },
     fmt([[rep(<>), <>]], { f(function(_, snip)
       return snip.captures[1]

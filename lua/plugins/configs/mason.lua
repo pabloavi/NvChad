@@ -4,7 +4,7 @@ local options = {
     "lua-language-server",
     "stylua",
     -- -- python
-    "pyright",
+    "pylyzer",
     "black",
     "debugpy",
     -- latex
@@ -52,19 +52,19 @@ local options = {
 }
 
 if vim.g.c_enabled then
-  for _, element in ipairs({ "clangd", "clang-format" }) do
+  for _, element in ipairs { "clangd", "clang-format" } do
     table.insert(options.ensure_installed, element)
   end
 end
 
 if vim.g.java_enabled then
-  for _, element in ipairs({ "clangd", "jdtls" }) do
+  for _, element in ipairs { "clangd", "jdtls" } do
     table.insert(options.ensure_installed, element)
   end
 end
 
 if vim.g.webdev_enabled then
-  for _, element in ipairs({ "html-lsp", "css-lsp", "prettierd", "eslint-lsp", "eslint_d" }) do
+  for _, element in ipairs { "html-lsp", "css-lsp", "prettierd", "eslint-lsp", "eslint_d" } do
     table.insert(options.ensure_installed, element)
   end
 end

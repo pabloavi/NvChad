@@ -164,6 +164,10 @@ function M.in_circuitikz()
   return M.in_env "circuitikz"
 end
 
+function M.in_axis()
+  return M.in_env "axis"
+end
+
 function M.in_circuitikz_node()
   return M.in_circuitikz() and M.in_brackets() and not M.in_mathzone()
 end

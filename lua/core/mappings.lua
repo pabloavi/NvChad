@@ -753,6 +753,16 @@ M.neorg = {
   },
 }
 
+local open_latex_file = function()
+  local line = vim.fn.getline "."
+  local file = line:match "\\input{(.-)}"
+  if file then
+    if not file:match "%.%w+$" then
+      file = file .. ".tex"
+    end
+    vim.cmd("e " .. file)
+  end
+end
 local grep_string = function(title, string)
   require("telescope.builtin").grep_string {
     search = string,
@@ -790,6 +800,7 @@ M.latex = {
       end,
       "search tables by label",
     },
+    ["<leader>lo"] = { open_latex_file, "open latex file" },
   },
   i = {
     ["<C-l>"] = {
