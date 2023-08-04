@@ -113,14 +113,23 @@ M.lazy_load = function(plugin)
   })
 end
 
-M.is_snippets_snips_dir = function()
+M.is_snippets_snips_file = function()
   local snippets_snips_dir = {
     "/home/pablo/.config/nvim/lua/luasnippets",
     "/home/pablo/.config/nvim/lua/luasnippets/luasnips",
+    "/home/pablo/Documentos/Universidad/Apuntes/",
   }
-  local current_dir = vim.fn.expand "%:p:h"
+  local snippets_snips_file = {
+    -- "/home/pablo/Documentos/Universidad/Apuntes/curso_actual/tex.lua",
+  }
+  local current_file = vim.fn.expand "%:p"
   for _, dir in ipairs(snippets_snips_dir) do
-    if current_dir:find(dir) then
+    if current_file:find(dir) then
+      return true
+    end
+  end
+  for _, file in ipairs(snippets_snips_file) do
+    if current_file:find(file) then
       return true
     end
   end

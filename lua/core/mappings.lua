@@ -108,6 +108,8 @@ M.general = {
 
     ["<leader>sr"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "search and replace current word" },
     ["<leader>mx"] = { "<cmd>!chmod +x %<CR>", "make current file executable", opts = { silent = true } },
+
+    ["<leader>co"] = { "<cmd> copen <CR>", "open quickfix window" },
   },
 
   t = { ["<C-x>"] = { termcodes "<C-\\><C-N>", "escape terminal mode" } },

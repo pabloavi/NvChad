@@ -25,10 +25,6 @@ local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
 
-if enabled then
-  return snips, autosnips
-end
-
 snips = {
   -- \begin{figure}[htpb]
   -- 	\centering
@@ -74,7 +70,7 @@ snips = {
       },
       { delimiters = "<>" }
     ),
-    { condition = expand.line_begin * tex.in_text, show_condition = expand.line_begin }
+    { condition = expand.line_begin * tex.in_text, show_condition = tex.in_text }
   ),
 }
 
@@ -87,7 +83,7 @@ autosnips = {
     i(2),
     t "};",
     i(3),
-  }, { condition = tex.in_axis() * expand.line_begin, show_condition = tex.in_axis() }),
+  }, { condition = tex.in_axis * expand.line_begin, show_condition = tex.in_axis }),
 
   s({ trig = "plot", name = "simple function pgfplots", dscr = "simple function pgfplots" }, {
     t "\\addplot[only marks, mark=",
@@ -99,7 +95,7 @@ autosnips = {
     i(3),
     t "};",
     i(4),
-  }, { condition = tex.in_axis() * expand.line_begin, show_condition = tex.in_axis() }),
+  }, { condition = tex.in_axis * expand.line_begin, show_condition = tex.in_axis }),
 
   s(
     { trig = "leg", name = "legend pgfplots", dscr = "legend pgfplots" },
@@ -107,11 +103,15 @@ autosnips = {
       [[
       \legend{<>}
       ]],
-      {},
+      { i(0) },
       { delimiters = "<>" }
     ),
-    { condition = tex.in_axis() * expand.line_begin, show_condition = tex.in_axis() }
+    { condition = tex.in_axis * expand.line_begin, show_condition = tex.in_axis }
   ),
 }
+
+if enabled then
+  return snips, autosnips
+end
 
 return nil, nil

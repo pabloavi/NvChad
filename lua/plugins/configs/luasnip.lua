@@ -18,7 +18,7 @@ local options = {
       bash = "sh",
       bibtex = "bib",
     }
-    if utils.is_snippets_snips_dir() then
+    if utils.is_snippets_snips_file() then
       return { "lua", "luasnips" }
     end
     for i, v in ipairs(ft) do -- replace latex with tex, etc.
@@ -26,6 +26,11 @@ local options = {
         ft[i] = replace[v]
       end
     end
+    -- EXTRA
+    if vim.fn.expand("%:p:h"):find(os.getenv "HOME" .. "/.config/awesome/bindings") then
+      return { "lua", "awesome" }
+    end
+    --
     return ft
   end,
   load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft {

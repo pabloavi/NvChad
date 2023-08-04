@@ -92,7 +92,7 @@ g.AirLatexCookieDB = "~/.mozilla/firefox/edf6ashr.default-release-1659959683595/
 
 -- neovide options
 if g.neovide then
-  opt.guifont = { "JetBrainsMono Nerd Font:h18" }
+  opt.guifont = { "JetBrainsMono Nerd Font:h10" }
   -- g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_cursor_vfx_mode = "pixiedust"
   g.neovide_transparency = 1
@@ -154,17 +154,6 @@ autocmd({ "BufReadPost" }, {
   pattern = "*.rasi",
   callback = function()
     vim.bo.filetype = "rasi"
-  end,
-})
-
--- append awesome filetype to all awesome files
-autocmd({ "BufReadPost" }, {
-  pattern = "*.lua",
-  callback = function()
-    -- if path CONTAINS .config/awesome
-    if vim.fn.expand("%:p:h"):find(home .. "/.config/awesome/bindings") then
-      vim.bo.filetype = "lua.awesome"
-    end
   end,
 })
 
@@ -250,26 +239,3 @@ new_cmd("C", function()
   vim.cmd "silent cd %:h"
 end, {})
 -- vim.cmd "C"
-
-------------------------------------- test -----------------------------------------------
-function ReloadTheme()
-  local fp = vim.fn.fnamemodify(vim.fs.normalize(vim.api.nvim_buf_get_name(opts.buf)), ":r") --[[@as string]]
-  local app_name = vim.env.NVIM_APPNAME and vim.env.NVIM_APPNAME or "nvim"
-  local module = string.gsub(fp, "^.*/" .. app_name .. "/lua/", ""):gsub("/", ".")
-
-  require("plenary.reload").reload_module "base46"
-  require("plenary.reload").reload_module(module)
-  require("plenary.reload").reload_module "core.config"
-
-  config = require("core.utils").load_config()
-
-  vim.g.nvchad_theme = config.ui.theme
-  vim.g.transparency = config.ui.transparency
-
-  -- statusline
-  require("plenary.reload").reload_module("nvchad_ui.statusline." .. config.ui.statusline.theme)
-  vim.opt.statusline = "%!v:lua.require('nvchad_ui.statusline." .. config.ui.statusline.theme .. "').run()"
-
-  require("base46").load_all_highlights()
-  -- vim.cmd("redraw!")
-end

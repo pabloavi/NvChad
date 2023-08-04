@@ -1,7 +1,7 @@
 vim.g.tex_flavor = "latex"
 
 vim.opt_local.spelllang = "es"
-vim.opt_local.conceallevel = 2
+vim.opt_local.conceallevel = 0
 vim.opt_local.spell = true
 
 require("core.utils").load_mappings "latex"

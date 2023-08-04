@@ -137,46 +137,46 @@ if vim.g.ltex_enabled then
 end
 
 -- texlab config
-lspconfig["texlab"].setup {
-  on_attach = function(client, bufnr)
-    M.on_attach(client, bufnr)
-    require("nvim-navbuddy").attach(client, bufnr)
-  end,
-  capabilities = M.capabilities,
-  settings = {
-    texlab = {
-      auxDirectory = ".",
-      bibtexFormatter = "texlab",
-      build = {
-        -- args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", get_main_file() },
-        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-        executable = "latexmk",
-        forwardSearchAfter = false,
-        onSave = false, -- now using vimtex
-      },
-      chktex = {
-        onEdit = false,
-        onOpenAndSave = true,
-      },
-      diagnosticsDelay = 300,
-      formatterLineLength = 80,
-      forwardSearch = {
-        executable = "zathura",
-        args = {
-          "--synctex-editor-command",
-          [[nvim-texlabconfig -file '%%%{input}' -line %%%{line} -server ]] .. vim.v.servername,
-          "--synctex-forward",
-          "%l:1:%f",
-          "%p",
-        },
-        onSave = false, -- now using vimtex
-      },
-      latexFormatter = "latexindent",
-      latexindent = {
-        modifyLineBreaks = true,
-      },
-    },
-  },
-}
+-- lspconfig["texlab"].setup {
+--   on_attach = function(client, bufnr)
+--     M.on_attach(client, bufnr)
+--     require("nvim-navbuddy").attach(client, bufnr)
+--   end,
+--   capabilities = M.capabilities,
+--   settings = {
+--     texlab = {
+--       auxDirectory = ".",
+--       bibtexFormatter = "texlab",
+--       build = {
+--         -- args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", get_main_file() },
+--         args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+--         executable = "latexmk",
+--         forwardSearchAfter = false,
+--         onSave = false, -- now using vimtex
+--       },
+--       chktex = {
+--         onEdit = false,
+--         onOpenAndSave = true,
+--       },
+--       diagnosticsDelay = 300,
+--       formatterLineLength = 80,
+--       forwardSearch = {
+--         executable = "zathura",
+--         args = {
+--           "--synctex-editor-command",
+--           [[nvim-texlabconfig -file '%%%{input}' -line %%%{line} -server ]] .. vim.v.servername,
+--           "--synctex-forward",
+--           "%l:1:%f",
+--           "%p",
+--         },
+--         onSave = false, -- now using vimtex
+--       },
+--       latexFormatter = "latexindent",
+--       latexindent = {
+--         modifyLineBreaks = true,
+--       },
+--     },
+--   },
+-- }
 
 return M

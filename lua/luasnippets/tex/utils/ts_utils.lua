@@ -125,6 +125,43 @@ function M.in_env(env)
   return false
 end
 
+-- ts example:
+-- generic_environment [70, 6] - [76, 16]
+--   begin: begin [70, 6] - [74, 9]
+--     name: curly_group_text [70, 12] - [70, 18]
+--       text: text [70, 13] - [70, 17]
+--         word: word [70, 13] - [70, 17]
+--     options: brack_group [70, 18] - [74, 9]
+--       text [71, 10] - [71, 16]
+--         word: word [71, 10] - [71, 16]
+function M.in_options(env)
+  local in_env = M.in_env(env)
+  if not in_env then
+    return false
+  end
+  local buf = vim.api.nvim_get_current_buf()
+  local node = get_node_at_cursor()
+  while node do
+    if node:type() == "generic_environment" then
+      local begin = node:child(0)
+      local options = begin and begin:field "options"
+      if options then
+        local text = options[1]
+        if text then
+          local word = text:child(0)
+          if word then
+            local word_text = vim.treesitter.get_node_text(word, buf)
+            if word_text == "[" then
+              return true
+            end
+          end
+        end
+      end
+    end
+    node = node:parent()
+  end
+end
+
 function M.in_command(command)
   local buf = vim.api.nvim_get_current_buf()
   local node = get_node_at_cursor()
