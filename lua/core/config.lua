@@ -9,7 +9,7 @@ M.options = {
 }
 
 M.ui = {
-  theme = "onedark",
+  theme = 'onedark',
   hl_add = require("core.highlights").new_hlgroups,
   hl_override = require("core.highlights").overriden_hlgroups,
   changed_themes = {},
@@ -29,7 +29,7 @@ M.ui = {
   },
 
   statusline = {
-    theme = "vscode_colored", -- default/vscode/vscode_colored/minimal
+    theme = 'vscode_colored',
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
     separator_style = "block",
@@ -63,7 +63,7 @@ M.ui = {
   },
 
   cheatsheet = {
-    theme = "simple", -- simple/grid
+    theme = 'grid',
   },
 
   lsp = {

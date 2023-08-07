@@ -9,6 +9,8 @@ local MATH_NODES = {
   math_environment = true,
 }
 
+table.unpack = table.unpack or unpack
+
 local function get_node_at_cursor()
   local buf = vim.api.nvim_get_current_buf()
   local row, col = table.unpack(vim.api.nvim_win_get_cursor(0))

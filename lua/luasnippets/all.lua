@@ -30,6 +30,8 @@ local function even_count(c)
   return ct % 2 == 0
 end
 
+table.unpack = table.unpack or unpack
+
 local function part(func, ...)
   local args = { ... }
   return function()

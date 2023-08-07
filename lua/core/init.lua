@@ -92,7 +92,7 @@ g.AirLatexCookieDB = "~/.mozilla/firefox/edf6ashr.default-release-1659959683595/
 
 -- neovide options
 if g.neovide then
-  opt.guifont = { "JetBrainsMono Nerd Font:h10" }
+  opt.guifont = { "JetBrainsMono Nerd Font:h12" }
   -- g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_cursor_vfx_mode = "pixiedust"
   g.neovide_transparency = 1
