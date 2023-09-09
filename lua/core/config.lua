@@ -13,7 +13,7 @@ M.ui = {
   hl_add = require("core.highlights").new_hlgroups,
   hl_override = require("core.highlights").overriden_hlgroups,
   changed_themes = {},
-  theme_toggle = { "onedark", "one_light" },
+  theme_toggle = { "onedark", "onedark" },
   transparency = false,
 
   cmp = {

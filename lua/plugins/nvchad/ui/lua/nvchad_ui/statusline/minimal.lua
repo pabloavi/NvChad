@@ -79,9 +79,14 @@ M.fileInfo = function()
 end
 
 M.wpm = function()
-  local wpm = require("wpm").wpm
+  local present, wpm = pcall(require, "wpm")
+  if not present then
+    return
+  end
 
-  return "%#St_wpm#" .. "WPM " .. wpm() .. " "
+  wpm = wpm.wpm
+
+  return "WPM " .. wpm()
 end
 
 M.git = function()

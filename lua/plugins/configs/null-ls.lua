@@ -21,8 +21,7 @@ local sources = {
   b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
   b.diagnostics.jsonlint,
 
-  -- latexindent -m -r -l=/home/pablo/latexindent.yaml  resultados.tex
-  b.formatting.latexindent.with { args = { "-m", "-r", "-l=" .. latexindent_file, "-" } }, -- installed through texlive, now using texlab
+  b.formatting.latexindent.with { args = { "-c=/tmp/", "-m", "-r", "-l=" .. latexindent_file, "-" } }, -- installed through texlive, now using texlab
   -- b.diagnostics.chktex, -- installed through texlive, now using texlab
 }
 

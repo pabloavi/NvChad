@@ -683,7 +683,7 @@ local plugins = {
   {
     "michaelb/sniprun",
     cmd = "SnipRun",
-    build = "cargo build --release",
+    build = "sh ./install.sh",
     opts = function()
       return require("plugins.configs.others").sniprun
     end,
@@ -780,6 +780,8 @@ local plugins = {
   },
 
   { "AndrewRadev/bufferize.vim", enabled = false },
+
+  { "waycrate/swhkd-vim", lazy = false },
 }
 
 local config = require("core.utils").load_config()
