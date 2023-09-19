@@ -218,6 +218,18 @@ snips = {
   ),
 
   s(
+    { trig = "sume", name = "suma en un índice", dscr = "suma en un índice" },
+    fmt(
+      [[
+      \sum_{<>} <>
+      ]],
+      { i(1, "i"), i(0) },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
+  s(
     { trig = "sum", name = "sum", dscr = "sum" },
     fmt(
       [[
@@ -259,7 +271,7 @@ snips = {
   -- start integrals
   s(
     { trig = "int", name = "integral", dscr = "integral", priority = 90 },
-    { t "\\int ", i(1), t " \\diff", i(2), i(0) },
+    { t "\\int ", i(1), t " \\diff", i(2), t " \\,", i(0) },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
@@ -308,7 +320,6 @@ snips = {
 }
 
 autosnips = {
-
   s(
     { trig = "hb", name = "h bar", dscr = "h bar quantum constant" },
     { t "\\hbar " },

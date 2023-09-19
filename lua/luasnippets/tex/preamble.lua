@@ -120,7 +120,20 @@ snips = {
       [[
       \usepackage{newtxtext,newtxmath} % griffiths style
       ]],
-      { inputs },
+      {},
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text, show_condition = tex.in_text }
+  ),
+
+  s(
+    { trig = "setuppara", name = "setup paragraph indent", dscr = "setup paragraph indent" },
+    fmt(
+      [[
+    \usepackage{parskip}
+    \setlength\parindent{24pt}
+    ]],
+      {},
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }
