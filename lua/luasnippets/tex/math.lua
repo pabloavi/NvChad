@@ -561,6 +561,14 @@ autosnips = {
     { t "\\diff " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  -- diff "number" --> \\diff ^{number} using function node
+  s(
+    { trig = "\\diff ([%d])", name = "dx", dscr = "Differential dx", regTrig = true },
+    { t "\\diff^{", f(function(_, snip)
+      return snip.captures[1]
+    end), t "} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
   -- db: "broken" differential (inexact, with a line)
   s(
     { trig = "db", name = "đx", dscr = "Inexact, broken differential đx" },
