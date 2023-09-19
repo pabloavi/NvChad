@@ -23,6 +23,15 @@ local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
 
+local useful_envs = {
+  ["demo"] = "demo",
+  ["nota"] = "nota",
+  ["defi"] = "definicion",
+  ["teor"] = "teorema",
+  ["ejem"] = "ejemplo",
+  ["ejer"] = "ejercicio",
+}
+
 snips = {
   s(
     { trig = "eq", name = "equation", dscr = "create equation env" },
@@ -365,13 +374,28 @@ autosnips = {
     { trig = "enum", name = "enumerate", dscr = "Enumerate environment." },
     fmt(
       [[ 
-      \begin{enumerate}
+      \begin{enumerate}<>
         \item <> 
       \end{enumerate}
 
       <> 
       ]],
-      { i(1), i(0) },
+      {
+        sn(1, {
+          m(1, "^$", "", "[label=\\"),
+          c(1, {
+            t "",
+            t "arabic*",
+            t "alph*",
+            t "Alph*",
+            t "roman*",
+            t "Roman*",
+          }),
+          n(1, "]"),
+        }, { delimiters = "<>" }),
+        i(2),
+        i(0),
+      },
       { delimiters = "<>" }
     ),
     { expand.line_begin, show_condition = tex.in_text }
@@ -419,5 +443,62 @@ autosnips = {
     }
   ),
 }
+
+for envname, envname_sp in pairs(useful_envs) do
+  table.insert(
+    snips,
+    s(
+      { trig = envname, name = envname_sp, dscr = "create " .. envname_sp .. " env" },
+      fmt(
+        [[
+        \begin{<>}<>
+          <>
+        \end{<>}
+        <>
+        ]],
+        {
+          t(envname_sp),
+          sn(1, {
+            m(1, "^$", "", "["),
+            i(1),
+            n(1, "]"),
+          }, { delimiters = "<>" }),
+          i(2),
+          t(envname_sp),
+          i(0),
+        },
+        { delimiters = "<>" }
+      ),
+      { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+    )
+  )
+  table.insert(
+    snips,
+    s(
+      { trig = envname .. "p", name = envname_sp .. "*", dscr = "create " .. envname_sp .. "* env" },
+      fmt(
+        [[
+        \begin{<>*}<>
+          <>
+        \end{<>*}
+        <>
+        ]],
+        {
+          t(envname_sp),
+          sn(1, {
+            m(1, "^$", "", "["),
+            i(1),
+            n(1, "]"),
+          }, { delimiters = "<>" }),
+          i(2),
+          t(envname_sp),
+          i(0),
+        },
+        { delimiters = "<>" }
+      ),
+      { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+    )
+  )
+end
 
 return snips, autosnips
