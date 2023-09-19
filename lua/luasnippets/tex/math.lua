@@ -271,7 +271,7 @@ snips = {
   -- start integrals
   s(
     { trig = "int", name = "integral", dscr = "integral", priority = 90 },
-    { t "\\int ", i(1), t " \\diff", i(2), t " \\,", i(0) },
+    { t "\\int ", i(1), t " \\diff ", i(2), t "\\, ", i(0) },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 

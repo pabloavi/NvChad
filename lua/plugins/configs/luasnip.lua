@@ -18,7 +18,7 @@ local options = {
       bash = "sh",
       bibtex = "bib",
     }
-    if utils.is_snippets_snips_file() then
+    if utils.is_snippets_snips_file() and ft[1] == "lua" then
       return { "lua", "luasnips" }
     end
     for i, v in ipairs(ft) do -- replace latex with tex, etc.
@@ -49,7 +49,7 @@ require("luasnip.loaders.from_vscode").lazy_load {
 require("luasnip.loaders.from_lua").lazy_load {
   paths = {
     "~/.config/nvim/lua/luasnippets",
-    "~/Documentos/Universidad/Apuntes/curso_actual", -- À la Gilles
+    -- "~/Documentos/Universidad/Apuntes/curso_actual", -- À la Gilles
   },
 }
 
