@@ -11,7 +11,7 @@ local Rule = require "nvim-autopairs.rule"
 local cond = require "nvim-autopairs.conds"
 
 local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
-local quotes = { '"', "'", "`" }
+local quotes = { '"', "`" }
 local latexpairs = {
   { "\\( ", " \\)" },
   -- { "\\[", "\\]" },
