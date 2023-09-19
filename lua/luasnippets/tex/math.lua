@@ -218,6 +218,18 @@ snips = {
   ),
 
   s(
+    { trig = "sume", name = "suma en un índice", dscr = "suma en un índice" },
+    fmt(
+      [[
+      \sum_{<>} <>
+      ]],
+      { i(1, "i"), i(0) },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
+  s(
     { trig = "sum", name = "sum", dscr = "sum" },
     fmt(
       [[
@@ -308,7 +320,6 @@ snips = {
 }
 
 autosnips = {
-
   s(
     { trig = "hb", name = "h bar", dscr = "h bar quantum constant" },
     { t "\\hbar " },
