@@ -12,7 +12,7 @@ g.lsp_lines_enabled = false -- custom
 g.c_enabled = true -- custom
 g.java_enabled = false -- custom
 g.webdev_enabled = false -- custom
-g.ltex_enabled = true -- custom
+g.ltex_enabled = false -- custom
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
@@ -87,7 +87,6 @@ g.AirLatexCookie = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from en
 -- g.AirLatexAllowInsecure = 1
 -- g.AirLatexLogLevel = "DEBUG"
 -- g.AirLatexCookieBrowser = "firefox"
---
 -- g.AirLatexCookieDB = "~/.mozilla/firefox/n61cjhcz.default-release/cookies.sqlite"
 
 -- neovide options
