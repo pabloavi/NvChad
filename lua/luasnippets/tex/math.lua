@@ -823,6 +823,7 @@ autosnips = {
   postfix("cal", { l("\\mathcal{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("bmm", { l("\\bm{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix("vec", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
 }
 
 -- add greek letters to autosnips table: one snippet for each letter and one for each letter with first capital
