@@ -87,8 +87,7 @@ g.AirLatexCookie = io.popen("echo $AIRLATEX_USERNAME"):read "*l" -- read from en
 -- g.AirLatexAllowInsecure = 1
 -- g.AirLatexLogLevel = "DEBUG"
 -- g.AirLatexCookieBrowser = "firefox"
-
--- g.AirLatexCookieDB = "~/.mozilla/firefox/edf6ashr.default-release-1659959683595/cookies.sqlite"
+-- g.AirLatexCookieDB = "~/.mozilla/firefox/n61cjhcz.default-release/cookies.sqlite"
 
 -- neovide options
 if g.neovide then

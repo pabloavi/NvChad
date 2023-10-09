@@ -572,6 +572,14 @@ autosnips = {
     { t "\\diff " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  -- diff "number" --> \\diff ^{number} using function node
+  s(
+    { trig = "\\diff ([%d])", name = "dx", dscr = "Differential dx", regTrig = true },
+    { t "\\diff^{", f(function(_, snip)
+      return snip.captures[1]
+    end), t "} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
   -- db: "broken" differential (inexact, with a line)
   s(
     { trig = "db", name = "đx", dscr = "Inexact, broken differential đx" },
@@ -826,6 +834,7 @@ autosnips = {
   postfix("vec", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
 }
 
+-- TODO: refactor this loop
 -- add greek letters to autosnips table: one snippet for each letter and one for each letter with first capital
 for _, greek_letter in ipairs(greek_letters) do
   override = {
@@ -872,6 +881,65 @@ for _, greek_letter in ipairs(greek_letters) do
       dscr = dscr,
       wordTrig = false,
     }, { t "\\", t(name), t " " }, { condition = tex.in_mathzone })
+  )
+  -- autosubscript: greek "number" --> \\greek_number
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. greek_letter .. " (%d)",
+      name = "auto subscript",
+      regTrig = true,
+      wordTrig = false,
+    }, {
+      t("\\" .. greek_letter),
+      f(function(_, snip)
+        return string.format("_%s", snip.captures[1])
+      end, {}),
+    }, { condition = tex.in_mathzone })
+  )
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. greek_letter .. "_(%d%d)",
+      name = "auto subscript 2",
+      regTrig = true,
+    }, {
+      t("\\" .. greek_letter),
+      f(function(_, snip)
+        return string.format("_{%s} ", snip.captures[1])
+      end, {}),
+      t "",
+    }, { condition = tex.in_mathzone })
+  )
+
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. trig .. " (%d)",
+      name = "auto subscript",
+      regTrig = true,
+    }, {
+      t("\\" .. trig),
+      f(function(_, snip)
+        return string.format("_%s", snip.captures[1])
+      end, {}),
+      t "",
+    }, { condition = tex.in_mathzone })
+  )
+
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. trig .. "_(%d%d)",
+      name = "auto subscript 2",
+      regTrig = true,
+    }, {
+      t("\\" .. trig),
+      f(function(_, snip)
+        return string.format("_{%s} ", snip.captures[1])
+      end, {}),
+      t "",
+    }, { condition = tex.in_mathzone })
   )
 end
 
