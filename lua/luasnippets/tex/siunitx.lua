@@ -26,59 +26,59 @@ local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
 
 local base_units = {
-  { "ampere", "amperio", "A" },
-  { "candela", "candela", "cd" },
-  { "kelvin", "kelvin", "K" },
-  { "kilogram", "kilogramo", "kg" },
-  { "meter", "metro", "mm" }, -- to avoid conflict with mol
-  { "mole", "mol", "mol" },
-  { "second", "segundo", "ss" }, -- to avoid conflict with sr
+  -- { "ampere", "amperio", "A" },
+  -- { "candela", "candela", "cd" },
+  -- { "kelvin", "kelvin", "K" },
+  -- { "kilogram", "kilogramo", "kg" },
+  -- { "meter", "metro", "mm" }, -- to avoid conflict with mol
+  -- { "mole", "mol", "mol" },
+  -- { "second", "segundo", "ss" }, -- to avoid conflict with sr
 }
 
 local derived_units = {
-  { "becquerel", "bequerelio", "bq" },
+  -- { "becquerel", "bequerelio", "bq" },
   { "degreeCelsius", "celsius", "gC" },
-  { "coulomb", "culombio", "C" },
-  { "decibel", "decibelio", "dB" },
+  -- { "coulomb", "culombio", "C" },
+  -- { "decibel", "decibelio", "dB" },
   { "degree", "grado", "gr" }, -- to avoid conflict with Coulomb
-  { "farad", "faradio", "F" },
-  { "hertz", "hercio", "Hz" },
-  { "henry", "henrios", "He" }, -- to avoid conflict with hertz
-  { "joule", "julio", "J" },
-  { "newton", "newton", "N" },
+  -- { "farad", "faradio", "F" },
+  -- { "hertz", "hercio", "Hz" },
+  -- { "henry", "henrios", "He" }, -- to avoid conflict with hertz
+  -- { "joule", "julio", "J" },
+  -- { "newton", "newton", "N" },
   { "ohm", "ohm", "o" },
-  { "pascal", "pascal", "Pa" },
-  { "radian", "radian", "rad" },
-  { "siemens", "siemen", "S" },
-  { "steradian", "steoradian", "sr" },
-  { "tesla", "tesla", "T" },
-  { "volt", "voltio", "V" },
-  { "watt", "wattio", "W" },
-  { "weber", "weber", "wb" }, -- to avoid conflict with watt
+  -- { "pascal", "pascal", "Pa" },
+  -- { "radian", "radian", "rad" },
+  -- { "siemens", "siemen", "S" },
+  -- { "steradian", "steoradian", "sr" },
+  -- { "tesla", "tesla", "T" },
+  -- { "volt", "voltio", "V" },
+  -- { "watt", "wattio", "W" },
+  -- { "weber", "weber", "wb" }, -- to avoid conflict with watt
 }
 
 local prefixes = {
-  { "atto", "atto" },
-  { "centi", "centi" },
-  { "deci", "deci" },
-  { "deca", "deca" },
-  { "exa", "exa" },
-  { "femto", "femto" },
-  { "giga", "giga" },
-  { "hecto", "hecto" },
-  { "kilo", "kilo" },
-  { "mega", "mega" },
+  -- { "atto", "atto" },
+  -- { "centi", "centi" },
+  -- { "deci", "deci" },
+  -- { "deca", "deca" },
+  -- { "exa", "exa" },
+  -- { "femto", "femto" },
+  -- { "giga", "giga" },
+  -- { "hecto", "hecto" },
+  -- { "kilo", "kilo" },
+  -- { "mega", "mega" },
   { "micro", "micro" },
-  { "milli", "mili" },
-  { "nano", "nano" },
-  { "peta", "peta" },
-  { "pico", "pico" },
-  { "tera", "tera" },
-  { "yocto", "yocto" },
-  { "yotta", "yotta" },
-  { "zepto", "zepto" },
-  { "zetta", "zetta" },
-  { "nkilo", "nk" },
+  -- { "milli", "mili" },
+  -- { "nano", "nano" },
+  -- { "peta", "peta" },
+  -- { "pico", "pico" },
+  -- { "tera", "tera" },
+  -- { "yocto", "yocto" },
+  -- { "yotta", "yotta" },
+  -- { "zepto", "zepto" },
+  -- { "zetta", "zetta" },
+  -- { "nkilo", "nk" },
 }
 
 local conditions = {
@@ -145,8 +145,8 @@ table.insert(autosnips, snippet)
 
 local more_snippets = {
   s(
-    { trig = "SI", name = "SI units", dscr = "Insert SI units in text (inserts inline math mode)" },
-    { t "\\( \\SI{", i(1), t "}{", i(2), t "} \\)", i(0) },
+    { trig = "SI", name = "SI units", dscr = "Insert SI units in text" },
+    { t "\\SI{", i(1), t "}{", i(2), t "}", i(0) },
     { condition = tex.in_text, show_condition = tex.in_text }
   ),
   s(

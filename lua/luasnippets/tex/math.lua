@@ -210,6 +210,12 @@ snips = {
     { t "\\O " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  s(
+    { trig = "11", name = "1", dscr = "requires setup11 (double line one)" },
+    { t "\\mymathbb{1} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+  -- end vectorial spaces
 
   s(
     { trig = "ee", name = "exponential", dscr = "Exponential" },
@@ -442,6 +448,11 @@ autosnips = {
     { t "\\times " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  s(
+    { trig = "fa", name = "forall", dscr = "Forall" },
+    { t "\\forall " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
 
   s(
     { trig = "cd", name = "cdot", dscr = "cdot", priority = 90 },
@@ -461,6 +472,11 @@ autosnips = {
   s(
     { trig = "con", name = "conjugate", dscr = "Conjugate", wordTrig = false },
     { t "^*" },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+  s(
+    { trig = "ad", name = "adjoint", dscr = "Adjoint", wordTrig = false, priority = 90 },
+    { t "^{\\dagger} " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
   s(
@@ -536,6 +552,11 @@ autosnips = {
   s(
     { trig = "por", name = "percent, por ciento", dscr = "percent, por ciento", wordTrig = false },
     { t "\\%" },
+    { condition = tex.in_SI, show_condition = tex.in_SI }
+  ),
+  s(
+    { trig = "per", name = "partido por en siunitx", dscr = "partido por en siunitx", wordTrig = false },
+    { t "\\per " },
     { condition = tex.in_SI, show_condition = tex.in_SI }
   ),
 
@@ -817,11 +838,19 @@ autosnips = {
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
+  s(
+    { trig = "([xyz])u", name = "unitary vector", dscr = "unitary vector", regTrig = true },
+    { t "\\vec{\\hat{", f(function(_, snip)
+      return snip.captures[1]
+    end, {}), t "}} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
   -- vector snippets
-  s({ trig = "([%a][%a])(%.,)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
-  s({ trig = "([%a][%a])(,%.)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
-  s({ trig = "([%a])(%.,)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
-  s({ trig = "([%a])(,%.)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
+  -- s({ trig = "([%a][%a])(%.,)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
+  -- s({ trig = "([%a][%a])(,%.)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
+  -- s({ trig = "([%a])(%.,)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
+  -- s({ trig = "([%a])(,%.)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
 
   -- postfix
   postfix("bar", { l("\\bar{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
@@ -831,6 +860,9 @@ autosnips = {
   postfix("cal", { l("\\mathcal{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("bmm", { l("\\bm{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix("vec", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix(",.", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix(".,", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
 }
 
 -- TODO: refactor this loop

@@ -30,6 +30,7 @@ local useful_envs = {
   ["teor"] = "teorema",
   ["ejem"] = "ejemplo",
   ["ejer"] = "ejercicio",
+  ["postu"] = "postulado",
 }
 
 snips = {
@@ -231,6 +232,32 @@ snips = {
         i(8),
         i(0),
       },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+  ),
+
+  -- TODO: check if this works
+  s(
+    { trig = "figs", name = "Loop with figures and subfigures", dscr = "Loop with figures and subfigures" },
+    fmt(
+      [[
+    \begin{figure}[htbp]
+    \centering
+    \foreach \n in {<>}{
+      \begin{subfigure}{<>\textwidth}
+        \centering
+        \includegraphics[width=<>\textwidth]{figures/<>_\n.png}
+        \caption{<>}
+        \label{fig:<>}
+      \end{subfigure}%
+    }
+    \caption{<>}
+    \label{fig:<>}
+    \end{figure}
+    <>
+    ]],
+      { i(1), i(2), i(3), i(4), i(5), i(6), i(7), i(8), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }

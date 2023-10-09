@@ -158,6 +158,50 @@ autosnips = {
   postfix("bra", { l("\\bra{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("ket", { l("\\ket{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("op", { l("\\op{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+
+  -- auto bracket <..|, |..>, <..|..>
+  -- snippet "\<(.*?)\|" "bra" riA
+  -- \bra{`!p snip.rv = match.group(1).replace('q', f'\psi').replace('f', f'\phi')`}
+  -- endsnippet
+  --
+  -- snippet "\|(.*?)\>" "ket" riA
+  -- \ket{`!p snip.rv = match.group(1).replace('q', f'\psi').replace('f', f'\phi')`}
+  -- endsnippet
+  --
+  -- snippet "(.*)\\bra{(.*?)}([^\|]*?)\>" "braket" riA
+  -- `!p snip.rv = match.group(1)`\braket{`!p snip.rv = match.group(2)`}{`!p snip.rv = match.group(3).replace('q', f'\psi').replace('f', f'\phi')`}
+  -- endsnippet
+  s(
+    { trig = "<(.*)|", name = "bra", dscr = "bra", regTrig = true },
+    { t "\\bra{", f(function(_, snip)
+      return snip.captures[1]
+    end), t "} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
+  s(
+    { trig = "|(.*)>", name = "ket", dscr = "ket", regTrig = true },
+    { t "\\ket{", f(function(_, snip)
+      return snip.captures[1]
+    end), t "} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
+  -- s({ trig = "(.*)\\bra{(.*)}(|.*)>", name = "braket", dscr = "braket", regTrig = true }, {
+  --   t "",
+  --   f(function(_, snip)
+  --     return snip.captures[1]
+  --   end),
+  --   t "\\braket{",
+  --   f(function(_, snip)
+  --     return snip.captures[2]
+  --   end),
+  --   t "}{",
+  --   f(function(_, snip)
+  --     return snip.captures[3]
+  --   end),
+  --   t "} ",
+  -- }, { condition = tex.in_mathzone, show_condition = tex.in_mathzone }),
 }
 
 if enabled then

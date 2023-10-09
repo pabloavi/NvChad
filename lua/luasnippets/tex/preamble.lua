@@ -33,19 +33,11 @@ snips = {
   ),
 
   s(
-    { trig = "setupSIes", name = "Setup siunitx (spanish)", dscr = "Setup siunitx (spanish)" },
+    { trig = "setupsiunitx", name = "Setup siunitx (spanish)", dscr = "Setup siunitx (spanish)" },
     fmt(
       [[
-      \usepackage{siunitx}
-      \sisetup{per-mode=symbol,
-      table-space-text-post =\si{\milli\metre},
-      table-unit-alignment = left,
-      list-final-separator = { \translate{y} },
-      list-pair-separator = { \translate{y} },
-      range-phrase = { \translate{a} },
-      range-units =single,
-      output-decimal-marker = {,}
-      }
+      \usepackage[separate-uncertainty = true]{siunitx}
+      \sisetup{range-phrase = --}
       <>
       ]],
       { i(0) },
@@ -249,6 +241,18 @@ snips = {
       { delimiters = "<>" }
     ),
     { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+  ),
+
+  s(
+    { trig = "setup11", name = "setup double 1 with mathbb", dscr = "setup double 1 with mathbb" },
+    fmt(
+      [[
+      \declaremathalphabet{\mymathbb}{u}{boondox-ds}{m}{n}
+      ]],
+      {},
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text, show_condition = tex.in_text }
   ),
 }
 
