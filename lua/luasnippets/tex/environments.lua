@@ -31,6 +31,7 @@ local useful_envs = {
   ["ejem"] = "ejemplo",
   ["ejer"] = "ejercicio",
   ["postu"] = "postulado",
+  ["capci"] = "pregunta_capciosa",
 }
 
 snips = {

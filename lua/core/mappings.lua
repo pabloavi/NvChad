@@ -25,12 +25,28 @@ local function create_tmp_file()
   vim.cmd("edit " .. tmp_file)
 end
 
+-- function that gets visual selection as a string
+local function get_visual()
+  local _, ls, cs = unpack(vim.fn.getpos "v")
+  local _, le, ce = unpack(vim.fn.getpos ".")
+  return vim.api.nvim_buf_get_text(0, ls - 1, cs - 1, le - 1, ce, {})[1]
+end
+
 local function toggle_lsp_lines()
   vim.g.lines_enabled = not vim.g.lines_enabled
   vim.diagnostic.config { virtual_lines = vim.g.lines_enabled, virtual_text = not vim.g.lines_enabled }
 end
 
-local search_in_firefox = [[<ESC>gv"gy<ESC>:lua os.execute("firefox --search '" .. vim.fn.getreg("g") .. "'") <CR>]]
+-- local search_in_firefox = [[<ESC>gv"gy<ESC>:lua os.execute("firefox --search '" .. vim.fn.getreg("g") .. "'") <CR>]]
+-- local link_in_firefox = [[<ESC>gv"gy<ESC>:lua os.execute("firefox '" .. vim.fn.getreg("g") .. "'") <CR>]]
+local function firefox_link()
+  local link = get_visual()
+  if link:match "^http" then
+    vim.cmd("silent !firefox " .. link)
+  else
+    vim.cmd("silent !firefox --search " .. link)
+  end
+end
 
 local M = {}
 
@@ -119,7 +135,7 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
 
     -- search visual selection in firefox
-    ["<leader>f"] = { search_in_firefox, "search visual selection in firefox", opts = { expr = true, silent = true } },
+    ["<leader>f"] = { firefox_link, "search visual selection in firefox", opts = { expr = true, silent = true } },
   },
 
   x = {

@@ -103,7 +103,7 @@ local options = {
   },
 
   rainbow = {
-    enable = true,
+    enable = false,
   },
 }
 

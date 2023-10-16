@@ -10,10 +10,13 @@ end
 local Rule = require "nvim-autopairs.rule"
 local cond = require "nvim-autopairs.conds"
 
+autopairs.remove_rule "'"
+
 local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
 local quotes = { '"', "`" }
 local latexpairs = {
   { "\\( ", " \\)" },
+  { "\\{", "\\}" },
   -- { "\\[", "\\]" },
   { "\\left( ", " \\right) " },
   { "\\left[ ", " \\right] " },
@@ -23,6 +26,9 @@ local latexpairs = {
   -- snippets:
   { "\\frac{\\partial ", "}{\\partial } " },
   { "\\frac{\\diff ", "}{\\diff } " },
+  -- { "\\textbf{", "\\}" },
+  -- { "\\textit{", "\\}" },
+  -- { "\\texttt{", "\\}" },
 }
 
 autopairs.add_rules {

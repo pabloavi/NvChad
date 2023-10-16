@@ -475,8 +475,15 @@ autosnips = {
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
   s(
-    { trig = "ad", name = "adjoint", dscr = "Adjoint", wordTrig = false, priority = 90 },
-    { t "^{\\dagger} " },
+    { trig = "(%u)ad", name = "adjoint", dscr = "Adjoint", wordTrig = false, regTrig = true, priority = 90 },
+    { f(function(_, snip)
+      return snip.captures[1]
+    end, {}), t "^{\\dagger} " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+  s(
+    { trig = "\\delta ij ", name = "Kronecker delta", dscr = "Kronecker delta", wordTrig = false },
+    { t "\\delta_{ij} " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
   s(

@@ -81,6 +81,9 @@ end
 
 function M.in_mathzone()
   local node = get_node_at_cursor()
+  if M.in_label() then
+    return false
+  end
   if M.in_command "SI" or M.in_command "si" or M.in_command "SIrange" then
     return false
   end
@@ -104,6 +107,17 @@ function M.in_comment()
     node = node:parent()
     return false
   end
+end
+
+function M.in_label()
+  local node = get_node_at_cursor()
+  while node do
+    if node:type() == "label_definition" then
+      return true
+    end
+    node = node:parent()
+  end
+  return false
 end
 
 function M.in_env(env)
