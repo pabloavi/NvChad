@@ -87,6 +87,7 @@ local plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
+    commit = "9637670", -- TODO: update to v3
     init = function()
       require("core.utils").lazy_load "indent-blankline.nvim"
     end,
