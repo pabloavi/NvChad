@@ -175,6 +175,22 @@ snips = {
   ),
 
   s(
+    {
+      trig = "setupbabeltabla",
+      name = "change all appearances of cuadro with tabla in babel",
+      dscr = "change all appearances of cuadro with tabla in babel",
+    },
+    fmt(
+      [[
+      \addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+      ]],
+      {},
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text, show_condition = tex.in_text }
+  ),
+
+  s(
     { trig = "decmo", name = "Declare math operator", dscr = "Declare math operator" },
     fmt(
       [[

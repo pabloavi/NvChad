@@ -48,6 +48,15 @@ local function firefox_link()
   end
 end
 
+local function harpoon_mapping()
+  local count = vim.v.count1
+  if not count then
+    require("harpoon.mark").add_file()
+  else
+    require("harpoon.ui").nav_file(count)
+  end
+end
+
 local M = {}
 
 M.general = {
@@ -126,6 +135,8 @@ M.general = {
     ["<leader>mx"] = { "<cmd>!chmod +x %<CR>", "make current file executable", opts = { silent = true } },
 
     ["<leader>co"] = { "<cmd> copen <CR>", "open quickfix window" },
+
+    ["<leader>j"] = { harpoon_mapping, "harpoon" },
   },
 
   t = { ["<C-x>"] = { termcodes "<C-\\><C-N>", "escape terminal mode" } },
@@ -163,14 +174,14 @@ M.tabufline = {
 
   n = {
     -- cycle through buffers
-    ["<TAB>"] = {
+    ["<A-.>"] = {
       function()
         require("nvchad_ui.tabufline").tabuflineNext()
       end,
       "goto next buffer",
     },
 
-    ["<S-Tab>"] = {
+    ["<A-,>"] = {
       function()
         require("nvchad_ui.tabufline").tabuflinePrev()
       end,

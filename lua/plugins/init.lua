@@ -87,6 +87,7 @@ local plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
+    commit = "9637670", -- TODO: update to v3
     init = function()
       require("core.utils").lazy_load "indent-blankline.nvim"
     end,
@@ -451,14 +452,13 @@ local plugins = {
   },
 
   { "benfowler/telescope-luasnip.nvim", cmd = "Telescope luasnip" },
-
   { "debugloop/telescope-undo.nvim", cmd = "Telescope undo" },
-
   { "wintermute-cell/gitignore.nvim", cmd = "Gitignore" },
-
   { "nvim-telescope/telescope-bibtex.nvim", cmd = "Telescope bibtex" },
 
   -- { "nvim-telescope/telescope-dap.nvim", cmd = "Telescope dap" },
+
+  { "ThePrimeagen/harpoon" },
 
   {
     "potamides/pantran.nvim",
@@ -599,7 +599,16 @@ local plugins = {
     build = "go build -o ~/.local/bin/",
   },
 
-  { "barreiroleo/ltex-extra.nvim" },
+  {
+    "barreiroleo/ltex-extra.nvim",
+    ft = "tex",
+    opts = function()
+      return require("plugins.configs.others").ltex_extra
+    end,
+    config = function(_, opts)
+      require("ltex_extra").setup(opts)
+    end,
+  },
 
   -- airlatex
   -- {

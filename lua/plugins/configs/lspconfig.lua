@@ -116,27 +116,29 @@ lspconfig.lua_ls.setup {
   },
 }
 
-if vim.g.ltex_enabled then
-  lspconfig["ltex"].setup {
-    on_attach = function(client, bufnr)
-      M.on_attach(client, bufnr)
-      require("ltex_extra").setup {
-        load_langs = { "es", "en" }, -- languages for witch dictionaries will be loaded
-        init_check = true, -- load dictionaries on startup
-        path = vim.fn.stdpath "config" .. "/spell", -- where to store dictionaries. relative = from cwd
-        log_level = "none",
-      }
-    end,
-    settings = {
-      ["ltex"] = {
-        enabled = true,
-        language = "es",
-        checkFrequency = "save", -- edit, save, manual
-      },
-    },
-  }
-end
-
+-- if vim.g.ltex_enabled then
+--   lspconfig["ltex"].setup {
+--     on_attach = function(client, bufnr)
+--       M.on_attach(client, bufnr)
+--       require("ltex_extra").setup {
+--         load_langs = "es", -- languages for witch dictionaries will be loaded
+--         init_check = true, -- load dictionaries on startup
+--         path = vim.fn.stdpath "config" .. "/spell", -- where to store dictionaries. relative = from cwd
+--         log_level = "none",
+--         server_opts = {
+--
+--         }
+--       }
+--     end,
+--     settings = {
+--       ["ltex"] = {
+--         enabled = true,
+--         language = "es",
+--         checkFrequency = "save", -- edit, save, manual
+--       },
+--     },
+--   }
+-- end
 -- texlab config
 lspconfig["texlab"].setup {
   on_attach = function(client, bufnr)
@@ -157,7 +159,7 @@ lspconfig["texlab"].setup {
       },
       chktex = {
         onEdit = false,
-        onOpenAndSave = false,
+        onOpenAndSave = true,
       },
       diagnosticsDelay = 300,
       formatterLineLength = 80,

@@ -360,4 +360,23 @@ M.pantran = function()
   pantran.setup(options)
 end
 
+M.ltex_extra = {
+  load_langs = { "es" }, -- languages for witch dictionaries will be loaded
+  init_check = true, -- load dictionaries on startup
+  path = vim.fn.stdpath "config" .. "/spell", -- where to store dictionaries. relative = from cwd
+  log_level = "none",
+  on_attach = function(client, bufnr)
+    require("configs.lspconfig").on_attach(client, bufnr)
+  end,
+  server_opts = {
+    settings = {
+      ["ltex"] = {
+        enabled = true,
+        language = "es",
+        checkFrequency = "save", -- edit, save, manual
+      },
+    },
+  },
+}
+
 return M
