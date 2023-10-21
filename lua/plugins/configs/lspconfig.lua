@@ -116,68 +116,71 @@ lspconfig.lua_ls.setup {
   },
 }
 
-if vim.g.ltex_enabled then
-  lspconfig["ltex"].setup {
-    on_attach = function(client, bufnr)
-      M.on_attach(client, bufnr)
-      require("ltex_extra").setup {
-        load_langs = { "es", "en" }, -- languages for witch dictionaries will be loaded
-        init_check = true, -- load dictionaries on startup
-        path = vim.fn.stdpath "config" .. "/spell", -- where to store dictionaries. relative = from cwd
-        log_level = "none",
-      }
-    end,
-    settings = {
-      ["ltex"] = {
-        enabled = true,
-        language = "es",
-        checkFrequency = "save", -- edit, save, manual
-      },
-    },
-  }
-end
-
--- texlab config
--- lspconfig["texlab"].setup {
---   on_attach = function(client, bufnr)
---     M.on_attach(client, bufnr)
---     require("nvim-navbuddy").attach(client, bufnr)
---   end,
---   capabilities = M.capabilities,
---   settings = {
---     texlab = {
---       auxDirectory = ".",
---       bibtexFormatter = "texlab",
---       build = {
---         -- args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", get_main_file() },
---         args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
---         executable = "latexmk",
---         forwardSearchAfter = false,
---         onSave = false, -- now using vimtex
---       },
---       chktex = {
---         onEdit = false,
---         onOpenAndSave = true,
---       },
---       diagnosticsDelay = 300,
---       formatterLineLength = 80,
---       forwardSearch = {
---         executable = "zathura",
---         args = {
---           "--synctex-editor-command",
---           [[nvim-texlabconfig -file '%%%{input}' -line %%%{line} -server ]] .. vim.v.servername,
---           "--synctex-forward",
---           "%l:1:%f",
---           "%p",
---         },
---         onSave = false, -- now using vimtex
---       },
---       latexFormatter = "latexindent",
---       latexindent = {
---         modifyLineBreaks = true,
+-- if vim.g.ltex_enabled then
+--   lspconfig["ltex"].setup {
+--     on_attach = function(client, bufnr)
+--       M.on_attach(client, bufnr)
+--       require("ltex_extra").setup {
+--         load_langs = "es", -- languages for witch dictionaries will be loaded
+--         init_check = true, -- load dictionaries on startup
+--         path = vim.fn.stdpath "config" .. "/spell", -- where to store dictionaries. relative = from cwd
+--         log_level = "none",
+--         server_opts = {
+--
+--         }
+--       }
+--     end,
+--     settings = {
+--       ["ltex"] = {
+--         enabled = true,
+--         language = "es",
+--         checkFrequency = "save", -- edit, save, manual
 --       },
 --     },
---   },
--- }
+--   }
+-- end
+
+-- texlab config
+lspconfig["texlab"].setup {
+  on_attach = function(client, bufnr)
+    M.on_attach(client, bufnr)
+    require("nvim-navbuddy").attach(client, bufnr)
+  end,
+  capabilities = M.capabilities,
+  settings = {
+    texlab = {
+      auxDirectory = ".",
+      bibtexFormatter = "texlab",
+      build = {
+        -- args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", get_main_file() },
+        args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+        executable = "latexmk",
+        forwardSearchAfter = false,
+        onSave = false, -- now using vimtex
+      },
+      chktex = {
+        onEdit = false,
+        onOpenAndSave = true,
+      },
+      diagnosticsDelay = 300,
+      formatterLineLength = 80,
+      forwardSearch = {
+        executable = "zathura",
+        args = {
+          "--synctex-editor-command",
+          [[nvim-texlabconfig -file '%%%{input}' -line %%%{line} -server ]] .. vim.v.servername,
+          "--synctex-forward",
+          "%l:1:%f",
+          "%p",
+        },
+        onSave = false, -- now using vimtex
+      },
+      latexFormatter = "latexindent",
+      latexindent = {
+        modifyLineBreaks = true,
+      },
+    },
+  },
+}
 
 return M

@@ -12,7 +12,7 @@ g.lsp_lines_enabled = false -- custom
 g.c_enabled = true -- custom
 g.java_enabled = false -- custom
 g.webdev_enabled = false -- custom
-g.ltex_enabled = false -- custom
+g.ltex_enabled = true -- custom
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
