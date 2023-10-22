@@ -158,7 +158,7 @@ M.general = {
   },
   s = {
     ["<BS>"] = { "<C-g>s", "delete selection and enter insert mode" },
-    ["<C-i>"] = { "<C-g><ESC>`>a", "delete selection and enter insert mode" },
+    ["<C-l>"] = { "<C-g><ESC>`>a", "delete selection and enter insert mode" },
   },
 }
 
