@@ -15,6 +15,7 @@ local r = ls.restore_node
 local events = require "luasnip.util.events"
 local ai = require "luasnip.nodes.absolute_indexer"
 local fmt = require("luasnip.extras.fmt").fmt
+local fmta = require("luasnip.extras.fmt").fmta
 local expand = require "luasnip.extras.conditions.expand"
 local extras = require "luasnip.extras"
 local m = extras.m
@@ -104,7 +105,7 @@ local greek_letters = {
   "nabla",
 }
 
-operators = {
+local operators = {
   "sin",
   "cos",
   "tan",
@@ -755,66 +756,23 @@ autosnips = {
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
-  s({
-    trig = "(\\?[%w]+\\?^%w)/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_%w)/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?^{%w*})/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_{%w*})/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?%w+)/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  -- ALL FRACTIONS WITH A SPACE BEFORE TRIGGER
-  s({
-    trig = "(\\?[%w]+\\?^%w) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_%w) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?^{%w*}) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_{%w*}) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?%w+) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+  s(
+    {
+      trig = "((\\d+)|(\\d*)(\\\\)?([A-Za-z]+)((\\^|_)(\\{\\d+\\}|\\d))*)( )?\\/",
+      name = "fraction",
+      dscr = "auto fraction 1",
+      trigEngine = "ecma",
+    },
+    fmta(
+      [[
+    \frac{<>}{<>} <>
+    ]],
+      { f(function(_, snip)
+        return snip.captures[1]
+      end), i(1), i(0) }
+    ),
+    { condition = tex.in_math, show_condition = tex.in_math }
+  ),
 
   -- \quad, \qquad
   s(

@@ -296,6 +296,7 @@ local plugins = {
         config = function()
           require "plugins.configs.luasnip"
         end,
+        build = "make install_jsregexp",
       },
 
       -- autopairing of (){}[] etc
