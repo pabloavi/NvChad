@@ -139,7 +139,6 @@ lspconfig.lua_ls.setup {
 --     },
 --   }
 -- end
-
 -- texlab config
 lspconfig["texlab"].setup {
   on_attach = function(client, bufnr)
