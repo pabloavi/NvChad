@@ -601,6 +601,7 @@ local plugins = {
 
   {
     "barreiroleo/ltex-extra.nvim",
+    enabled = false,
     ft = "tex",
     opts = function()
       return require("plugins.configs.others").ltex_extra
