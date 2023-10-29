@@ -122,8 +122,20 @@ local plugins = {
       "RRethy/nvim-treesitter-textsubjects",
       "chrisgrieser/nvim-various-textobjs",
       "David-Kunz/treesitter-unit",
-      "hiphish/nvim-ts-rainbow2",
     },
+  },
+
+  {
+    "https://gitlab.com/HiPhish/rainbow-delimiters.nvim",
+    enabled = false,
+    init = function()
+      require("core.utils").lazy_load "rainbow-delimiters.nvim"
+    end,
+    config = function()
+      require("rainbow-delimiters.setup").setup {
+        query = { [""] = "rainbow-delimiters", latex = "rainbow-blocks" },
+      }
+    end,
   },
 
   -- get highlight group under cursor
@@ -251,9 +263,9 @@ local plugins = {
   },
 
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     init = function()
-      require("core.utils").lazy_load "null-ls.nvim"
+      require("core.utils").lazy_load "none-ls.nvim"
     end,
     config = function()
       require "plugins.configs.null-ls"
@@ -602,6 +614,7 @@ local plugins = {
 
   {
     "barreiroleo/ltex-extra.nvim",
+    enabled = false,
     ft = "tex",
     opts = function()
       return require("plugins.configs.others").ltex_extra

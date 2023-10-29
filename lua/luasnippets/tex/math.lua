@@ -24,6 +24,7 @@ local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
 local matches = require("luasnip.extras.postfix").matches
+local k = require("luasnip.nodes.key_indexer").new_key
 
 local frac_no_parens = {
   f(function(_, snip)
@@ -604,9 +605,7 @@ autosnips = {
   -- diff "number" --> \\diff ^{number} using function node
   s(
     { trig = "\\diff ([%d])", name = "dx", dscr = "Differential dx", regTrig = true },
-    { t "\\diff^{", f(function(_, snip)
-      return snip.captures[1]
-    end), t "} " },
+    { t "\\diff^", l(l.LS_CAPTURE_1 .. " ") },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
   -- db: "broken" differential (inexact, with a line)
@@ -654,16 +653,20 @@ autosnips = {
     },
     fmt(
       [[
-    \frac{\partial^<> <>}{\partial <>^<>} <>
+    \frac{\diff^<> <>}{\diff <>} <>
     ]],
       {
         f(function(_, snip)
           return snip.captures[1]
         end),
         i(1),
-        i(2),
-        f(function(_, snip)
-          return snip.captures[1]
+        d(2, function(_, snip, _, _)
+          return sn(nil, {
+            c(1, {
+              t("^" .. snip.captures[1]),
+              i(nil),
+            }),
+          })
         end),
         i(0),
       },
@@ -682,16 +685,20 @@ autosnips = {
     },
     fmt(
       [[
-    \frac{\partial^<> <>}{\partial <>^<>} <>
+      \frac{\partial^<> <>}{\partial <>} <>
     ]],
       {
         f(function(_, snip)
           return snip.captures[1]
         end),
         i(1),
-        i(2),
-        f(function(_, snip)
-          return snip.captures[1]
+        d(2, function(_, snip, _, _)
+          return sn(nil, {
+            c(1, {
+              t("^" .. snip.captures[1]),
+              i(nil),
+            }),
+          })
         end),
         i(0),
       },

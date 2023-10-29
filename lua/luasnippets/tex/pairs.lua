@@ -28,7 +28,7 @@ snips = {
     { trig = "lr", name = "left/right()", dscr = "left/right()" },
     fmt(
       [[
-        \left( <> \right) <>
+        {\left( <> \right)} <>
       ]],
       { i(1), i(0) },
       { delimiters = "<>" }
@@ -39,7 +39,7 @@ snips = {
     { trig = "lrc", name = "left/right[]", dscr = "left/right[]" },
     fmt(
       [[
-        \left[ <> \right] <>
+        {\left[ <> \right]} <>
       ]],
       { i(1), i(0) },
       { delimiters = "<>" }
@@ -50,7 +50,7 @@ snips = {
     { trig = "lrm", name = "left/right||", dscr = "left/right||" },
     fmt(
       [[
-        \left| <> \right| <>
+        {\left| <> \right|} <>
       ]],
       { i(1), i(0) },
       { delimiters = "<>" }
@@ -61,7 +61,7 @@ snips = {
     { trig = "lra", name = "left/right<>", dscr = "left/right<>" },
     fmt(
       [[
-        \left< [] \right> [] 
+        {\left< [] \right>} [] 
       ]],
       { i(1), i(0) },
       { delimiters = "[]" }
@@ -72,7 +72,7 @@ snips = {
     { trig = "lrb", name = "left\\{/right\\}", dscr = "left/right\\{}" },
     fmt(
       [[
-        \left\{ <> \right\} <>
+        {\left\{ <> \right\}} <>
       ]],
       { i(1), i(0) },
       { delimiters = "<>" }
@@ -81,10 +81,10 @@ snips = {
   ),
   -- langle and rangle
   s(
-    { trig = "lrn", name = "langle/rangle", dscr = "langle/rangle" },
+    { trig = "prom", name = "langle/rangle", dscr = "langle/rangle" },
     fmt(
       [[
-        \langle <> \rangle <>
+        {\langle <> \rangle} <>
       ]],
       { i(1), i(0) },
       { delimiters = "<>" }

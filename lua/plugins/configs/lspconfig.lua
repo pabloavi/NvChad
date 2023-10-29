@@ -21,6 +21,7 @@ local servers = { -- lua_ls, texlab, ltex and clangd are configured appart
   "vimls",
   "fortls",
   "marksman",
+  "verible",
 }
 
 if vim.g.java_enabled then
