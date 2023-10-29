@@ -101,10 +101,6 @@ local options = {
       ["i;"] = "textsubjects-container-inner",
     },
   },
-
-  rainbow = {
-    enable = false,
-  },
 }
 
 if vim.g.c_enabled then
