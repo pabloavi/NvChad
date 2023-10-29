@@ -811,6 +811,12 @@ autosnips = {
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
+  s(
+    { trig = "lab", name = "label in math mode", dscr = "label in math mode" },
+    { t "\\label{eq:", i(1), t "}" },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+
   -- vector snippets
   -- s({ trig = "([%a][%a])(%.,)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),
   -- s({ trig = "([%a][%a])(,%.)", regTrig = true }, vim.deepcopy(vec_node), { condition = tex.in_mathzone }),

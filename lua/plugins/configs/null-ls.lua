@@ -22,6 +22,7 @@ local sources = {
   b.diagnostics.jsonlint,
 
   b.formatting.latexindent.with { args = { "-c=/tmp/", "-m", "-r", "-l=" .. latexindent_file, "-" } }, -- installed through texlive, now using texlab
+  b.formatting.verible_verilog_format,
   -- b.diagnostics.chktex, -- installed through texlive, now using texlab
 }
 
