@@ -778,7 +778,7 @@ autosnips = {
         return snip.captures[1]
       end), i(1), i(0) }
     ),
-    { condition = tex.in_math, show_condition = tex.in_math }
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
   -- \quad, \qquad
@@ -838,7 +838,7 @@ autosnips = {
   postfix("cal", { l("\\mathcal{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("bmm", { l("\\bm{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
-  postfix("vec", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix("ve", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix(",.", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix(".,", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
 }
