@@ -303,6 +303,23 @@ snips = {
     m(2, "^$", "}", "}"),
     i(0),
   }, { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }),
+
+  s(
+    { trig = "tab", name = "table", dscr = "table" },
+    fmt(
+      [[
+    \begin{table}
+      \centering
+      <>
+      \caption{<>}
+      \label{tab:<>}
+    \end{table}
+    ]],
+      { i(3), i(1), i(2) },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+  ),
 }
 
 autosnips = {
