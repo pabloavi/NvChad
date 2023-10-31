@@ -9,7 +9,7 @@ M.options = {
 }
 
 M.ui = {
-  theme = 'onedark_original',
+  theme = "onedark",
   hl_add = require("core.highlights").new_hlgroups,
   hl_override = require("core.highlights").overriden_hlgroups,
   changed_themes = {},
@@ -18,7 +18,7 @@ M.ui = {
 
   cmp = {
     icons = true,
-    lspkind_text = true,
+    lspkind_text = false,
     style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
     border_color = "black", -- only applicable for "default" style, use color names from base30 variables
     selected_item_bg = "colored", -- colored / simple
@@ -29,7 +29,7 @@ M.ui = {
   },
 
   statusline = {
-    theme = 'vscode_colored',
+    theme = "vscode_colored",
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
     separator_style = "block",
@@ -63,7 +63,7 @@ M.ui = {
   },
 
   cheatsheet = {
-    theme = 'grid',
+    theme = "grid",
   },
 
   lsp = {
