@@ -277,9 +277,26 @@ snips = {
   ),
 
   -- start integrals
+  -- s(
+  --   { trig = "int", name = "integral", dscr = "integral", priority = 90 },
+  --   { t "\\int ", i(1), t " \\diff ", i(2), t "\\, ", i(0) },
+  --   { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  -- ),
   s(
-    { trig = "int", name = "integral", dscr = "integral", priority = 90 },
-    { t "\\int ", i(1), t " \\diff ", i(2), t "\\, ", i(0) },
+    { trig = "int", name = "integral with choice", dscr = "integral with choice" },
+    fmt(
+      [[
+    \int <> \diff <>
+    ]],
+      {
+        c(1, {
+          i(1),
+          sn(nil, { t "_{", i(1), t "}^{", i(2), t "} ", i(3) }),
+        }),
+        i(2),
+      },
+      { delimiters = "<>" }
+    ),
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
