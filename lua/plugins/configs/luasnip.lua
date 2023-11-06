@@ -49,12 +49,14 @@ require("luasnip.loaders.from_vscode").lazy_load {
 
 require("luasnip.loaders.from_lua").lazy_load {
   paths = {
-    "~/.config/nvim/lua/luasnippets",
+    config .. "/lua/luasnippets",
     "~/Documentos/Universidad/Apuntes/curso_actual", -- À la Gilles
   },
 }
 
--- require("luasnip/loaders/from_snipmate").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load {
+  paths = { config .. "/lua/luasnippets/snippets" },
+}
 
 -- remove snippets when leaving insert mode
 vim.api.nvim_create_autocmd("InsertLeave", {

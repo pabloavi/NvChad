@@ -22,6 +22,7 @@ local servers = { -- lua_ls, texlab, ltex and clangd are configured appart
   "fortls",
   "marksman",
   "verible",
+  "arduino_language_server",
 }
 
 if vim.g.java_enabled then

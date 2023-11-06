@@ -22,9 +22,12 @@ local sources = {
   b.diagnostics.jsonlint,
 
   b.formatting.latexindent.with { args = { "-c=/tmp/", "-m", "-r", "-l=" .. latexindent_file, "-" } }, -- installed through texlive, now using texlab
+  b.formatting.bibclean, -- installed through pacman
+
   b.formatting.verible_verilog_format,
   -- b.diagnostics.chktex, -- installed through texlive, now using texlab
   b.formatting.verible_verilog_format,
+  b.formatting.astyle, -- installed through pacman
 }
 
 if vim.g.c_enabled or vim.g.java_enabled then

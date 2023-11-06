@@ -27,6 +27,8 @@ local options = {
     "rustfmt",
     -- json
     "jsonlint",
+    --arduino
+    "arduino-language-server",
   },
 
   PATH = "skip",
