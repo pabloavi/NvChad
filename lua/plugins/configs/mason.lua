@@ -25,6 +25,8 @@ local options = {
     -- rust
     "rust-analyzer",
     "rustfmt",
+    -- json
+    "jsonlint",
   },
 
   PATH = "skip",

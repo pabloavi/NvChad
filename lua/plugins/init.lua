@@ -805,6 +805,8 @@ local plugins = {
   { "AndrewRadev/bufferize.vim", enabled = false },
 
   { "waycrate/swhkd-vim", lazy = false },
+
+  { "luckasRanarison/tree-sitter-hypr", lazy = false },
 }
 
 local config = require("core.utils").load_config()
