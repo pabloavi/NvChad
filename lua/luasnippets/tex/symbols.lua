@@ -27,7 +27,7 @@ snips = {}
 
 autosnips = {
   s(
-    { trig = "->", name = "to", dscr = "to" },
+    { trig = "-nn", name = "to", dscr = "to" },
     { t "\\to " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
@@ -38,7 +38,7 @@ autosnips = {
   ),
 
   s(
-    { trig = "=>", name = "implies", dscr = "Implies" },
+    { trig = "=nn", name = "implies", dscr = "Implies" },
     { t "\\implies " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
@@ -82,7 +82,7 @@ autosnips = {
   ),
 
   s(
-    { trig = "<<", name = "much less than", dscr = "Much less than" },
+    { trig = "<vv", name = "much less than", dscr = "Much less than" },
     { t "\\ll " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
@@ -93,7 +93,7 @@ autosnips = {
   ),
 
   s(
-    { trig = ">>", name = "much greater than", dscr = "Much greater than" },
+    { trig = ">nn", name = "much greater than", dscr = "Much greater than" },
     { t "\\gg " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
@@ -152,10 +152,14 @@ autosnips = {
     { t "\\approx " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
-
   s(
     { trig = "eqv", name = "equiv", dscr = "Equivalent" },
     { t "\\equiv " },
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
+  s(
+    { trig = "prop", name = "propto", dscr = "Proportional to" },
+    { t "\\propto " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 }
