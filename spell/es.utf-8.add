@@ -106,12 +106,7 @@ Ehrenfest
 adimensional
 covariante
 contravariante
-de/!
-<<<<<<< HEAD
 subespacio
-=======
->>>>>>> 002d9ad77192c3b258f3f414e69a448e18633bf2
-de
 Pauli
 iónico
 covalente
@@ -123,13 +118,10 @@ monoparticular
 monoelectrónica
 Hartree
 Fock
-<<<<<<< HEAD
 monoelectrónicos
-=======
 Bloch
 Avogadro
 laplaciano
->>>>>>> 4bda87738005110c93ec30a6d0156f172e156c30
 Bloch
 deslocalizada
 Debye
@@ -138,3 +130,5 @@ dispersivos
 diatómica
 infinitésimo
 PZB
+monoatómica
+triatómica
