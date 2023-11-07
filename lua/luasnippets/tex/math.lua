@@ -780,23 +780,66 @@ autosnips = {
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
-  s(
-    {
-      trig = "((\\d+)|(\\d*)(\\\\)?([A-Za-z]+)((\\^|_)(\\{\\d+\\}|\\d))*)( )?\\/",
-      name = "fraction",
-      dscr = "auto fraction 1",
-      trigEngine = "ecma",
-    },
-    fmta(
-      [[
-    \frac{<>}{<>} <>
-    ]],
-      { f(function(_, snip)
-        return snip.captures[1]
-      end), i(1), i(0) }
-    ),
-    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
-  ),
+  s({
+    trig = "(\\?[%w]+\\?^%w)/",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?[%w]+\\?_%w)/",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?[%w]+\\?^{%w*})/",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?[%w]+\\?_{%w*})/",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?%w+)/",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  -- ALL FRACTIONS WITH A SPACE BEFORE TRIGGER
+  s({
+    trig = "(\\?[%w]+\\?^%w) /",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?[%w]+\\?_%w) /",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?[%w]+\\?^{%w*}) /",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?[%w]+\\?_{%w*}) /",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+
+  s({
+    trig = "(\\?%w+) /",
+    name = "Fraction ()",
+    regTrig = true,
+  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
 
   -- \quad, \qquad
   s(
