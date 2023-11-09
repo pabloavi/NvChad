@@ -5,7 +5,9 @@ vim.opt_local.conceallevel = 0
 vim.opt_local.spell = true
 
 require("core.utils").load_mappings "latex"
-vim.cmd "C"
+if not vim.g.AirLatexIsActive then
+  vim.cmd "C"
+end
 
 -- vim.keymap.set("n", "<C-b>", vim.cmd.TexlabBuild, { desc = "Build LaTeX" })
 -- vim.keymap.set("n", "<C-f>", vim.cmd.TexlabForward, { desc = "Forward Search" })
