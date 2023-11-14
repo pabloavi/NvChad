@@ -102,3 +102,31 @@ for _, pair in pairs(latexpairs) do
     Rule(pair[1], pair[2], { "tex", "latex", "plaintex" }):with_pair(cond.none()),
   }
 end
+
+-- typst
+local typst_pairs = {
+  { "$", "$" },
+  { "*", "*" },
+  { "_", "_" },
+}
+for _, pair in pairs(typst_pairs) do
+  autopairs.add_rules {
+    Rule(pair[1], pair[2], { "typst" }):with_pair(cond.none()),
+  }
+end
+
+autopairs.add_rules {
+  Rule(" ", " ", { "typst" }):with_pair(function(opts)
+    local pair = opts.line:sub(opts.col - 1, opts.col)
+    return vim.tbl_contains({
+      "$" .. "$",
+    }, pair)
+  end),
+}
+
+autopairs
+  .get_rule("$")
+  :replace_endpair(function()
+    return '<cmd>lua require"luasnip".expand_or_jump()<Cr>'
+  end)
+  :set_end_pair_length(0)

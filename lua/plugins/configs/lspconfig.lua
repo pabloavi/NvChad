@@ -184,4 +184,16 @@ lspconfig["texlab"].setup {
   },
 }
 
+-- typst
+lspconfig["typst_lsp"].setup {
+  on_attach = function(client, bufnr)
+    M.on_attach(client, bufnr)
+    require("nvim-navbuddy").attach(client, bufnr)
+  end,
+  capabilities = M.capabilities,
+  settings = {
+    exportPdf = "onType", -- onType, onSave or never.
+  },
+}
+
 return M

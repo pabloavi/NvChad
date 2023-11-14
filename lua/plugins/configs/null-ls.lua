@@ -8,6 +8,18 @@ local latexindent_file = vim.fn.stdpath "config" .. "/latexindent.yaml"
 
 local b = null_ls.builtins
 
+local shellcheck_formatter = {
+  method = null_ls.methods.FORMATTING,
+  filetypes = { "typst" },
+  generator = null_ls.formatter {
+    command = "typstfmt",
+    args = { "-o", "-" },
+    to_stdin = true,
+    -- from_stderr = true,
+  },
+}
+
+null_ls.register(shellcheck_formatter)
 local sources = {
   b.formatting.stylua,
   b.formatting.yamlfmt,

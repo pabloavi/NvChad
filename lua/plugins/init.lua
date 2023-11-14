@@ -807,6 +807,17 @@ local plugins = {
   { "waycrate/swhkd-vim", lazy = false },
 
   { "luckasRanarison/tree-sitter-hypr", lazy = false },
+
+  {
+    "kaarmu/typst.vim",
+    ft = "typst",
+    lazy = false,
+  },
+
+  {
+    "folke/trouble.nvim",
+    event = "VeryLazy",
+  },
 }
 
 local config = require("core.utils").load_config()
