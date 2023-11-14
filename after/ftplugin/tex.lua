@@ -6,7 +6,7 @@ vim.opt_local.spell = true
 
 require("core.utils").load_mappings "latex"
 if not vim.g.AirLatexIsActive then
-  vim.cmd "C"
+  vim.cmd "silent! C"
 end
 
 -- vim.keymap.set("n", "<C-b>", vim.cmd.TexlabBuild, { desc = "Build LaTeX" })

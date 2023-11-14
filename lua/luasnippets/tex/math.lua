@@ -780,66 +780,28 @@ autosnips = {
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
 
-  s({
-    trig = "(\\?[%w]+\\?^%w)/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_%w)/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?^{%w*})/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_{%w*})/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?%w+)/",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  -- ALL FRACTIONS WITH A SPACE BEFORE TRIGGER
-  s({
-    trig = "(\\?[%w]+\\?^%w) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_%w) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?^{%w*}) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?[%w]+\\?_{%w*}) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
-
-  s({
-    trig = "(\\?%w+) /",
-    name = "Fraction ()",
-    regTrig = true,
-  }, vim.deepcopy(frac_no_parens), { condition = tex.in_mathzone }),
+  s(
+    {
+      trig = [[((\d+)|(\d*)(\\)?([a-zA-ZÀ-ÿ\u00f1\u00d1]+)((\^|_)(\{\d+\}|\d))*)\s?\/]],
+      name = "fraction",
+      dscr = "auto fraction 1",
+      trigEngine = "ecma",
+    },
+    fmt(
+      [[
+      \frac{<>}{<>} <>
+    ]],
+      {
+        f(function(_, snip)
+          return snip.captures[1]
+        end),
+        i(1),
+        i(0),
+      },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
 
   -- \quad, \qquad
   s(
