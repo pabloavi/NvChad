@@ -28,6 +28,12 @@
 -- }
 vim.g.typst_pdf_viewer = "sioyek"
 local _, bufname = pcall(vim.api.nvim_buf_get_name, 0)
-if bufname:match "%master.typ$" then
-  vim.cmd "silent! TypstWatch"
+local names = {
+  "master.typ",
+  "main.typ",
+}
+for _, name in ipairs(names) do
+  if vim.endswith(bufname, name) then
+    vim.cmd "silent! TypstWatch"
+  end
 end

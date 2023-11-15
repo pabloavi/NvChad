@@ -191,9 +191,9 @@ lspconfig["typst_lsp"].setup {
     require("nvim-navbuddy").attach(client, bufnr)
   end,
   capabilities = M.capabilities,
-  settings = {
-    exportPdf = "onType", -- onType, onSave or never.
-  },
+  -- settings = {
+  --   exportPdf = "onType", -- onType, onSave or never.
+  -- },
 }
 
 return M

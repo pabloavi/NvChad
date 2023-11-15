@@ -1,6 +1,6 @@
 local snips, autosnips = {}, {}
 
-local typst = {}
+local typst = require "luasnippets.typst.utils"
 
 local ls = require "luasnip"
 local s = ls.snippet
@@ -21,22 +21,6 @@ local m = extras.m
 local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
-
-typst.in_mathzone = function()
-  return vim.fn["typst#in_math"]() == 1
-end
-
-typst.in_comment = function()
-  return vim.fn["typst#in_comment"]() == 1
-end
-
-typst.in_code = function()
-  return vim.fn["typst#in_code"]() == 1
-end
-
-typst.in_markup = function()
-  return vim.fn["typst#in_markup"]() == 1
-end
 
 local function neg(fn, ...)
   return not fn(...)
@@ -69,7 +53,7 @@ end
 
 local function pair(pair_begin, pair_end, expand_func, ...)
   return s({ trig = pair_begin, wordTrig = false }, { t { pair_begin }, i(1), t { pair_end } }, {
-    condition = typst.in_markup, -- part(expand_func, part(..., pair_begin, pair_end)),
+    condition = typst.not_in_import, -- part(expand_func, part(..., pair_begin, pair_end)),
     show_condition = function()
       return false
     end,
@@ -77,6 +61,21 @@ local function pair(pair_begin, pair_end, expand_func, ...)
 end
 
 snips = {
+  -- "preamble"
+  s(
+    { trig = "setupsen", name = "setup sen operators", dscr = "setup sen operators" },
+    fmt(
+      [[
+    #let sen = math.op("sen")
+    #let asen = math.op("asen")
+    ]],
+      {},
+      { delimiters = "<>" }
+    ),
+    { condition = typst.in_template, show_condition = typst.in_template }
+  ),
+
+  -- envs
   s(
     { trig = "img", name = "figure", dscr = "figure" },
     fmt(
@@ -115,20 +114,29 @@ snips = {
 }
 
 autosnips = {
-  -- pair("$", "$", neg, char_count_same),
-  pair("*", "*", neg, char_count_same),
-  pair("_", "_", neg, char_count_same),
+  pair("$", "$", neg, char_count_same),
+
+  s(
+    { trig = "_", name = "italic", dscr = "italic" },
+    { t "_", i(1), t "_" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+  s(
+    { trig = "*", name = "bold", dscr = "bold" },
+    { t "*", i(1), t "*" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
 
   s(
     { trig = "mk", name = "math in line", dscr = "math in line" },
     { t "$", i(1), t "$" },
-    { condition = typst.in_markup, show_condition = typst.in_markup }
+    { condition = typst.in_text, show_condition = typst.in_text }
   ),
 
   s(
     { trig = "dm", name = "display math", dscr = "display math" },
     { t "$ ", i(1), t " $" },
-    { condition = typst.in_markup, expand.line_begin, show_condition = typst.in_markup }
+    { condition = typst.in_text, expand.line_begin, show_condition = typst.in_text }
   ),
 
   s(
