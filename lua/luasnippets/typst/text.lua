@@ -90,7 +90,7 @@ snips = {
       { i(1), i(2, "70"), i(3), i(4), i(0) },
       { delimiters = "{}" }
     ),
-    { condition = typst.in_markup * expand.line_begin, show_condition = typst.in_markup }
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 
   s(
@@ -109,7 +109,7 @@ snips = {
       { i(1), i(2), i(3), i(0) },
       { delimiters = "{}" }
     ),
-    { condition = typst.in_markup * expand.line_begin, show_condition = typst.in_markup }
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 }
 
@@ -156,7 +156,7 @@ autosnips = {
       { i(1, "lang"), i(2, "code") },
       { delimiters = "<>" }
     ),
-    { condition = typst.in_markup * expand.line_begin, show_condition = typst.in_markup }
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 }
 
