@@ -68,6 +68,8 @@ snips = {
       [[
     #let sen = math.op("sen")
     #let asen = math.op("asen")
+    #let senh = math.op("senh")
+    #let arcsen = math.op("arcsen")
     ]],
       {},
       { delimiters = "<>" }
@@ -141,7 +143,7 @@ autosnips = {
 
   s(
     { trig = "/", name = "fraction", dscr = "fraction" },
-    { t "(", i(1), t ")/(", i(2), t ") " },
+    { t "(", i(1), t ") / (", i(2), t ") " },
     { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
   ),
 
@@ -156,6 +158,12 @@ autosnips = {
       { i(1, "lang"), i(2, "code") },
       { delimiters = "<>" }
     ),
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "let", name = "partial derivative", dscr = "partial derivative" },
+    { t "#let " },
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 }

@@ -31,20 +31,52 @@ local functions = {
 
   { "dd", "dd" },
   { "var", "var" },
-  { "pdv", "pdv" },
+  { "prom", "expval" },
+
+  { "bra", "bra" },
+  { "ket", "ket" },
+  { "brk", "braket" },
+  { "kbr", "ketbra" },
+
+  { "diag", "diag" },
+}
+
+local text_snippets = {
+  { "hb", "hbar", "planck constant hbar" },
+  { "eps", "epsilon", "epsilon" },
+  { "cd", "dprod", "dot product, producto escalar, punto" },
+  { "xx", "cprod", "cross product, producto vectorial" },
 }
 
 snips = {}
 
 autosnips = {
+  s(
+    { trig = "tra", name = "traspuesta", dscr = "traspuesta", wordTrig = false },
+    { t "^TT " },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+
+  s(
+    { trig = "DD", name = "derivative", dscr = "derivative" },
+    { t "dv(", i(1), t ",", i(2), t ")" },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+
+  s(
+    { trig = "PP", name = "partial derivative", dscr = "partial derivative" },
+    { t "pdv(", i(1), t ",", i(2), t ")" },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+
   -- postfix
   postfix("bar", { l("bar(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   postfix("gor", { l("hat(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   postfix("cal", { l("cal(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
-  postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
-  postfix("ve", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
-  postfix(",.", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
-  postfix(".,", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
+  -- postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
+  postfix("ve", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
+  postfix(",.", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
+  postfix(".,", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
 }
 
 for _, func in ipairs(functions) do
@@ -52,6 +84,14 @@ for _, func in ipairs(functions) do
   table.insert(
     autosnips,
     s({ trig = trig, name = name, dscr = name }, { t(name), t "(", i(1), t ") " }, { condition = typst.in_mathzone })
+  )
+end
+
+for _, func in ipairs(text_snippets) do
+  local trig, name, dscr = func[1], func[2], func[3]
+  table.insert(
+    autosnips,
+    s({ trig = trig, name = name, dscr = dscr }, { t(name), t " " }, { condition = typst.in_mathzone })
   )
 end
 
