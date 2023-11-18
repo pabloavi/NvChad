@@ -846,6 +846,24 @@ M.airlatex = {
   },
 }
 
+M.typst = {
+  plugin = true, -- lazy load mappings
+  n = {
+    ["<leader>ll"] = {
+      "<cmd> silent! TypstWatch <CR>",
+      "compile typst file",
+      opts = { noremap = true, silent = true },
+    },
+  },
+  i = {
+    ["<C-l>"] = {
+      "<C-g>u<Esc>[s1z=`]a<C-g>u",
+      "fix last miss-spelling",
+      opts = { noremap = true, silent = true },
+    },
+  },
+}
+
 M.webtools = {
   plugin = true,
   n = {

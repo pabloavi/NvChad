@@ -60,6 +60,13 @@ local function pair(pair_begin, pair_end, expand_func, ...)
   })
 end
 
+local useful_envs = {
+  "capci",
+  "nota",
+  "defi",
+  "postu",
+}
+
 snips = {
   -- "preamble"
   s(
@@ -142,12 +149,6 @@ autosnips = {
   ),
 
   s(
-    { trig = "/", name = "fraction", dscr = "fraction" },
-    { t "(", i(1), t ") / (", i(2), t ") " },
-    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
-  ),
-
-  s(
     { trig = "code", name = "code block", dscr = "code block" },
     fmt(
       [[
@@ -167,5 +168,27 @@ autosnips = {
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 }
+
+for _, env in ipairs(useful_envs) do
+  table.insert(
+    autosnips,
+    s(
+      { trig = env, name = env, dscr = env },
+      fmt(
+        [[
+      #<>(
+        "<>",
+        [
+          <>
+        ]
+      )<>
+      ]],
+        { t(env), i(1), i(2), i(0) },
+        { delimiters = "<>" }
+      ),
+      { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+    )
+  )
+end
 
 return snips, autosnips

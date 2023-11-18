@@ -810,6 +810,7 @@ local plugins = {
 
   {
     "pabloavi/typst.vim",
+    enabled = true,
     ft = "typst",
     lazy = false,
   },

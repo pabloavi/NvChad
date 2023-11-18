@@ -15,7 +15,8 @@ M.in_template = function()
 end
 
 M.in_text = function()
-  return not M.in_import() and not M.in_mathzone() and not M.in_comment() and not M.in_code()
+  -- return not M.in_import() and not M.in_mathzone() and not M.in_comment() and not M.in_code()
+  return not M.in_import() and not M.in_mathzone() and not M.in_comment()
 end
 
 M.in_mathzone = function()
