@@ -14,14 +14,13 @@ M.new_hlgroups = {
   IlluminatedWordWrite = { bg = "one_bg3" },
 
   -- typst
-  ["@lsp.type.pol.typst"] = { link = "@identifier" },
+  ["@lsp.type.pol.typst"] = { fg = "pink" },
 
   ["@lsp.type.string.typst"] = { link = "@string" },
   ["@lsp.type.bool.typst"] = { link = "@boolean" },
   ["@lsp.type.number.typst"] = { link = "@number" },
   ["@lsp.type.float.typst"] = { link = "@float" },
   ["@lsp.type.keyword.typst"] = { link = "@keyword" },
-  ["@lsp.type.operator.typst"] = { link = "@operator" },
   ["@lsp.type.label.typst"] = { link = "@label" },
   ["@lsp.type.marker.typst"] = { link = "@structure" },
   ["@lsp.type.delim.typst"] = { link = "@delimiter" },
@@ -33,6 +32,7 @@ M.new_hlgroups = {
   -- ["@lsp.mod.math.typst"] = {},
 
   ["@lsp.typemod.delim.math.typst"] = { fg = "yellow" },
+  ["@lsp.type.operator.typst"] = { fg = "red" },
 }
 
 M.overriden_hlgroups = {

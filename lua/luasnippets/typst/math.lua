@@ -25,44 +25,43 @@ local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
 
 local function_snippets = { -- shorter, add pars, args
-  { "abs", "abs" },
-  { "norm", "norm" },
-  { "set", "Set" },
+  { trig = "abs", text = "abs", pars = 1 },
+  { trig = "norm", text = "norm", pars = 1 },
+  { trig = "set", text = "Set", pars = 1 },
 
-  { "dd", "dd" },
-  { "var", "var" },
-  { "prom", "expval" },
+  { trig = "dd", text = "dd", pars = 1 },
+  { trig = "var", text = "var", pars = 1 },
+  { trig = "prom", text = "expval", pars = 1 },
 
-  { "DD", "dv", 2 },
-  { "PP", "pdv", 2 },
+  { trig = "DD", text = "dv", pars = 2 },
+  { trig = "PP", text = "pdv", pars = 2 },
 
-  { "bra", "bra" },
-  { "ket", "ket" },
-  { "brk", "braket" },
-  { "kbr", "ketbra" },
+  { trig = "bra", text = "bra", pars = 1 },
+  { trig = "ket", text = "ket", pars = 1 },
+  { trig = "brk", text = "braket", pars = 1 },
+  { trig = "kbr", text = "ketbra", pars = 1 },
 
-  { "diag", "diag" },
-}
+  { trig = "diag", text = "diag", pars = 1 },
 
-local text_snippets = { -- shorter and adds a space
-  { "hb", "hbar", "planck constant hbar" },
-  { "eps", "epsilon", "epsilon" },
+  { trig = "ss", text = "_", pars = 1, word = false },
 
-  { "cd", "dprod", "dot product, producto escalar, punto" },
-  { "xx", "cprod", "cross product, producto vectorial" },
+  -- text ones
+  { trig = "hb", text = "hbar", dscr = "planck constant hbar" },
+  { trig = "eps", text = "epsilon", dscr = "epsilon" },
 
-  { "int", "integral", "integral" },
+  { trig = "cd", text = "dprod", dscr = "dot product, producto escalar, punto" },
+  { trig = "xx", text = "cprod", dscr = "cross product, producto vectorial" },
 
-  { "fa", "forall", "for all" },
+  { trig = "int", text = "integral ", dscr = "integral" },
 
-  { "ne", "eq.not", "not equal" },
-}
+  { trig = "fa", text = "forall ", dscr = "for all" },
+  { trig = "ne", text = "eq.not ", dscr = "not equal" },
 
-local word_text_snippets = {
-  { "tra", "^TT ", "traspuesta" },
-
-  { "sr", "^2", "fast squared" },
-  { "cr", "^3", "fast cubed" },
+  -- word text
+  { trig = "tra", text = "^TT ", dscr = "traspuesta", word = false },
+  { trig = "sr", text = "^2 ", dscr = "fast squared", word = false },
+  { trig = "cr", text = "^3 ", dscr = "fast cubed", word = false },
+  { trig = "ala", text = "^", dscr = "fast cubed", word = false, pars = 1 },
 }
 
 snips = {}
@@ -109,36 +108,25 @@ autosnips = {
   postfix(".,", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
 }
 
-for _, func in ipairs(text_snippets) do
-  local trig, name, dscr = func[1], func[2], func[3]
-  table.insert(
-    autosnips,
-    s({ trig = trig, name = name, dscr = dscr }, { t(name), t " " }, { condition = typst.in_mathzone })
-  )
-end
-
-for _, func in ipairs(word_text_snippets) do
-  local trig, name, dscr = func[1], func[2], func[3]
-  table.insert(
-    autosnips,
-    s(
-      { trig = trig, name = name, dscr = dscr, wordTrig = false },
-      { t(name), t " " },
-      { condition = typst.in_mathzone }
-    )
-  )
-end
-
-for _, func in ipairs(function_snippets) do
-  local trig, name = func[1], func[2]
-  local nodes_table = { t(name), t "(", i(1) }
-  local number = func[3] or 1
-  for k = 1, number - 1 do
-    table.insert(nodes_table, t ",")
-    table.insert(nodes_table, i(k + 1))
+for _, snippet in ipairs(function_snippets) do
+  local trig, text, dscr, pars = snippet["trig"], snippet["text"], snippet["dscr"], snippet["pars"]
+  local word = true
+  if snippet["word"] ~= nil then
+    word = snippet["word"]
   end
-  table.insert(nodes_table, t ") ")
-  table.insert(autosnips, s({ trig = trig, name = name, dscr = name }, nodes_table, { condition = typst.in_mathzone }))
+  local nodes = { t(text) }
+  if pars then
+    nodes = { t(text), t "(", i(1) }
+    for k = 1, pars - 1 do
+      table.insert(nodes, t ",")
+      table.insert(nodes, i(k + 1))
+    end
+    table.insert(nodes, t ") ")
+  end
+  table.insert(
+    autosnips,
+    s({ trig = trig, name = text, dscr = dscr, wordTrig = word }, nodes, { condition = typst.in_mathzone })
+  )
 end
 
 if enabled then
