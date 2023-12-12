@@ -9,11 +9,11 @@ M.options = {
 }
 
 M.ui = {
-  theme = "onedark_original",
+  theme = "onenord",
   hl_add = require("core.highlights").new_hlgroups,
   hl_override = require("core.highlights").overriden_hlgroups,
   changed_themes = {},
-  theme_toggle = { "onedark_original_original", "onedark_original_original" },
+  theme_toggle = { "onenord_original", "onenord_original" },
   transparency = false,
 
   cmp = {
