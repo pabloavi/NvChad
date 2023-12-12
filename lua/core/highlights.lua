@@ -13,8 +13,9 @@ M.new_hlgroups = {
   IlluminatedWordRead = { bg = "one_bg3" },
   IlluminatedWordWrite = { bg = "one_bg3" },
 
-  -- latex italic
-  ["@text.emphasis.latex"] = { italic = true },
+  -- latex
+  -- NOTE: maybe just italic = true instead of link
+  ["@text.emphasis.latex"] = { link = "italic" },
 
   -- typst
   ["@lsp.type.pol.typst"] = { fg = "pink" },
