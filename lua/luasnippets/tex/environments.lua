@@ -442,7 +442,7 @@ autosnips = {
       },
       { delimiters = "<>" }
     ),
-    { expand.line_begin, show_condition = tex.in_text }
+    { condition = expand.line_begin, show_condition = tex.in_text }
   ),
   s(
     { trig = "item", name = "item", dscr = "Itemize environment." },
@@ -457,7 +457,7 @@ autosnips = {
       { i(1), i(0) },
       { delimiters = "<>" }
     ),
-    { { expand.line_begin, show_condition = tex.in_text } }
+    { condition = expand.line_begin, show_condition = tex.in_text }
   ),
   -- circuitikz figure
   s(
