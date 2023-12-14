@@ -901,6 +901,9 @@ autosnips = {
   postfix("ve", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix(",.", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
   postfix(".,", { l("\\vec{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+
+  postfix("pun", { l("\\dot{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
+  postfix("ppun", { l("\\ddot{" .. l.POSTFIX_MATCH .. "} ") }, { condition = tex.in_mathzone }),
 }
 
 -- TODO: refactor this loop

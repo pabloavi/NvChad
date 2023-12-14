@@ -23,6 +23,7 @@ local servers = { -- lua_ls, texlab, ltex and clangd are configured appart
   "marksman",
   "verible",
   "arduino_language_server",
+  "clangd", -- FIXME: should be places appart
 }
 
 if vim.g.java_enabled then
@@ -72,12 +73,12 @@ if vim.g.c_enabled then
       M.on_attach(client, bufnr)
       require("nvim-navbuddy").attach(client, bufnr)
     end,
-    capabilities = function()
+    capabilities = {
       cmd = {
         "clangd",
         "--offset-encoding=utf-16",
-      }
-    end,
+      },
+    },
   }
 end
 

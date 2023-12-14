@@ -65,6 +65,13 @@ local useful_envs = {
   "nota",
   "defi",
   "postu",
+  "ejer",
+}
+
+local function_snippets = {
+  -- { trig = "si", text = "#unit", dscr = "SI unit", pars = 1 },
+  -- { trig = "SI", text = "#qty", dscr = "SI quantity", pars = 2 },
+  -- { trig = "num", text = "#num", dscr = "SI number", pars = 1 },
 }
 
 snips = {
@@ -92,7 +99,7 @@ snips = {
       #figure(
         image("figures/{}", width: {}%),
         caption: [{}],
-      ) <img-{}>
+      ) <img:{}>
 
       {}
     ]],
@@ -111,7 +118,7 @@ snips = {
           {}
         ),
         caption: [{}],
-      ) <tab-{}>
+      ) <tab:{}>
 
       {}
     ]],
@@ -120,11 +127,34 @@ snips = {
     ),
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
+
+  -- start siunitx
+  s(
+    { trig = "qty", name = "siunitx SI qty", dscr = "siunitx SI qty" },
+    { t "#qty(", i(1), t ',"', i(2), t '")' },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+  s(
+    { trig = "si", name = "siunitx si unit", dscr = "siunitx si unit" },
+    { t '#unit("', i(1), t '")' },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+  s(
+    { trig = "num", name = "siunitx num", dscr = "siunitx num" },
+    { t "#num(", i(1), t ")" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+  -- end siunitx
 }
 
 autosnips = {
   pair("$", "$", neg, char_count_same),
 
+  s(
+    { trig = "ind", name = "paragraph indent symbol", dscr = "paragraph indent symbol" },
+    { t "¬" },
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  ),
   s(
     { trig = "_", name = "italic", dscr = "italic" },
     { t "_", i(1), t "_" },
@@ -144,8 +174,22 @@ autosnips = {
 
   s(
     { trig = "dm", name = "display math", dscr = "display math" },
-    { t "$ ", i(1), t " $" },
+    { t { "$", "  " }, i(1), t { "", "$" } },
     { condition = typst.in_text, expand.line_begin, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "for", name = "for loop in text", dscr = "for loop in text" },
+    fmt(
+      [[
+        #for <> in <> {
+          <>
+        }
+        ]],
+      { i(1), i(2), i(3) },
+      { delimiters = "<>" }
+    ),
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 
   s(
@@ -159,12 +203,6 @@ autosnips = {
       { i(1, "lang"), i(2, "code") },
       { delimiters = "<>" }
     ),
-    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
-  ),
-
-  s(
-    { trig = "let", name = "partial derivative", dscr = "partial derivative" },
-    { t "#let " },
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 }
@@ -188,6 +226,27 @@ for _, env in ipairs(useful_envs) do
       ),
       { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
     )
+  )
+end
+
+for _, snippet in ipairs(function_snippets) do
+  local trig, text, dscr, pars = snippet["trig"], snippet["text"], snippet["dscr"], snippet["pars"]
+  local word = true
+  if snippet["word"] ~= nil then
+    word = snippet["word"]
+  end
+  local nodes = { t(text) }
+  if pars then
+    nodes = { t(text), t "(", i(1) }
+    for k = 1, pars - 1 do
+      table.insert(nodes, t ",")
+      table.insert(nodes, i(k + 1))
+    end
+    table.insert(nodes, t ")")
+  end
+  table.insert(
+    snips,
+    s({ trig = trig, name = text, dscr = dscr, wordTrig = word }, nodes, { condition = typst.in_mathzone })
   )
 end
 

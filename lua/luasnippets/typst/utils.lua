@@ -6,10 +6,18 @@ M.in_import = function()
   return string.find(line, "^#import") ~= nil
 end
 
+-- check current file name for template.typ
 M.in_template = function()
-  -- check current file name for template.typ
   local file = vim.fn.expand "%:t"
   if file == "template.typ" then
+    return true
+  end
+end
+
+-- check curren file name for master.typ or main.typ
+M.in_master = function()
+  local file = vim.fn.expand "%:t"
+  if file == "master.typ" or file == "main.typ" then
     return true
   end
 end

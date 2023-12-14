@@ -504,7 +504,7 @@ local plugins = {
       require("core.utils").lazy_load "todo-comments.nvim"
     end,
     config = function()
-      require("todo-comments").setup()
+      require("todo-comments").setup { highlight = { comments_only = false } } -- TODO: wait for typst treesitter support and remove this option
     end,
   },
 
@@ -792,6 +792,17 @@ local plugins = {
   },
 
   {
+    "glepnir/template.nvim",
+    cmd = { "Template", "TemProject" },
+    opts = function()
+      return require("plugins.configs.others").template
+    end,
+    config = function(_, opts)
+      require("template").setup(opts)
+    end,
+  },
+
+  {
     "glacambre/firenvim",
     lazy = false,
     config = function()
@@ -810,14 +821,34 @@ local plugins = {
 
   {
     "pabloavi/typst.vim",
-    enabled = true,
     ft = "typst",
     lazy = false,
   },
 
   {
+    "chomosuke/typst-preview.nvim",
+    -- lazy = false,
+    ft = "typst",
+    version = "0.1.*",
+    build = function()
+      require("typst-preview").update()
+    end,
+  },
+
+  {
     "folke/trouble.nvim",
     event = "VeryLazy",
+  },
+
+  {
+    "karb94/neoscroll.nvim",
+    enabled = false,
+    lazy = false,
+    config = function()
+      if vim.g.neovide then
+        require("neoscroll").setup {}
+      end
+    end,
   },
 }
 

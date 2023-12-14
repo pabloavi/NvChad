@@ -850,7 +850,10 @@ M.typst = {
   plugin = true, -- lazy load mappings
   n = {
     ["<leader>ll"] = {
-      "<cmd> silent! TypstWatch <CR>",
+      function()
+        vim.cmd "silent! TypstPreviewToggle"
+        vim.cmd "silent! TypstWatch"
+      end,
       "compile typst file",
       opts = { noremap = true, silent = true },
     },

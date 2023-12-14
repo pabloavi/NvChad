@@ -13,6 +13,9 @@ M.new_hlgroups = {
   IlluminatedWordRead = { bg = "one_bg3" },
   IlluminatedWordWrite = { bg = "one_bg3" },
 
+  ["@text.environment.latex"] = { fg = "red" },
+  ["@text.environment.name.latex"] = { fg = "yellow" },
+
   -- typst
   ["@lsp.type.pol.typst"] = { fg = "pink" },
 
@@ -33,6 +36,7 @@ M.new_hlgroups = {
 
   ["@lsp.typemod.delim.math.typst"] = { fg = "yellow" },
   ["@lsp.type.operator.typst"] = { fg = "red" },
+  ["@lsp.type.ref.typst"] = { link = "@keyword" },
 }
 
 M.overriden_hlgroups = {

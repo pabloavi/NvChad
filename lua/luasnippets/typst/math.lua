@@ -33,6 +33,9 @@ local function_snippets = { -- shorter, add pars, args
   { trig = "var", text = "var", pars = 1 },
   { trig = "prom", text = "expval", pars = 1 },
 
+  { trig = "sqrt", text = "sqrt", pars = 1 },
+  { trig = "ln", text = "ln", pars = 1 },
+
   { trig = "DD", text = "dv", pars = 2 },
   { trig = "PP", text = "pdv", pars = 2 },
 
@@ -47,6 +50,7 @@ local function_snippets = { -- shorter, add pars, args
 
   -- text ones
   { trig = "hb", text = "hbar", dscr = "planck constant hbar" },
+  { trig = "kb", text = "k_B", dscr = "boltzmann constant" },
   { trig = "eps", text = "epsilon", dscr = "epsilon" },
 
   { trig = "cd", text = "dprod", dscr = "dot product, producto escalar, punto" },
@@ -54,25 +58,43 @@ local function_snippets = { -- shorter, add pars, args
 
   { trig = "int", text = "integral ", dscr = "integral" },
 
-  { trig = "fa", text = "forall ", dscr = "for all" },
-  { trig = "ne", text = "eq.not ", dscr = "not equal" },
+  { trig = "fa", text = "forall", dscr = "for all" },
+  { trig = "ne", text = "eq.not", dscr = "not equal" },
 
   -- word text
   { trig = "tra", text = "^TT ", dscr = "traspuesta", word = false },
-  { trig = "sr", text = "^2 ", dscr = "fast squared", word = false },
-  { trig = "cr", text = "^3 ", dscr = "fast cubed", word = false },
-  { trig = "ala", text = "^", dscr = "fast cubed", word = false, pars = 1 },
+  { trig = "sr", text = "^2", dscr = "fast squared", word = false },
+  { trig = "cr", text = "^3", dscr = "fast cubed", word = false },
+  { trig = "ala", text = "^", dscr = "fast cubed", pars = 1, word = false },
+  { trig = "con", text = "^*", dscr = "conjugado", word = false },
 }
 
 snips = {}
 
 autosnips = {
-
   s(
     { trig = "fr", name = "fraction", dscr = "fraction" },
     { t "(", i(1), t ") / (", i(2), t ") " },
     { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
   ),
+
+  -- start siunitx
+  s(
+    { trig = "qty", name = "siunitx SI qty", dscr = "siunitx SI qty" },
+    { t "qty(", i(1), t ',"', i(2), t '")' },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+  -- s(
+  --   { trig = "si", name = "siunitx si unit", dscr = "siunitx si unit" },
+  --   { t 'unit("', i(1), t '")' },
+  --   { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  -- ),
+  s(
+    { trig = "num", name = "siunitx num", dscr = "siunitx num" },
+    { t "num(", i(1), t ")" },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+  -- end siunitx
 
   s({
     trig = "([%a])(%d)",
@@ -102,10 +124,10 @@ autosnips = {
   postfix("gor", { l("hat(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   postfix("cal", { l("cal(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   -- postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
-  postfix("uni", { l("vu(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
-  postfix("ve", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
-  postfix(",.", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
-  postfix(".,", { l("va(" .. l.POSTFIX_MATCH .. ") ") }, { condition = typst.in_mathzone }),
+  postfix("uni", { l("vu(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
+  postfix("ve", { l("va(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
+  postfix(",.", { l("va(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
+  postfix(".,", { l("va(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
 }
 
 for _, snippet in ipairs(function_snippets) do
@@ -121,7 +143,7 @@ for _, snippet in ipairs(function_snippets) do
       table.insert(nodes, t ",")
       table.insert(nodes, i(k + 1))
     end
-    table.insert(nodes, t ") ")
+    table.insert(nodes, t ")")
   end
   table.insert(
     autosnips,
