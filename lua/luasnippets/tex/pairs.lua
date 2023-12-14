@@ -91,6 +91,18 @@ snips = {
     ),
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
+  -- lvert and rvert
+  s(
+    { trig = "lrv", name = "lvert/rvert", dscr = "lvert/rvert" },
+    fmt(
+      [[
+        {\lvert <> \rvert} <>
+      ]],
+      { i(1), i(0) },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
+  ),
 }
 
 return snips, autosnips

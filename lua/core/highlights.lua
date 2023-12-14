@@ -13,8 +13,11 @@ M.new_hlgroups = {
   IlluminatedWordRead = { bg = "one_bg3" },
   IlluminatedWordWrite = { bg = "one_bg3" },
 
+  -- latex
+  -- NOTE: maybe just italic = true instead of link
   ["@text.environment.latex"] = { fg = "red" },
   ["@text.environment.name.latex"] = { fg = "yellow" },
+  ["@text.emphasis.latex"] = { link = "italic" },
 
   -- typst
   ["@lsp.type.pol.typst"] = { fg = "pink" },

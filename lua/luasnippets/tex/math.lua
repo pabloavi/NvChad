@@ -1013,6 +1013,59 @@ for _, greek_letter in ipairs(greek_letters) do
       t "",
     }, { condition = tex.in_mathzone })
   )
+
+  -- vector: "greek " ., --> \\vec{greek}
+  -- or "greek " ,. --> \\vec{greek}
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. greek_letter .. " (%.,)",
+      name = "vector",
+      regTrig = true,
+    }, {
+      t "\\vec{",
+      t("\\" .. greek_letter),
+      t "} ",
+    }, { condition = tex.in_mathzone })
+  )
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. greek_letter .. " (,%.)",
+      name = "vector",
+      regTrig = true,
+    }, {
+      t "\\vec{",
+      t("\\" .. greek_letter),
+      t "} ",
+    }, { condition = tex.in_mathzone })
+  )
+
+  -- uppercase
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. trig .. " (%.,)",
+      name = "vector",
+      regTrig = true,
+    }, {
+      t "\\vec{",
+      t("\\" .. trig),
+      t "} ",
+    }, { condition = tex.in_mathzone })
+  )
+  table.insert(
+    autosnips,
+    s({
+      trig = "\\" .. trig .. " (,%.)",
+      name = "vector",
+      regTrig = true,
+    }, {
+      t "\\vec{",
+      t("\\" .. trig),
+      t "} ",
+    }, { condition = tex.in_mathzone })
+  )
 end
 
 -- for each operator in the table, add two snippets: one with its name and one with a in front of it

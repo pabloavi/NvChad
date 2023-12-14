@@ -191,6 +191,22 @@ snips = {
   ),
 
   s(
+    { trig = "setuplistindent", name = "indent all itemize and enumerate", dscr = "indent all itemize and enumerate" },
+    fmt(
+      [[
+      \usepackage{enumitem}
+      \setlist{
+	    listparindent=\parindent,
+	    % parsep=0pt,
+      }
+      ]],
+      {},
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text, show_condition = tex.in_text }
+  ),
+
+  s(
     { trig = "decmo", name = "Declare math operator", dscr = "Declare math operator" },
     fmt(
       [[

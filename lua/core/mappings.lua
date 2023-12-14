@@ -66,10 +66,10 @@ M.general = {
     ["<C-e>"] = { "<End>", "end of line" },
 
     -- navigate within insert mode
-    ["<C-h>"] = { "<Left>", "move left" },
-    ["<C-l>"] = { "<Right>", "move right" },
-    ["<C-j>"] = { "<Down>", "move down" },
-    ["<C-k>"] = { "<Up>", "move up" },
+    -- ["<C-h>"] = { "<Left>", "move left" },
+    -- ["<C-l>"] = { "<Right>", "move right" },
+    -- ["<C-j>"] = { "<Down>", "move down" },
+    -- ["<C-k>"] = { "<Up>", "move up" },
   },
 
   n = {
@@ -637,7 +637,21 @@ M.luasnip = {
       "edit luasnip snippets (with reload)",
     },
   },
+
+  v = {},
 }
+
+-- for any register on the fly snippets
+for letter in ("abcdefghijklmnopqrstuvwxyz"):gmatch "." do
+  M.luasnip.i["<C-j>" .. letter] = {
+    "<cmd>lua require('luasnip.extras.otf').on_the_fly('" .. letter .. "')<cr>",
+    "luasnip on the fly",
+  }
+  M.luasnip.v["<C-j>" .. letter] = {
+    '"' .. letter .. [[c <cmd>lua require('luasnip.extras.otf').on_the_fly("]] .. letter .. [[")<cr>]],
+    "luasnip on the fly",
+  }
+end
 
 M.zenmode = {
   plugin = true,
