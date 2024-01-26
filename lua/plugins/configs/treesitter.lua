@@ -15,7 +15,7 @@ local options = {
     "bibtex",
     "rust",
     "rasi",
-    "hypr",
+    "hyprlang",
   },
 
   highlight = {

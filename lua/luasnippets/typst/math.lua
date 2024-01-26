@@ -114,7 +114,7 @@ autosnips = {
     regTrig = true,
   }, {
     f(function(_, snip)
-      return string.format("%s_{%s} ", snip.captures[1], snip.captures[2])
+      return string.format("%s_%s", snip.captures[1], snip.captures[2])
     end, {}),
     i(0),
   }, { condition = typst.in_mathzone }),

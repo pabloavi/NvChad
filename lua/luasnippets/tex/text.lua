@@ -115,6 +115,20 @@ autosnips = {
     { t "\\noindent" },
     { condition = tex.in_text * expand.line_begin }
   ),
+  s(
+    { trig = "par", name = "formulario.nuevaformula", dscr = "formulario.Añadir nuevo párrafo + fórmula" },
+    fmt(
+      [[
+      \paragraph{\textbf{<>}.} <>
+      ]],
+      {
+        i(1),
+        i(0),
+      },
+      { delimiters = "<>" }
+    ),
+    { condition = tex.in_text * expand.line_begin, show_condition = tex.in_text }
+  ),
 }
 
 return snips, autosnips

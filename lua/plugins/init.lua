@@ -849,6 +849,15 @@ local plugins = {
       end
     end,
   },
+  {
+    "antoinemadec/openrgb.nvim",
+    enabled = false,
+    build = "UpdateRemotePlugins",
+    lazy = false,
+    config = function()
+      require("plugins.configs.others").openrgb()
+    end,
+  },
 }
 
 local config = require("core.utils").load_config()
