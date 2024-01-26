@@ -261,7 +261,7 @@ snips = {
   ),
   s(
     { trig = "lim", name = "limit", dscr = "limit" },
-    { t "\\lim_{", i(1, "x"), t "\\to", i(2, "\\infty", t "} ") },
+    { t "\\lim_{", i(1, "x"), t "\\to", i(2, "\\infty"), t "} " },
     { condition = tex.in_mathzone, show_condition = tex.in_mathzone }
   ),
   s(
