@@ -34,6 +34,8 @@ local options = {
       keymaps = { -- capture groups from textobjects.scm or locals.scm
         ["af"] = { query = "@function.outer", desc = "select outer function" },
         ["if"] = { query = "@function.inner", desc = "select inner function" },
+        ["ac"] = { query = "@call_capture", desc = "select outer class" },
+        ["a$"] = { query = "@math_capture", desc = "select outer class" },
         -- ["ac"] = { query = "@class.outer", desc = "select outer class" },
         -- ["ic"] = { query = "@class.inner", desc = "select inner class" },
         ["as"] = { query = "@scope", query_group = "locals", desc = "select language scope" },
@@ -112,6 +114,15 @@ parser_config.hypr = {
     branch = "master",
   },
   filetype = "hypr",
+}
+parser_config.typst = {
+  install_info = {
+    url = "~/Documentos/git/tree-sitter-typst",
+    files = { "src/parser.c", "src/scanner.c" },
+    generate_requires_npm = true,
+    -- branch = "main",
+  },
+  filetype = "typst", -- if filetype does not agrees with parser name
 }
 
 if vim.g.c_enabled then
