@@ -871,6 +871,15 @@ M.typst = {
       "compile typst file",
       opts = { noremap = true, silent = true },
     },
+    ["<leader>lv"] = {
+      function()
+        -- find main file and replace .typ with .pdf
+        local main_file = vim.fn.FindMainFile():gsub("%.typ$", ".pdf")
+        os.execute("xdg-open " .. main_file)
+      end,
+      "compile typst file",
+      opts = { noremap = true, silent = true },
+    },
   },
   i = {
     ["<C-l>"] = {

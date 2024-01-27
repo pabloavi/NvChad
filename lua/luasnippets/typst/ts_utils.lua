@@ -86,6 +86,17 @@ function M.in_mathzone()
   return false
 end
 
+function M.in_import()
+  local node = get_node_at_cursor()
+  while node do
+    if node:type() == "import" then
+      return true
+    end
+    node = node:parent()
+  end
+  return false
+end
+
 -- function M.in_env(env)
 --   local LIST = {
 --     ["{" .. env .. "}"] = true,
@@ -158,5 +169,12 @@ end
 --   end
 --   return false
 -- end
+
+M.in_template = function()
+  local file = vim.fn.expand "%:t"
+  if file == "template.typ" then
+    return true
+  end
+end
 
 return M

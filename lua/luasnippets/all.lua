@@ -68,6 +68,7 @@ snips = {
   --   { condition = char_count_same("%(", "%)") }
   -- ),
   pair("(", ")", neg, char_count_same),
+  pair("\\(", "\\)", neg, char_count_same),
   pair("{", "}", neg, char_count_same),
   pair("[", "]", neg, char_count_same),
   pair("¿", "?", neg, char_count_same),

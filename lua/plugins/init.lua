@@ -819,7 +819,7 @@ local plugins = {
   { "luckasRanarison/tree-sitter-hypr", lazy = false },
 
   {
-    "pabloavi/typst.vim",
+    "kaarmu/typst.vim",
     ft = "typst",
     lazy = false,
   },

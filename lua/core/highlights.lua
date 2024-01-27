@@ -39,6 +39,7 @@ M.new_hlgroups = {
 
   ["@lsp.typemod.delim.math.typst"] = { fg = "yellow" },
   ["@lsp.type.operator.typst"] = { fg = "red" },
+  ["@lsp.type.escape.typst"] = { link = "@lsp.type.operator.typst" },
   ["@lsp.type.ref.typst"] = { link = "@keyword" },
 }
 

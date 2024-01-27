@@ -117,12 +117,10 @@ parser_config.hypr = {
 }
 parser_config.typst = {
   install_info = {
-    url = "~/Documentos/git/tree-sitter-typst",
+    url = "https://github.com/uben0/tree-sitter-typst.git", -- local path or git repo
     files = { "src/parser.c", "src/scanner.c" },
-    generate_requires_npm = true,
-    -- branch = "main",
   },
-  filetype = "typst", -- if filetype does not agrees with parser name
+  filetype = "typst", -- if filetype does not match the parser name
 }
 
 if vim.g.c_enabled then

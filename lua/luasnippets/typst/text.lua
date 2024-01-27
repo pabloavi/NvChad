@@ -1,6 +1,6 @@
 local snips, autosnips = {}, {}
 
-local typst = require "luasnippets.typst.utils"
+local typst = require "luasnippets.typst.ts_utils"
 
 local ls = require "luasnip"
 local s = ls.snippet
@@ -53,7 +53,9 @@ end
 
 local function pair(pair_begin, pair_end, expand_func, ...)
   return s({ trig = pair_begin, wordTrig = false }, { t { pair_begin }, i(1), t { pair_end } }, {
-    condition = typst.not_in_import, -- part(expand_func, part(..., pair_begin, pair_end)),
+    condition = function()
+      return not typst.in_import()
+    end, -- part(expand_func, part(..., pair_begin, pair_end)),
     show_condition = function()
       return false
     end,
@@ -160,11 +162,12 @@ autosnips = {
     { t "_", i(1), t "_" },
     { condition = typst.in_text, show_condition = typst.in_text }
   ),
-  s(
-    { trig = "*", name = "bold", dscr = "bold" },
-    { t "*", i(1), t "*" },
-    { condition = typst.in_text, show_condition = typst.in_text }
-  ),
+  s({ trig = "*", name = "bold", dscr = "bold" }, { t "*", i(1), t "*" }, {
+    condition = function()
+      return not typst.in_import()
+    end,
+    show_condition = typst.in_text,
+  }),
 
   s(
     { trig = "mk", name = "math in line", dscr = "math in line" },
