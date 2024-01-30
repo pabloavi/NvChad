@@ -57,7 +57,7 @@ local function_snippets = { -- shorter, add pars, args
   { trig = "cd", text = "dprod", dscr = "dot product, producto escalar, punto" },
   { trig = "xx", text = "cprod", dscr = "cross product, producto vectorial" },
 
-  { trig = "int", text = "integral ", dscr = "integral" },
+  { trig = "inf", text = "infinity", dscr = "infinity" },
 
   { trig = "fa", text = "forall", dscr = "for all" },
   { trig = "ne", text = "eq.not", dscr = "not equal" },
@@ -95,6 +95,23 @@ autosnips = {
     { t "num(", i(1), t ")" },
     { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
   ),
+
+  s(
+    { trig = "int", name = "integral with choice", dscr = "integral with choice" },
+    fmt(
+      [[
+    integral<>
+    ]],
+      {
+        c(1, {
+          { t " ", i(1) },
+          sn(nil, { t "_(", i(1), t ")^(", i(2), t ")", i(3) }),
+        }),
+      },
+      { delimiters = "<>" }
+    ),
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
   -- end siunitx
 
   s({
@@ -115,7 +132,7 @@ autosnips = {
     regTrig = true,
   }, {
     f(function(_, snip)
-      return string.format("%s_{%s} ", snip.captures[1], snip.captures[2])
+      return string.format("%s_%s", snip.captures[1], snip.captures[2])
     end, {}),
     i(0),
   }, { condition = typst.in_mathzone }),

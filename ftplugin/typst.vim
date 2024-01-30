@@ -19,6 +19,16 @@ function! FindRoot()
   endif
 endfunction
 
-inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.FindRoot().'/figures/"'<CR><CR>:w<CR>
-nnoremap <C-f> : silent exec '!inkscape-figures edit "'.FindRoot().'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
+function! FindMainFile()
+  let l:root = FindRoot()
+  if filereadable(l:root.'/master.typ')
+    return l:root.'/master.typ'
+  elseif filereadable(l:root.'/main.typ')
+    return l:root.'/main.typ'
+  endif
+  return expand('%:p')
+endfunction
+
+inoremap <C-f> <Esc>: silent exec '.!env WAYLAND_DISPLAY= inkscape-figures create "'.getline('.').'" "'.FindRoot().'/figures/"'<CR><CR>:w<CR>
+nnoremap <C-f> : silent exec '!env WAYLAND_DISPLAY= inkscape-figures edit "'.FindRoot().'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
 

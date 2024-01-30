@@ -385,4 +385,15 @@ M.template_nvim = {
   email = "",
 }
 
+M.openrgb = function()
+  vim.cmd [[
+ augroup openrgb
+   autocmd!
+   autocmd ModeChanged *:* call OpenRGBChangeColorFromMode(mode(), 0, 255)
+   autocmd FocusGained,UIEnter * call OpenRGBChangeColorFromMode(mode(), 1, 255)
+   autocmd FocusLost * call OpenRGBClearColor()
+ augroup end
+]]
+end
+
 return M

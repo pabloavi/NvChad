@@ -819,7 +819,7 @@ local plugins = {
   { "luckasRanarison/tree-sitter-hypr", lazy = false },
 
   {
-    "pabloavi/typst.vim",
+    "kaarmu/typst.vim",
     ft = "typst",
     lazy = false,
   },
@@ -847,6 +847,15 @@ local plugins = {
       if vim.g.neovide then
         require("neoscroll").setup {}
       end
+    end,
+  },
+  {
+    "antoinemadec/openrgb.nvim",
+    enabled = false,
+    build = "UpdateRemotePlugins",
+    lazy = false,
+    config = function()
+      require("plugins.configs.others").openrgb()
     end,
   },
 }

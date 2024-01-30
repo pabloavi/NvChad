@@ -178,3 +178,9 @@ autopairs.add_rules {
       return "<C-c>2xi<CR><C-c>O"
     end),
 }
+--
+-- autopairs.add_rules {
+--   Rule("\\(", "\\)"):replace_endpair(function()
+--     return '<cmd>lua require"luasnip".expand_or_jump()<Cr>'
+--   end):set_end_pair_length(0),
+-- }
