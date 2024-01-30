@@ -28,6 +28,7 @@ local function_snippets = { -- shorter, add pars, args
   { trig = "abs", text = "abs", pars = 1 },
   { trig = "norm", text = "norm", pars = 1 },
   { trig = "set", text = "Set", pars = 1 },
+  { trig = "ten", text = "tensor", pars = 1 },
 
   { trig = "dd", text = "dd", pars = 1 },
   { trig = "var", text = "var", pars = 1 },

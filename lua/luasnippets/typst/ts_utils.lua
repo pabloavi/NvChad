@@ -86,6 +86,14 @@ function M.in_mathzone()
   return false
 end
 
+-- check current file name for template.typ
+M.in_template = function()
+  local file = vim.fn.expand "%:t"
+  if file == "template.typ" then
+    return true
+  end
+end
+
 -- function M.in_env(env)
 --   local LIST = {
 --     ["{" .. env .. "}"] = true,

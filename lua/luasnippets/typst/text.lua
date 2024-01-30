@@ -1,6 +1,6 @@
 local snips, autosnips = {}, {}
 
-local typst = require "luasnippets.typst.utils"
+local typst = require "luasnippets.typst.ts_utils"
 
 local ls = require "luasnip"
 local s = ls.snippet
