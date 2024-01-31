@@ -86,7 +86,7 @@ function M.in_mathzone()
   return false
 end
 
-function M.in_import()
+M.in_import = function()
   local node = get_node_at_cursor()
   while node do
     if node:type() == "import" then
