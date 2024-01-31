@@ -28,6 +28,10 @@ local function_snippets = { -- shorter, add pars, args
   { trig = "abs", text = "abs", pars = 1 },
   { trig = "norm", text = "norm", pars = 1 },
   { trig = "set", text = "Set", pars = 1 },
+  { trig = "grad", text = "grad", pars = 1 },
+  { trig = "div", text = "div", pars = 1 },
+  { trig = "rot", text = "curl", pars = 1 },
+  { trig = "lap", text = "laplacian", pars = 1 },
 
   { trig = "dd", text = "dd", pars = 1 },
   { trig = "var", text = "var", pars = 1 },
@@ -51,7 +55,11 @@ local function_snippets = { -- shorter, add pars, args
   -- text ones
   { trig = "hb", text = "hbar", dscr = "planck constant hbar" },
   { trig = "kb", text = "k_B", dscr = "boltzmann constant" },
+
   { trig = "eps", text = "epsilon", dscr = "epsilon" },
+  { trig = "ps", text = "psi", dscr = "psi" },
+  { trig = "ph", text = "phi", dscr = "phi" },
+  { trig = "the", text = "theta", dscr = "theta" },
 
   { trig = "cd", text = "dprod", dscr = "dot product, producto escalar, punto" },
   { trig = "xx", text = "cprod", dscr = "cross product, producto vectorial" },
