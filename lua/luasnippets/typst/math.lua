@@ -25,6 +25,9 @@ local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
 
 local function_snippets = { -- shorter, add pars, args
+  { trig = "iff", text = "<=>" },
+  { trig = "impl", text = "==>" },
+
   { trig = "abs", text = "abs", pars = 1 },
   { trig = "norm", text = "norm", pars = 1 },
   { trig = "set", text = "Set", pars = 1 },

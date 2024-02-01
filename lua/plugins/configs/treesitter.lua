@@ -15,7 +15,7 @@ local options = {
     "bibtex",
     "rust",
     "rasi",
-    "hyprlang",
+    -- "hyprlang",
   },
 
   highlight = {
@@ -107,14 +107,14 @@ local options = {
 }
 
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-parser_config.hypr = {
-  install_info = {
-    url = "https://github.com/luckasRanarison/tree-sitter-hypr",
-    files = { "src/parser.c" },
-    branch = "master",
-  },
-  filetype = "hypr",
-}
+-- parser_config.hypr = {
+--   install_info = {
+--     url = "https://github.com/luckasRanarison/tree-sitter-hypr",
+--     files = { "src/parser.c" },
+--     branch = "master",
+--   },
+--   filetype = "hyprlang",
+-- }
 parser_config.typst = {
   install_info = {
     url = "https://github.com/uben0/tree-sitter-typst.git", -- local path or git repo
