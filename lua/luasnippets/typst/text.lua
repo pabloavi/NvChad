@@ -68,6 +68,7 @@ local useful_envs = {
   "defi",
   "postu",
   "ejer",
+  "ejem",
 }
 
 local function_snippets = {
@@ -153,6 +154,18 @@ autosnips = {
   pair("$", "$", neg, char_count_same),
 
   s(
+    { trig = "juanje", name = "juan basura", dscr = "juan basura" },
+    { t "basura" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "juanjo", name = "juanjo basura", dscr = "juanjo basura" },
+    { t "" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+
+  s(
     { trig = "ind", name = "paragraph indent symbol", dscr = "paragraph indent symbol" },
     { t "¬" },
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
@@ -204,6 +217,20 @@ autosnips = {
     ```
     ]],
       { i(1, "lang"), i(2, "code") },
+      { delimiters = "<>" }
+    ),
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "list", name = "list", dscr = "list" },
+    fmt(
+      [[
+    #list[
+      <>
+    ][<>]
+    ]],
+      { i(1), i(2) },
       { delimiters = "<>" }
     ),
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }

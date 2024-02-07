@@ -860,6 +860,13 @@ M.airlatex = {
   },
 }
 
+local open_typst_file = function()
+  local line = vim.fn.getline "."
+  local file = line:match '#include "(.-).typ"'
+  if file then
+    vim.cmd("e " .. file .. ".typ")
+  end
+end
 M.typst = {
   plugin = true, -- lazy load mappings
   n = {
@@ -873,16 +880,23 @@ M.typst = {
     },
     ["<leader>lv"] = {
       function()
+        -- find parent dir
+        local str = ""
+        local parent_dir = vim.fn.fnamemodify(vim.fn.expand "%:p:h", ":t")
+        if parent_dir:match "practica" then
+          str = " --root ../"
+        end
         -- find main file and replace .typ with .pdf
         local main_file_typ = vim.fn.FindMainFile()
         local main_file_pdf = main_file_typ:gsub("%.typ$", ".pdf")
-        require("nvterm.terminal").send("typst watch " .. main_file_typ, "horizontal")
+        require("nvterm.terminal").send("typst watch " .. main_file_typ .. str, "horizontal")
         require("nvterm.terminal").toggle "horizontal"
         os.execute("xdg-open " .. main_file_pdf .. " &")
       end,
       "compile typst file",
       opts = { noremap = true, silent = true },
     },
+    ["<leader>lo"] = { open_typst_file, "open typst file" },
   },
   i = {
     ["<C-l>"] = {
