@@ -148,6 +148,18 @@ snips = {
     { condition = typst.in_text, show_condition = typst.in_text }
   ),
   -- end siunitx
+
+  s(
+    { trig = "isot", name = "isotope", dscr = "isotope" },
+    { t "#isotope(", i(1), t ")" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "co2", name = "CO2", dscr = "CO2" },
+    { t '$"CO"_2$' },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
 }
 
 autosnips = {

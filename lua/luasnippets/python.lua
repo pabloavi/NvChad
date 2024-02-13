@@ -129,7 +129,7 @@ snips = {
       plt.ylabel(r"<>")
       plt.grid(True)
       plt.errorbar(<>, <>, xerr=typical_error(<>), yerr=typical_error(<>), fmt="o", color="b")
-      plt.plot(I, fit_fn(I), "<>--")
+      plt.plot(<>, fit_fn(<>), "<>--")
       plt.legend(
           [
               r"Ajuste lineal $R^2 = {:.3f}$, $m = {:.4f}, n = {:.4f}$".format(
@@ -140,7 +140,23 @@ snips = {
       )
       plt.tight_layout()
     ]],
-      { i(1, "x"), i(2, "y"), rep(2), rep(1), i(3), i(3), i(4), i(5), rep(1), rep(2), rep(1), rep(2), i(6) },
+      {
+        i(1, "x"),
+        i(2, "y"),
+        rep(2),
+        rep(1),
+        i(3),
+        i(3),
+        i(4),
+        i(5),
+        rep(1),
+        rep(2),
+        rep(1),
+        rep(2),
+        rep(1),
+        rep(1),
+        i(6),
+      },
       { delimiters = "<>" }
     ),
     { condition = expand.line_begin }

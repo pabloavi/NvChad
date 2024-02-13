@@ -10,6 +10,8 @@ vim.g.typst_no_editor = true -- custom: don't open editor
 
 vim.cmd "silent! C"
 
+vim.g.backupcopy = true -- so that typst watch doesnt fail on save
+
 -- local _, bufname = pcall(vim.api.nvim_buf_get_name, 0)
 -- local names = {
 --   "master.typ",
