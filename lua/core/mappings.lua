@@ -889,9 +889,9 @@ M.typst = {
         -- find main file and replace .typ with .pdf
         local main_file_typ = vim.fn.FindMainFile()
         local main_file_pdf = main_file_typ:gsub("%.typ$", ".pdf")
-        require("nvterm.terminal").send("typst watch " .. main_file_typ .. str, "horizontal")
+        require("nvterm.terminal").send("typst watch '" .. main_file_typ .. "'" .. str, "horizontal")
         require("nvterm.terminal").toggle "horizontal"
-        os.execute("xdg-open " .. main_file_pdf .. " &")
+        os.execute("xdg-open '" .. main_file_pdf .. "' &")
       end,
       "compile typst file",
       opts = { noremap = true, silent = true },

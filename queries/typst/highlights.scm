@@ -1,3 +1,4 @@
+; extends
 (call
   item: (ident) @function)
 (call

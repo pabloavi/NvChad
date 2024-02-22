@@ -7,7 +7,7 @@ local options = {
     "toml",
     "markdown",
     "bash",
-    -- "lua",
+    "lua",
     "norg",
     "fortran",
     "python",
@@ -15,6 +15,7 @@ local options = {
     "bibtex",
     "rust",
     "rasi",
+    "query",
     -- "hyprlang",
   },
 

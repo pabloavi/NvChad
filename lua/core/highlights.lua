@@ -20,6 +20,7 @@ M.new_hlgroups = {
   ["@text.emphasis.latex"] = { link = "italic" },
 
   -- typst
+
   ["@lsp.type.pol.typst"] = { fg = "pink" },
 
   ["@lsp.type.string.typst"] = { link = "@string" },
@@ -41,6 +42,9 @@ M.new_hlgroups = {
   ["@lsp.type.operator.typst"] = { fg = "red" },
   ["@lsp.type.escape.typst"] = { link = "@lsp.type.operator.typst" },
   ["@lsp.type.ref.typst"] = { link = "@keyword" },
+
+  -- ts
+  ["@constant.numeric.typst"] = { link = "@lsp.type.number.typst" },
 }
 
 M.overriden_hlgroups = {
