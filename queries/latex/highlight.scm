@@ -1,0 +1,1 @@
+(@markup.math.latex) @nospell

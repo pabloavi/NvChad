@@ -1,5 +1,9 @@
-(call
-  item: (ident) @function)
+(
+  (call
+    item: (ident) @function)
+    (#set! "priority" 101)
+)
+
 (call
   item: (field field: (ident) @function.method))
 (tagged field: (ident) @tag)
@@ -80,3 +84,5 @@
 ["," ";" ".." ":" "sep"] @punctuation.delimiter
 "assign" @punctuation
 (field "." @punctuation)
+
+(text) @spell

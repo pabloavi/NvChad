@@ -87,7 +87,8 @@ local plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    commit = "9637670", -- TODO: update to v3
+    -- commit = "9637670", -- TODO: update to v3
+    version = "2.20.7",
     init = function()
       require("core.utils").lazy_load "indent-blankline.nvim"
     end,
@@ -119,7 +120,7 @@ local plugins = {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
-      "chrisgrieser/nvim-various-textobjs",
+      { "chrisgrieser/nvim-various-textobjs" },
       "David-Kunz/treesitter-unit",
     },
   },
@@ -173,8 +174,11 @@ local plugins = {
   {
     "chrisgrieser/nvim-various-textobjs",
     opts = {
-      useDefaultKeymaps = true,
+      useDefaultKeymaps = false,
     },
+    init = function()
+      require("core.utils").load_mappings "various_textobjs"
+    end,
     config = function(_, opts)
       require("various-textobjs").setup(opts)
     end,
@@ -269,6 +273,9 @@ local plugins = {
     config = function()
       require "plugins.configs.null-ls"
     end,
+    dependencies = {
+      "nvimtools/none-ls-extras.nvim",
+    },
   },
 
   { "simrat39/inlay-hints.nvim", enabled = false },
@@ -857,6 +864,11 @@ local plugins = {
     config = function()
       require("plugins.configs.others").openrgb()
     end,
+  },
+
+  {
+    "petRUShka/vim-sage",
+    ft = "sage.python",
   },
 }
 

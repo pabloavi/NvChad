@@ -238,3 +238,11 @@ new_cmd("C", function()
   vim.cmd "silent cd %:h"
 end, {})
 -- vim.cmd "C"
+
+-- autocmd on .typ files to execute :C
+autocmd("VimEnter", {
+  pattern = "*.typ",
+  callback = function()
+    vim.cmd "C"
+  end,
+})

@@ -946,4 +946,22 @@ M.muren = {
   },
 }
 
+M.various_textobjs = {
+  plugin = true,
+  o = {
+    ["aS"] = { '<cmd>lua require("various-textobjs").subword("outer")<CR>', "subword outer" },
+    ["iS"] = { '<cmd>lua require("various-textobjs").subword("inner")<CR>', "subword inner" },
+
+    ["in"] = { '<cmd>lua require("various-textobjs").number("inner")<CR>', "number inner" },
+    ["an"] = { '<cmd>lua require("various-textobjs").number("outer")<CR>', "number outer" },
+  },
+  x = {
+    ["aS"] = { '<cmd>lua require("various-textobjs").subword("outer")<CR>', "subword outer" },
+    ["iS"] = { '<cmd>lua require("various-textobjs").subword("inner")<CR>', "subword inner" },
+
+    ["in"] = { '<cmd>lua require("various-textobjs").number("inner")<CR>', "number inner" },
+    ["an"] = { '<cmd>lua require("various-textobjs").number("outer")<CR>', "number outer" },
+  },
+}
+
 return M

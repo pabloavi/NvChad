@@ -117,7 +117,8 @@ M.is_snippets_snips_file = function()
   local snippets_snips_dir = {
     "/home/pablo/.config/nvim/lua/luasnippets",
     "/home/pablo/.config/nvim/lua/luasnippets/luasnips",
-    "/home/pablo/Documentos/Universidad/Apuntes/",
+    "/home/pablo/Documentos/Universidad/Apuntes",
+    "/home/pablo/Documentos/Universidad/TFG",
   }
   local snippets_snips_file = {
     -- "/home/pablo/Documentos/Universidad/Apuntes/curso_actual/tex.lua",

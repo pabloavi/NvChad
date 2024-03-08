@@ -241,6 +241,7 @@ M.code_runner = function()
       c = "cd '$dir' && gcc " .. file .. " -o " .. file_no_ext .. " && " .. file_no_ext,
       fortran = "cd '$dir' && gfortran " .. file .. " -o " .. file_no_ext .. " && " .. file_no_ext,
       rust = "cd '$dir' && cargo run",
+      ["sage.python"] = "cd '$dir' && sage " .. file,
     },
     mode = "float",
     float = { -- Numbers 0 - 1 for measurements

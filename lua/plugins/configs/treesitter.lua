@@ -7,7 +7,7 @@ local options = {
     "toml",
     "markdown",
     "bash",
-    -- "lua",
+    "lua",
     "norg",
     "fortran",
     "python",
@@ -15,6 +15,7 @@ local options = {
     "bibtex",
     "rust",
     "rasi",
+    "typst",
     -- "hyprlang",
   },
 
@@ -39,6 +40,9 @@ local options = {
         -- ["ac"] = { query = "@class.outer", desc = "select outer class" },
         -- ["ic"] = { query = "@class.inner", desc = "select inner class" },
         ["as"] = { query = "@scope", query_group = "locals", desc = "select language scope" },
+
+        -- typst
+        -- ["il"] = { query = "@let", query_group = "textobjects", desc = "select let block" },
       },
       selection_modes = {
         ["@parameter.outer"] = "v", -- charwise
@@ -96,7 +100,7 @@ local options = {
   },
 
   textsubjects = {
-    enable = true,
+    enable = false,
     prev_selection = ",", -- select the previous selection
     keymaps = {
       ["."] = "textsubjects-smart",
@@ -115,13 +119,6 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 --   },
 --   filetype = "hyprlang",
 -- }
-parser_config.typst = {
-  install_info = {
-    url = "https://github.com/uben0/tree-sitter-typst.git", -- local path or git repo
-    files = { "src/parser.c", "src/scanner.c" },
-  },
-  filetype = "typst", -- if filetype does not match the parser name
-}
 
 if vim.g.c_enabled then
   table.insert(options.ensure_installed, { "c", "cpp" })

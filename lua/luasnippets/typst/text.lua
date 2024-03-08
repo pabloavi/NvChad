@@ -160,10 +160,22 @@ snips = {
     { t '$"CO"_2$' },
     { condition = typst.in_text, show_condition = typst.in_text }
   ),
+
+  s(
+    { trig = "breaktab", name = "break table", dscr = "break table" },
+    { t "#show figure: set block(breakable: true)" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
 }
 
 autosnips = {
   pair("$", "$", neg, char_count_same),
+
+  s(
+    { trig = "@", name = "@ reference or citation", dscr = "@ reference or citation" },
+    { t "@", c(1, { i(1, "img"), i(1, "tab"), i(1, "eq") }), t ":" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
 
   s(
     { trig = "juanje", name = "juan basura", dscr = "juan basura" },

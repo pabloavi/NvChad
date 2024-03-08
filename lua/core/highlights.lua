@@ -21,6 +21,7 @@ M.new_hlgroups = {
 
   -- typst
   ["@lsp.type.pol.typst"] = { fg = "pink" },
+  ["@variable.typst"] = { link = "@lsp.type.pol.typst" },
 
   ["@lsp.type.string.typst"] = { link = "@string" },
   ["@lsp.type.bool.typst"] = { link = "@boolean" },

@@ -1,14 +1,15 @@
 local present, null_ls = pcall(require, "null-ls")
+local present2, e = pcall(require, "null-ls.extras")
 
-if not present then
-  return
-end
+-- if not present or not present2 then
+--   return
+-- end
 
 local latexindent_file = vim.fn.stdpath "config" .. "/latexindent.yaml"
 
 local b = null_ls.builtins
 
-local shellcheck_formatter = {
+local typst_formatter = {
   method = null_ls.methods.FORMATTING,
   filetypes = { "typst" },
   generator = null_ls.formatter {
@@ -19,21 +20,22 @@ local shellcheck_formatter = {
   },
 }
 
-null_ls.register(shellcheck_formatter)
+null_ls.register(typst_formatter)
 local sources = {
   b.formatting.stylua,
   b.formatting.yamlfmt,
   b.formatting.black, -- python
   b.formatting.shfmt,
   b.formatting.fprettify, -- installed through pip
-  b.formatting.rustfmt,
+  -- b.formatting.rustfmt,
   b.formatting.markdownlint,
   b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json" } },
 
-  b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
-  b.diagnostics.jsonlint,
+  -- typst_formatter.with { diagnostics_format = "#{m} [#{c}]" },
 
-  b.formatting.latexindent.with { args = { "-c=/tmp/", "-m", "-r", "-l=" .. latexindent_file, "-" } }, -- installed through texlive, now using texlab
+  -- require("none-ls.formatting.jsonlint"),
+
+  require("none-ls.formatting.latexindent").with { args = { "-c=/tmp/", "-m", "-r", "-l=" .. latexindent_file, "-" } },
   b.formatting.bibclean, -- installed through pacman
 
   b.formatting.verible_verilog_format,

@@ -51,6 +51,7 @@ require("luasnip.loaders.from_lua").lazy_load {
   paths = {
     config .. "/lua/luasnippets",
     "~/Documentos/Universidad/Apuntes/curso_actual", -- À la Gilles
+    "~/Documentos/Universidad/modo_actual",
   },
 }
 
