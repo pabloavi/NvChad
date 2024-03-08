@@ -16,6 +16,7 @@ local options = {
     "rust",
     "rasi",
     "typst",
+    "query",
     -- "hyprlang",
   },
 
