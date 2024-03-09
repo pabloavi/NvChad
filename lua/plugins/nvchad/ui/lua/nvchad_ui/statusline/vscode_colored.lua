@@ -99,7 +99,7 @@ M.LSP_progress = function()
     return ""
   end
 
-  local Lsp = vim.lsp.status()
+  local _, Lsp = pcall(vim.lsp.get_progress_messages)
 
   if vim.o.columns < 120 or not Lsp then
     return ""

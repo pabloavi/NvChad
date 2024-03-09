@@ -403,7 +403,8 @@ M.telescope = {
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "nvchad themes" },
 
     -- extensions & extra
-    ["<leader>tc"] = { "<cmd> TodoTelescope <CR>", "telescope todo comments " },
+    ["<leader>tc"] = { "<cmd> TodoTelescope <CR>", "telescope todo comments" },
+    ["<leader>tt"] = { "<cmd> TodoTrouble <CR>", "todo comments in trouble" },
     ["<leader>sn"] = { "<cmd> Telescope luasnip <CR>", "telescope snippets" },
     ["<leader>tu"] = { "<cmd> Telescope undo <CR>", "telescope undo history" },
     ["<leader>tq"] = { "<cmd> Telescope quickfix <CR>", "telescope quickfix" },
