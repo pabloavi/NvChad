@@ -1095,4 +1095,15 @@ for _, operator in ipairs(operators) do
   )
 end
 
+-- add autosnippet for \nu ij --> \nu_{ij}
+table.insert(
+  autosnips,
+  s({
+    trig = "\\nu ij ",
+    name = "nu ij",
+    dscr = "TFG nu ij",
+    wordTrig = false,
+  }, { t "\\nu_{ij} " }, { condition = tex.in_mathzone })
+)
+
 return snips, autosnips

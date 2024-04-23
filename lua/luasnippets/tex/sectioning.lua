@@ -28,11 +28,11 @@ snips = {
     { trig = "sec", name = "section", dscr = "Insert new section" },
     fmt(
       [[ 
-      \section{<>}\label{sec:<>}
+      \section{<>}
 
       <>
       ]],
-      { i(1), l(l._1:lower():gsub(" ", "-"), 1), i(0) },
+      { i(1), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }
@@ -42,11 +42,11 @@ snips = {
     { trig = "secp", name = "section*", dscr = "Insert new section*" },
     fmt(
       [[ 
-      \section*{<>}\label{sec:<>}
+      \section*{<>}
 
       <>
       ]],
-      { i(1), l(l._1:lower():gsub(" ", "-"), 1), i(0) },
+      { i(1), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }
@@ -56,11 +56,11 @@ snips = {
     { trig = "ssec", name = "subsection", dscr = "Insert new subsection" },
     fmt(
       [[ 
-      \subsection{<>}\label{sec:<>}
+      \subsection{<>}
 
       <>
       ]],
-      { i(1), l(l._1:lower():gsub(" ", "-"), 1), i(0) },
+      { i(1), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }
@@ -70,11 +70,11 @@ snips = {
     { trig = "ssecp", name = "subsection*", dscr = "Insert new subsection*" },
     fmt(
       [[ 
-      \subsection*{<>}\label{sec:<>}
+      \subsection*{<>}
 
       <>
       ]],
-      { i(1), l(l._1:lower():gsub(" ", "-"), 1), i(0) },
+      { i(1), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }
@@ -84,11 +84,11 @@ snips = {
     { trig = "sssec", name = "subsubsection", dscr = "Insert new subsection" },
     fmt(
       [[ 
-      \subsubsection{<>}\label{sec:<>}
+      \subsubsection{<>}
 
       <>
       ]],
-      { i(1), l(l._1:lower():gsub(" ", "-"), 1), i(0) },
+      { i(1), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }
@@ -98,11 +98,11 @@ snips = {
     { trig = "sssecp", name = "subsubsection*", dscr = "Insert new subsubsection*" },
     fmt(
       [[ 
-      \subsubsection*{<>}\label{sec:<>}
+      \subsubsection*{<>}
 
       <>
       ]],
-      { i(1), l(l._1:lower():gsub(" ", "-"), 1), i(0) },
+      { i(1), i(0) },
       { delimiters = "<>" }
     ),
     { condition = tex.in_text, show_condition = tex.in_text }

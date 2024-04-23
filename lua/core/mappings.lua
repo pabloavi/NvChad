@@ -145,6 +145,9 @@ M.general = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
 
+    -- Copy selected text
+    ["<C-c>"] = { '"+y', "copy selected text" },
+
     -- search visual selection in firefox
     ["<leader>f"] = { firefox_link, "search visual selection in firefox", opts = { expr = true, silent = true } },
   },

@@ -17,7 +17,7 @@ g.ltex_enabled = true -- custom
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
 
-opt.clipboard = "unnamedplus"
+-- opt.clipboard = "unnamedplus"
 opt.cursorline = true
 opt.scrolloff = 8
 

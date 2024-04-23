@@ -604,7 +604,7 @@ local plugins = {
 
   { "elkowar/yuck.vim", ft = "yuck", enabled = false },
 
-  { "theRealCarneiro/hyprland-vim-syntax", ft = "hypr", enabled = false },
+  { "theRealCarneiro/hyprland-vim-syntax", ft = "hypr", enabled = true },
 
   { "lervag/vimtex", ft = "tex", lazy = false, enabled = true },
 
