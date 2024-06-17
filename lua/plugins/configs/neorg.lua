@@ -61,6 +61,7 @@ M.setup = function()
       },
 
       ["core.integrations.nvim-cmp"] = {},
+      ["core.export"] = {},
 
       -- ["core.norg.esupports.indent"] = {
       --   config = {

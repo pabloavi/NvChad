@@ -856,6 +856,80 @@ M.latex = {
       opts = { noremap = true, silent = true },
     },
   },
+  -- NOTE: this should be remove after TFG
+  -- v = {
+  --   -- leader + l: add line before "a" and line after "b"
+  --   ["<leader>c"] = {
+  --     function()
+  --       local _, ls, _ = unpack(vim.fn.getpos "'<")
+  --       local _, le, _ = unpack(vim.fn.getpos "'>")
+  --       local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+  --       local new_lines = {}
+  --       table.insert(new_lines, "\\begin{minted}{wolfram}")
+  --       for _, line in ipairs(lines) do
+  --         table.insert(new_lines, line)
+  --       end
+  --       table.insert(new_lines, "\\end{minted}")
+  --       table.insert(new_lines, "\\betweenminted{.9\\bigskipamount}")
+  --       vim.api.nvim_buf_set_lines(0, ls - 1, le, false, new_lines)
+  --     end,
+  --     "convert lines to mathematica code",
+  --   },
+  --   -- leader + o: same but before each line add ">>> "
+  --   ["<leader>o"] = {
+  --     function()
+  --       local _, ls, _ = unpack(vim.fn.getpos "'<")
+  --       local _, le, _ = unpack(vim.fn.getpos "'>")
+  --       local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+  --       local new_lines = {}
+  --       table.insert(new_lines, "\\betweenminted{1.5\\bigskipamount}")
+  --       table.insert(new_lines, "\\begin{lstlisting}[language={}]")
+  --       for _, line in ipairs(lines) do
+  --         table.insert(new_lines, ">>> " .. line)
+  --       end
+  --       vim.api.nvim_buf_set_lines(0, ls - 1, le, false, new_lines)
+  --       table.insert(new_lines, "\\end{lstlisting}")
+  --       table.insert(new_lines, "\\betweenminted{1.5\\bigskipamount}")
+  --     end,
+  --     "convert lines to mathematica code",
+  --   },
+  -- },
+  -- -- same in visual block mode
+  -- x = {
+  --   ["<leader>c"] = {
+  --     function()
+  --       local _, ls, _ = unpack(vim.fn.getpos "'<")
+  --       local _, le, _ = unpack(vim.fn.getpos "'>")
+  --       local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+  --       local new_lines = {}
+  --       table.insert(new_lines, "\\begin{minted}{wolfram}")
+  --       for _, line in ipairs(lines) do
+  --         table.insert(new_lines, line)
+  --       end
+  --       table.insert(new_lines, "\\end{minted}")
+  --       table.insert(new_lines, "\\betweenminted{.9\\bigskipamount}")
+  --       vim.api.nvim_buf_set_lines(0, ls - 1, le, false, new_lines)
+  --     end,
+  --     "convert lines to mathematica code",
+  --   },
+  --   ["<leader>o"] = {
+  --     function()
+  --       local _, ls, _ = unpack(vim.fn.getpos "'<")
+  --       local _, le, _ = unpack(vim.fn.getpos "'>")
+  --       local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+  --       local new_lines = {}
+  --       table.insert(new_lines, "\\betweenminted{1.5\\bigskipamount}")
+  --       table.insert(new_lines, "\\begin{lstlisting}[language={}]")
+  --       for _, line in ipairs(lines) do
+  --         table.insert(new_lines, ">>> " .. line)
+  --       end
+  --       vim.api.nvim_buf_set_lines(0, ls - 1, le, false, new_lines)
+  --       table.insert(new_lines, "\\end{lstlisting}")
+  --       table.insert(new_lines, "\\betweenminted{1.5\\bigskipamount}")
+  --     end,
+  --     "convert lines to mathematica code",
+  --   },
+  -- },
 }
 
 M.airlatex = {
@@ -895,7 +969,8 @@ M.typst = {
         local main_file_pdf = main_file_typ:gsub("%.typ$", ".pdf")
         require("nvterm.terminal").send("typst watch '" .. main_file_typ .. "'" .. str, "horizontal")
         require("nvterm.terminal").toggle "horizontal"
-        os.execute("xdg-open '" .. main_file_pdf .. "' &")
+        -- os.execute("xdg-open '" .. main_file_pdf .. "' &")
+        os.execute("zathura '" .. main_file_pdf .. "' &")
       end,
       "compile typst file",
       opts = { noremap = true, silent = true },

@@ -590,9 +590,15 @@ local plugins = {
 
   -- ft plugins
   {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    config = true,
+  },
+  {
     "nvim-neorg/neorg",
     ft = "norg",
-    build = ":Neorg sync-parsers",
+    -- build = ":Neorg sync-parsers",
+    dependencies = { "luarocks.nvim" },
     init = function()
       require("plugins.configs.neorg").autocmd()
       require("core.utils").load_mappings "neorg"
