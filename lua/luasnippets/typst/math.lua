@@ -153,7 +153,7 @@ autosnips = {
   }, { condition = typst.in_mathzone }),
 
   -- postfix
-  postfix("bar", { l("bar(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
+  postfix("bar", { l("overline(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   postfix("gor", { l("hat(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   postfix("cal", { l("cal(" .. l.POSTFIX_MATCH .. ")") }, { condition = typst.in_mathzone }),
   -- postfix("til", { l("\\widetilde{" .. l.POSTFIX_MATCH .. "} ") }, { condition = typst.in_mathzone }),
