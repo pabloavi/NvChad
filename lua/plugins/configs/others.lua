@@ -386,6 +386,18 @@ M.template_nvim = {
   email = "",
 }
 
+M.remote_sshfs = function()
+  local present, remote_sshfs = pcall(require, "remote-sshfs")
+
+  if not present then
+    return
+  end
+
+  local options = {}
+
+  return options
+end
+
 M.openrgb = function()
   vim.cmd [[
  augroup openrgb

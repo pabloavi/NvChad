@@ -876,6 +876,17 @@ local plugins = {
     "petRUShka/vim-sage",
     ft = "sage.python",
   },
+
+  {
+    "nosduco/remote-sshfs.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    opts = function()
+      return require("plugins.configs.others").remote_sshfs
+    end,
+    init = function(opts, _)
+      require("remote-sshfs").setup(opts)
+    end,
+  },
 }
 
 local config = require("core.utils").load_config()
