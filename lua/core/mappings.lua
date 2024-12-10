@@ -396,7 +396,7 @@ M.telescope = {
     ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
 
     -- git
-    ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
+    ["<leader>fgc"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
     ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "git status" },
 
     -- pick a hidden term
@@ -713,6 +713,9 @@ M.copilot = {
   plugin = true,
   n = {
     ["<leader>cp"] = { "<cmd> Copilot panel <CR>", "copilot panel" },
+    -- chat
+    ["<leader>ch"] = { "<cmd> CopilotChat <CR>", "CopilotChat" },
+    ["<leader>cm"] = { "<cmd> CopilotChatModels <CR>", "CopilotChat" },
   },
 }
 

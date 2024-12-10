@@ -374,6 +374,27 @@ local plugins = {
   },
 
   {
+    "robitx/gp.nvim",
+    lazy = false,
+    config = function()
+      require("plugins.configs.others").gp()
+    end,
+  },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    lazy = false,
+    dependencies = {
+      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    build = "make tiktoken", -- Only on MacOS or Linux
+    config = function()
+      require("plugins.configs.others").copilotChat()
+    end,
+  },
+
+  {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     init = function()
       require("core.utils").lazy_load "lsp_lines.nvim"

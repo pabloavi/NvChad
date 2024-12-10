@@ -25,12 +25,12 @@ M.blankline = {
 
 M.gitsigns = {
   signs = {
-    add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
-    change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
-    delete = { hl = "DiffDelete", text = "", numhl = "GitSignsDeleteNr" },
-    topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr" },
-    changedelete = { hl = "DiffChangeDelete", text = "~", numhl = "GitSignsChangeNr" },
-    untracked = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+    add = { text = "│" },
+    change = { text = "│" },
+    delete = { text = "" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
+    untracked = { text = "│" },
   },
   on_attach = function(bufnr)
     utils.load_mappings("gitsigns", { buffer = bufnr })
@@ -407,6 +407,67 @@ M.openrgb = function()
    autocmd FocusLost * call OpenRGBClearColor()
  augroup end
 ]]
+end
+
+M.gp = function()
+  local present, gp = pcall(require, "gp")
+
+  if not present then
+    return
+  end
+
+  local options = {
+    providers = {
+      openai = {
+        disable = true,
+      },
+      copilot = {
+        disable = false,
+        endpoint = "https://api.githubcopilot.com/chat/completions",
+        secret = {
+          "bash",
+          "-c",
+          "cat ~/.config/github-copilot/hosts.json | sed -e 's/.*oauth_token...//;s/\".*//'",
+        },
+      },
+    },
+  }
+
+  gp.setup(options)
+end
+
+M.copilotChat = function()
+  local present, copilotChat = pcall(require, "CopilotChat")
+
+  if not present then
+    return
+  end
+
+  local options = {
+    -- temperature = 1,
+    mappings = {
+      complete = {
+        insert = "<C-h>",
+      },
+    },
+    prompts = {
+      NormalPrompt = {
+        system_prompt = "You are a general AI assistant.\n\n"
+          .. "The user provided the additional info about how they would like you to respond:\n\n"
+          .. "- If you're unsure don't guess and say you don't know instead.\n"
+          .. "- Ask question if you need clarification to provide better answer.\n"
+          .. "- Think deeply and carefully from first principles step by step.\n"
+          .. "- Zoom out first to see the big picture and then zoom in to details.\n"
+          .. "- Use Socratic method to improve your thinking and coding skills.\n"
+          .. "- Don't elide any code from your output if the answer requires coding.\n"
+          .. "- Take a deep breath; You've got this!\n",
+        -- mapping = "<leader>ccmc",
+        description = "Prompt predeterminada (tomada de gp.nvim)",
+      },
+    },
+  }
+
+  copilotChat.setup(options)
 end
 
 return M
