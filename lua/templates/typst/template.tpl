@@ -1,3 +1,4 @@
+;; typst
 #import "@preview/chic-hdr:0.3.0": *
 
 #let project(title: "", authors: (), body) = {

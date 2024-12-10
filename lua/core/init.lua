@@ -156,6 +156,14 @@ autocmd({ "BufReadPost" }, {
   end,
 })
 
+-- give .rasi filetype
+autocmd({ "BufReadPost" }, {
+  pattern = "*.rasi",
+  callback = function()
+    vim.bo.filetype = "rasi"
+  end,
+})
+
 -- autocmd to reload awesomewm on save of .config/awesome/theme/vars.lua
 autocmd("BufWritePost", {
   pattern = home .. "/.config/awesome/theme/vars.lua",

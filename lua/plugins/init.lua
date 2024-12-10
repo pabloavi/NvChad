@@ -640,16 +640,16 @@ local plugins = {
     lazy = false,
   },
 
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = "MarkdownPreviewToggle",
-    ft = "markdown",
-    build = "cd app && npm install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-      require("core.utils").load_mappings "markdownpreview"
-    end,
-  },
+  -- {
+  --   "iamcco/markdown-preview.nvim",
+  --   cmd = "MarkdownPreviewToggle",
+  --   ft = "markdown",
+  --   build = "cd app && npm install",
+  --   init = function()
+  --     vim.g.mkdp_filetypes = { "markdown" }
+  --     require("core.utils").load_mappings "markdownpreview"
+  --   end,
+  -- },
 
   -- Preview websites
   {
@@ -799,6 +799,7 @@ local plugins = {
 
   {
     "glepnir/template.nvim",
+    lazy = false,
     cmd = { "Template", "TemProject" },
     opts = function()
       return require("plugins.configs.others").template

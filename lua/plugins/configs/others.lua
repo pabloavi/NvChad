@@ -380,8 +380,8 @@ M.ltex_extra = {
   },
 }
 
-M.template_nvim = {
-  temp_dir = vim.fn.stdpath "config" .. "lua/templates/",
+M.template = {
+  temp_dir = vim.fn.stdpath "config" .. "/lua/templates/",
   author = "Pablo Avilés Mogío",
   email = "",
 }
