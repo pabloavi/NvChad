@@ -23,6 +23,7 @@ local servers = { -- lua_ls, texlab, ltex and clangd are configured appart
   "marksman",
   "verible",
   "arduino_language_server",
+  "nil_ls",
   "clangd", -- FIXME: should be places appart
 }
 

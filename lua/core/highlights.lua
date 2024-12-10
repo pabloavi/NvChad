@@ -46,6 +46,21 @@ M.new_hlgroups = {
 
   -- ts
   ["@constant.numeric.typst"] = { link = "@lsp.type.number.typst" },
+
+  -- gitsigns
+  ["GitSignsAdd"] = { link = "DiffAdd" },
+  ["GitSignsAddNr"] = { link = "GitSignsAddNr" },
+  ["GitSignsChange"] = { link = "DiffChange" },
+  ["GitSignsChangeNr"] = { link = "GitSignsChangeNr" },
+  ["GitSignsDelete"] = { link = "DiffDelete" },
+  ["GitSignsDeleteNr"] = { link = "GitSignsDeleteNr" },
+  ["GitSignsTopDelete"] = { link = "DiffDelete" },
+  ["GitSignsTopDeleteNr"] = { link = "GitSignsDeleteNr" },
+  ["GitSignsChangeDelete"] = { link = "DiffChangeDelete" },
+  ["GitSignsChangeDeleteNr"] = { link = "GitSignsChangeNr" },
+  ["GitSignsUntracked"] = { link = "GitSignsAdd" },
+  ["GitSignsUntrackedNr"] = { link = "GitSignsAddNr" },
+  ["GitSignsUntrackedLn"] = { link = "GitSignsAddLn" },
 }
 
 M.overriden_hlgroups = {

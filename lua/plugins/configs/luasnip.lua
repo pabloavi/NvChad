@@ -38,6 +38,7 @@ local options = {
     markdown = { "lua", "json", "python", "rust", "tex" },
     norg = { "lua", "python", "rust", "tex" },
     lua = { "lua", "luasnips" },
+    typst = { "tex", "lua", "python" },
   },
 }
 

@@ -374,6 +374,27 @@ local plugins = {
   },
 
   {
+    "robitx/gp.nvim",
+    lazy = false,
+    config = function()
+      require("plugins.configs.others").gp()
+    end,
+  },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    lazy = false,
+    dependencies = {
+      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    build = "make tiktoken", -- Only on MacOS or Linux
+    config = function()
+      require("plugins.configs.others").copilotChat()
+    end,
+  },
+
+  {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     init = function()
       require("core.utils").lazy_load "lsp_lines.nvim"
@@ -590,9 +611,15 @@ local plugins = {
 
   -- ft plugins
   {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    config = true,
+  },
+  {
     "nvim-neorg/neorg",
     ft = "norg",
-    build = ":Neorg sync-parsers",
+    -- build = ":Neorg sync-parsers",
+    dependencies = { "luarocks.nvim" },
     init = function()
       require("plugins.configs.neorg").autocmd()
       require("core.utils").load_mappings "neorg"
@@ -870,6 +897,17 @@ local plugins = {
   {
     "petRUShka/vim-sage",
     ft = "sage.python",
+  },
+
+  {
+    "nosduco/remote-sshfs.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    opts = function()
+      return require("plugins.configs.others").remote_sshfs
+    end,
+    init = function(opts, _)
+      require("remote-sshfs").setup(opts)
+    end,
   },
 }
 
