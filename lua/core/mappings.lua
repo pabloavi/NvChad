@@ -757,7 +757,7 @@ M.code_runner = {
 
 M.qol = {
   n = {
-    ["<leader>ct"] = {
+    ["<leader>tmp"] = {
       function()
         create_tmp_file()
       end,
