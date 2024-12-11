@@ -712,10 +712,77 @@ M.color_picker = {
 M.copilot = {
   plugin = true,
   n = {
-    ["<leader>cp"] = { "<cmd> Copilot panel <CR>", "copilot panel" },
     -- chat
-    ["<leader>ch"] = { "<cmd> CopilotChat <CR>", "CopilotChat" },
-    ["<leader>cm"] = { "<cmd> CopilotChatModels <CR>", "CopilotChat" },
+    ["<leader>ch"] = { "<cmd> CopilotChatToggle <CR>", "CopilotChat > Toggle" },
+    ["<leader>cn"] = {
+      function()
+        require("CopilotChat").reset()
+        require("CopilotChat").open()
+      end,
+      "CopilotChat > New window",
+    },
+    ["<leader>cm"] = { "<cmd> CopilotChatModels <CR>", "CopilotChat > Select Models" },
+    ["<leader>cp"] = {
+      function()
+        local actions = require "CopilotChat.actions"
+        require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
+      end,
+      "CopilotChat > Actions Menu",
+    },
+    ["<leader>cq"] = {
+      function()
+        require("CopilotChat").reset()
+        local input = vim.fn.input "Quick Chat: "
+        if input ~= "" then
+          input = "@copilot /NormalPrompt " .. input
+          require("CopilotChat").ask(input)
+        end
+      end,
+      "CopilotChat > Quick Chat",
+    },
+    ["<leader>ct"] = {
+      function()
+        require("CopilotChat").reset()
+        local prompts = require("CopilotChat").prompts()
+        require("CopilotChat").open {
+          system_prompt = prompts.TranslatorPrompt.system_prompt,
+        }
+      end,
+      "CopilotChat > Translator",
+    },
+    ["<leader>cx"] = {
+      function()
+        return require("CopilotChat").reset()
+      end,
+      "CopilotChat > Clear",
+    },
+    ["<leader>cs"] = {
+      function()
+        require("CopilotChat").reset()
+        require("CopilotChat").open {
+          model = "claude-3.5-sonnet",
+        }
+      end,
+      "CopilotChat > Claude Sonnet Model",
+    },
+  },
+  v = {
+    ["<leader>ch"] = { "<cmd> CopilotChat <CR>", "CopilotChat > Visual Selection" },
+    ["<leader>co"] = { "<cmd> CopilotChat/Optimize <CR>", "CopilotChat > Optimize code selection" },
+    ["<leader>cf"] = { "<cmd> CopilotChat/Fix <CR>", "CopilotChat > Fix code selection" },
+    ["<leader>ce"] = { "<cmd> CopilotChat/Explain <CR>", "CopilotChat > Explain code selection" },
+    ["<leader>cx"] = {
+      function()
+        return require("CopilotChat").reset()
+      end,
+      "CopilotChat > Clear",
+    },
+    ["<leader>ct"] = {
+      function()
+        require("CopilotChat").ask "@copilot /TranslatorPrompt Translate this."
+      end,
+      "CopilotChat > Translator",
+    },
   },
 }
 

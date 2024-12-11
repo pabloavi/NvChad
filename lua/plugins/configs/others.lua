@@ -445,10 +445,22 @@ M.copilotChat = function()
 
   local options = {
     -- temperature = 1,
+    question_header = "  " .. vim.env.USER .. " ",
+    answer_header = "ﮧ  Copilot ",
+    selection = function(source)
+      local select = require "CopilotChat.select"
+      return select.visual(source) or select.buffer(source)
+    end,
     mappings = {
       complete = {
         insert = "<C-h>",
       },
+      accept_diff = {
+        normal = "<C-a>",
+      },
+    },
+    window = {
+      width = 0.35,
     },
     prompts = {
       NormalPrompt = {
