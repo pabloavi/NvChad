@@ -385,10 +385,11 @@ local plugins = {
     "CopilotC-Nvim/CopilotChat.nvim",
     lazy = false,
     dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+      { "zbirenbaum/copilot.lua" },
+      -- { "MeanderingProgrammer/render-markdown.nvim" },
+      { "nvim-lua/plenary.nvim", branch = "master" },
     },
-    build = "make tiktoken", -- Only on MacOS or Linux
+    build = "make tiktoken",
     config = function()
       require("plugins.configs.others").copilotChat()
     end,
@@ -677,6 +678,21 @@ local plugins = {
   --     require("core.utils").load_mappings "markdownpreview"
   --   end,
   -- },
+
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    enabled = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    }, -- if you prefer nvim-web-devicons
+    opts = {
+      file_types = { "markdown", "copilot-chat" },
+    },
+    config = function(_, opts)
+      require("render-markdown").setup(opts)
+    end,
+  },
 
   -- Preview websites
   {

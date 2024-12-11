@@ -17,6 +17,7 @@ local options = {
     "rasi",
     "typst",
     "query",
+    "diff",
     -- "hyprlang",
   },
 

@@ -461,12 +461,10 @@ M.copilotChat = function()
           .. "- Use Socratic method to improve your thinking and coding skills.\n"
           .. "- Don't elide any code from your output if the answer requires coding.\n"
           .. "- Take a deep breath; You've got this!\n",
-        mapping = "<leader>ccmc",
         description = "Prompt predeterminada (tomada de gp.nvim)",
       },
       TranslatorPrompt = {
         system_prompt = "You are a Translator, please translate between English and Spanish.",
-        mapping = "<leader>ct",
         description = "Translator between English and Spanish",
       },
     },
