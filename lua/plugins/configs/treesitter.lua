@@ -123,7 +123,8 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 -- }
 
 if vim.g.c_enabled then
-  table.insert(options.ensure_installed, { "c", "cpp" })
+  table.insert(options.ensure_installed, "c")
+  table.insert(options.ensure_installed, "cpp")
 end
 
 if vim.g.java_enabled then
@@ -131,7 +132,9 @@ if vim.g.java_enabled then
 end
 
 if vim.g.webdev_enabled then
-  table.insert(options.ensure_installed, { "html", "css", "javascript" })
+  table.insert(options.ensure_installed, "html")
+  table.insert(options.ensure_installed, "css")
+  table.insert(options.ensure_installed, "javascript")
 end
 
 return options

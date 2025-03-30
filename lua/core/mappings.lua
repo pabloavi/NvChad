@@ -714,18 +714,27 @@ M.copilot = {
   n = {
     -- chat
     ["<leader>ch"] = { "<cmd> CopilotChatToggle <CR>", "CopilotChat > Toggle" },
+    ["<leader>ca"] = { "<cmd> CopilotChatAgents <CR>", "CopilotChat > Select Agent" },
     ["<leader>cn"] = {
       function()
-        require("CopilotChat").reset()
-        require("CopilotChat").open()
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        CopilotChat.reset()
+        CopilotChat.open()
       end,
       "CopilotChat > New window",
     },
-    ["<leader>cm"] = { "<cmd> CopilotChatModels <CR>", "CopilotChat > Select Models" },
+    ["<leader>cm"] = { "<cmd> CopilotChatModels <CR>", "CopilotChat > Select Model" },
     ["<leader>cp"] = {
       function()
-        local actions = require "CopilotChat.actions"
-        require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        local actions = CopilotChat.actions
+        CopilotChat.integrations.telescope.pick(actions.prompt_actions())
       end,
       "CopilotChat > Actions Menu",
     },
@@ -735,16 +744,24 @@ M.copilot = {
         local input = vim.fn.input "Quick Chat: "
         if input ~= "" then
           input = "@copilot /NormalPrompt " .. input
-          require("CopilotChat").ask(input)
+          local present, CopilotChat = pcall(require, "CopilotChat")
+          if not present then
+            return
+          end
+          CopilotChat.ask(input)
         end
       end,
       "CopilotChat > Quick Chat",
     },
     ["<leader>ct"] = {
       function()
-        require("CopilotChat").reset()
-        local prompts = require("CopilotChat").prompts()
-        require("CopilotChat").open {
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        CopilotChat.reset()
+        local prompts = CopilotChat.prompts()
+        CopilotChat.open {
           system_prompt = prompts.TranslatorPrompt.system_prompt,
         }
       end,
@@ -752,14 +769,22 @@ M.copilot = {
     },
     ["<leader>cx"] = {
       function()
-        return require("CopilotChat").reset()
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        return CopilotChat.reset()
       end,
       "CopilotChat > Clear",
     },
     ["<leader>cs"] = {
       function()
-        require("CopilotChat").reset()
-        require("CopilotChat").open {
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        CopilotChat.reset()
+        CopilotChat.open {
           model = "claude-3.5-sonnet",
         }
       end,
@@ -773,15 +798,36 @@ M.copilot = {
     ["<leader>ce"] = { "<cmd> CopilotChat/Explain <CR>", "CopilotChat > Explain code selection" },
     ["<leader>cx"] = {
       function()
-        return require("CopilotChat").reset()
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        return CopilotChat.reset()
       end,
       "CopilotChat > Clear",
     },
     ["<leader>ct"] = {
       function()
-        require("CopilotChat").ask "@copilot /TranslatorPrompt Translate this."
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        CopilotChat.ask "@copilot /TranslatorPrompt Translate this."
       end,
       "CopilotChat > Translator",
+    },
+    ["<leader>cs"] = {
+      function()
+        local present, CopilotChat = pcall(require, "CopilotChat")
+        if not present then
+          return
+        end
+        CopilotChat.reset()
+        CopilotChat.open {
+          model = "claude-3.5-sonnet",
+        }
+      end,
+      "CopilotChat > Claude Sonnet Model",
     },
   },
 }

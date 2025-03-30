@@ -31,6 +31,7 @@ local options = {
     "arduino-language-server",
     -- typst
     "tinymist",
+    "typstyle",
   },
 
   PATH = "skip",

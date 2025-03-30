@@ -9,6 +9,29 @@ local latexindent_file = vim.fn.stdpath "config" .. "/latexindent.yaml"
 
 local b = null_ls.builtins
 
+-- local typst_formatter = {
+--   method = null_ls.methods.FORMATTING,
+--   filetypes = { "typst" },
+--   generator = null_ls.formatter {
+--     command = "typstfmt",
+--     args = { "-o", "-" },
+--     to_stdin = true,
+--     -- from_stderr = true,
+--   },
+-- }
+-- null_ls.register(typst_formatter)
+-- local typst_formatter = {
+--   method = null_ls.methods.FORMATTING,
+--   filetypes = { "typst" },
+--   generator = null_ls.formatter {
+--     command = "typstfmt",
+--     args = { "-o", "-" },
+--     to_stdin = true,
+--     -- from_stderr = true,
+--   },
+-- }
+-- null_ls.register(typst_formatter)
+
 local sources = {
   b.formatting.stylua,
   b.formatting.yamlfmt,
@@ -30,6 +53,7 @@ local sources = {
   b.formatting.verible_verilog_format,
   b.formatting.astyle, -- installed through pacman
   b.formatting.nixpkgs_fmt,
+  b.formatting.typstyle,
 }
 
 if vim.g.c_enabled or vim.g.java_enabled then

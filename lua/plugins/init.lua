@@ -352,6 +352,9 @@ local plugins = {
     end,
     config = function(_, opts)
       require("cmp").setup(opts)
+      -- require("cmp").setup.filetype("copilot-chat", {
+      --   enabled = false,
+      -- })
     end,
   },
 
@@ -388,10 +391,13 @@ local plugins = {
     lazy = false,
     dependencies = {
       { "zbirenbaum/copilot.lua" },
-      -- { "MeanderingProgrammer/render-markdown.nvim" },
+      { "MeanderingProgrammer/render-markdown.nvim" },
       { "nvim-lua/plenary.nvim", branch = "master" },
     },
     build = "make tiktoken",
+    init = function()
+      require("core.utils").load_mappings "copilot"
+    end,
     config = function()
       require("plugins.configs.others").copilotChat()
     end,
@@ -683,7 +689,8 @@ local plugins = {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = false,
+    -- enabled = false,
+    lazy = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
