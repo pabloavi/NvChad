@@ -1,4 +1,4 @@
-local config = require("core.utils").load_config().ui.lsp.signature 
+local config = require("core.utils").load_config().ui.lsp.signature
 
 -- thx to https://gitlab.com/ranjithshegde/dotbare/-/blob/master/.config/nvim/lua/lsp/init.lua
 local M = {}
@@ -96,7 +96,7 @@ M.setup = function(client)
     callback = function()
       -- Guard against spamming of method not supported after
       -- stopping a language serer with LspStop
-      local active_clients = vim.lsp.get_active_clients()
+      local active_clients = vim.lsp.get_clients()
       if #active_clients < 1 then
         return
       end

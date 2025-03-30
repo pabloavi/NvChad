@@ -112,6 +112,42 @@ snips = {
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
 
+  -- 2 img
+  s(
+    { trig = "2img", name = "2 figures grid", dscr = "2 figures side by side" },
+    fmt(
+      [[
+    #subpar.grid(
+      figure(
+        image("figures/{}"),
+        caption: [{}],
+      ), <img:{}-a>,
+      figure(
+        image("figures/{}"),
+        caption: [{}],
+      ), <img:{}-b>,
+      columns: (1fr, 1fr),
+      caption: [{}],
+    ) <img:{}>
+
+    {}
+    ]],
+      {
+        i(1),
+        i(2),
+        rep(6),
+        i(3),
+        i(4),
+        rep(6),
+        i(5),
+        i(6),
+        i(0),
+      },
+      { delimiters = "{}" }
+    ),
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  ),
+
   s(
     { trig = "tab", name = "table", dscr = "table" },
     fmt(
