@@ -174,7 +174,9 @@ local plugins = {
   {
     "chrisgrieser/nvim-various-textobjs",
     opts = {
-      useDefaultKeymaps = false,
+      keymaps = {
+        useDefaults = false,
+      },
     },
     init = function()
       require("core.utils").load_mappings "various_textobjs"

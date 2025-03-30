@@ -9,29 +9,16 @@ local latexindent_file = vim.fn.stdpath "config" .. "/latexindent.yaml"
 
 local b = null_ls.builtins
 
-local typst_formatter = {
-  method = null_ls.methods.FORMATTING,
-  filetypes = { "typst" },
-  generator = null_ls.formatter {
-    command = "typstfmt",
-    args = { "-o", "-" },
-    to_stdin = true,
-    -- from_stderr = true,
-  },
-}
-
-null_ls.register(typst_formatter)
 local sources = {
   b.formatting.stylua,
   b.formatting.yamlfmt,
   b.formatting.black, -- python
   b.formatting.shfmt,
   b.formatting.fprettify, -- installed through pip
+  b.formatting.typstyle, -- installed through yay
   -- b.formatting.rustfmt,
   b.formatting.markdownlint,
   b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json" } },
-
-  -- typst_formatter.with { diagnostics_format = "#{m} [#{c}]" },
 
   -- require("none-ls.formatting.jsonlint"),
 

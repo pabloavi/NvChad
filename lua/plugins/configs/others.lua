@@ -460,7 +460,7 @@ M.copilotChat = function()
       },
     },
     window = {
-      width = 0.35,
+      -- width = 0.35,
     },
     prompts = {
       NormalPrompt = {

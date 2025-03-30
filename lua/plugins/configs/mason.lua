@@ -29,6 +29,8 @@ local options = {
     "jsonlint",
     --arduino
     "arduino-language-server",
+    -- typst
+    "tinymist",
   },
 
   PATH = "skip",
