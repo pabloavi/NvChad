@@ -38,11 +38,10 @@ local sources = {
   b.formatting.black, -- python
   b.formatting.shfmt,
   b.formatting.fprettify, -- installed through pip
+  b.formatting.typstyle, -- installed through yay
   -- b.formatting.rustfmt,
   b.formatting.markdownlint,
   b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json" } },
-
-  -- typst_formatter.with { diagnostics_format = "#{m} [#{c}]" },
 
   -- require("none-ls.formatting.jsonlint"),
 
