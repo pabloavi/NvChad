@@ -444,6 +444,8 @@ M.copilotChat = function()
   end
 
   local options = {
+    model = "claude-3.7-sonnet-thought",
+
     -- temperature = 1,
     question_header = "  " .. vim.env.USER .. " ",
     answer_header = "ﮧ  Copilot ",
