@@ -888,7 +888,7 @@ local plugins = {
     "chomosuke/typst-preview.nvim",
     -- lazy = false,
     ft = "typst",
-    version = "0.1.*",
+    version = "1.*",
     build = function()
       require("typst-preview").update()
     end,

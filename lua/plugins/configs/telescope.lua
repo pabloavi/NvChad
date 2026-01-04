@@ -46,6 +46,7 @@ local options = {
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
     mappings = {
       n = { ["q"] = require("telescope.actions").close },
+      i = { ["<C-q>"] = require("telescope.actions").smart_send_to_qflist + require("telescope.actions").open_qflist },
     },
   },
 

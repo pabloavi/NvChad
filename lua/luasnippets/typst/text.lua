@@ -202,16 +202,62 @@ snips = {
     { t "#show figure: set block(breakable: true)" },
     { condition = typst.in_text, show_condition = typst.in_text }
   ),
+
+  s(
+    { trig = "bf", name = "bold text", dscr = "bold text with asterisks" },
+    { t "*", i(1), t "*" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "it", name = "italic text", dscr = "italic text with underscores" },
+    { t "_", i(1), t "_" },
+    { condition = typst.in_text, show_condition = typst.in_text }
+  ),
+
+  s({
+    trig = " eq",
+    name = "equation reference with space",
+    dscr = "equation reference with space",
+    wordTrig = false,
+  }, { t "~@eq:", i(1) }, { condition = typst.in_text, show_condition = typst.in_text }),
 }
 
 autosnips = {
   pair("$", "$", neg, char_count_same),
 
-  s(
-    { trig = "@", name = "@ reference or citation", dscr = "@ reference or citation" },
-    { t "@", c(1, { i(1, "img"), i(1, "tab"), i(1, "eq") }), t ":" },
-    { condition = typst.in_text, show_condition = typst.in_text }
-  ),
+  s({ trig = "@", name = "@ reference or citation", dscr = "@ reference or citation", priority = 100 }, {
+    t "@",
+    c(1, {
+      sn(nil, { i(1, "img"), t ":" }),
+      sn(nil, { i(1, "tab"), t ":" }),
+      sn(nil, { i(1, "sec"), t ":" }),
+      sn(nil, { i(1, "ap"), t ":" }),
+      sn(nil, { i(1, "eq"), t ":" }),
+      i(1),
+    }),
+  }, { condition = typst.in_text, show_condition = typst.in_text }),
+
+  s({
+    trig = " @",
+    name = "@ reference or citation with space",
+    dscr = "@ reference or citation with space",
+    priority = 1000,
+    wordTrig = false,
+  }, {
+    f(function(_, snip)
+      return snip.captures[1]
+    end),
+    t "~@",
+    c(1, {
+      sn(nil, { i(1, "img"), t ":" }),
+      sn(nil, { i(1, "tab"), t ":" }),
+      sn(nil, { i(1, "sec"), t ":" }),
+      sn(nil, { i(1, "ap"), t ":" }),
+      sn(nil, { i(1, "eq"), t ":" }),
+      i(1),
+    }),
+  }, { condition = typst.in_text, show_condition = typst.in_text }),
 
   s(
     { trig = "juanje", name = "juan basura", dscr = "juan basura" },
@@ -295,6 +341,26 @@ autosnips = {
     ),
     { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
   ),
+
+  s(
+    { trig = "noin", name = "no indent", dscr = "no indent" },
+    { t "#noindent" },
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  ),
+
+  s(
+    { trig = "quote", name = "quote block", dscr = "quote block" },
+    fmt(
+      [[
+    #quote(block: true)[
+      <>
+    ]
+    ]],
+      { i(1) },
+      { delimiters = "<>" }
+    ),
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  ),
 }
 
 for _, env in ipairs(useful_envs) do
@@ -339,5 +405,59 @@ for _, snippet in ipairs(function_snippets) do
     s({ trig = trig, name = text, dscr = dscr, wordTrig = word }, nodes, { condition = typst.in_mathzone })
   )
 end
+
+-- Recursive enum items
+local rec_enum
+rec_enum = function()
+  return sn(nil, {
+    c(1, {
+      -- Empty choice to end recursion
+      t "",
+      -- Add another enum item
+      sn(nil, {
+        t { "", "][", "  " },
+        i(1),
+        d(2, rec_enum, {}),
+      }),
+    }),
+  })
+end
+
+-- Insert enum snippet at the end of autosnips
+table.insert(
+  autosnips,
+  s(
+    { trig = "enum", name = "enumeration", dscr = "typst enumeration" },
+    fmt(
+      [[
+#enum{}[
+  {}{}
+]{}
+      ]],
+      {
+        c(1, {
+          t "",
+          sn(nil, {
+            t "(numbering: ",
+            c(1, {
+              i(1, '"a)"'),
+              i(1, '"i)"'),
+              i(1, '"1)"'),
+              i(1, '"1."'),
+              i(1, '"A."'),
+              i(1, '""'),
+            }),
+            t ")",
+          }),
+        }),
+        i(2),
+        d(3, rec_enum, {}),
+        i(0),
+      },
+      { delimiters = "{}" }
+    ),
+    { condition = typst.in_text * expand.line_begin, show_condition = typst.in_text }
+  )
+)
 
 return snips, autosnips

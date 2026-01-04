@@ -444,7 +444,7 @@ M.copilotChat = function()
   end
 
   local options = {
-    model = "claude-3.7-sonnet-thought",
+    model = "claude-sonnet-4.5",
 
     -- temperature = 1,
     question_header = "  " .. vim.env.USER .. " ",
@@ -504,6 +504,13 @@ M.copilotChat = function()
           .. "Moreover, you must regularly make recommendations for best LaTeX practices and provide constructive performance optimization advice.\n"
           .. "Remember to communicate in a brief yet insightful manner, and offer constant support and guidance in the problem-solving process.",
         description = "Prompt para experto en LaTeX",
+      },
+      titles = {
+        system_prompt = "Resume en hasta tres palabras los temas que te vaya dando para oposiciones de Física y Química. Por ejemplo:\n\n"
+          .. "- Termodinámica. Entropía\n"
+          .. "- Termodinámica. Calor y trabajo\n"
+          .. "- Cinemática.",
+        description = "Prompt para resumir temas de oposiciones de Física y Química",
       },
       cookPrompt = {
         system_prompt = "You are a professional chef.\n\n"

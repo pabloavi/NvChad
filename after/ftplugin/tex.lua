@@ -32,3 +32,13 @@ end
 --     },
 --   },
 -- }
+
+vim.g.vimtex_compiler_latexmk = {
+  executable = "latexmk",
+  options = {
+    "-xelatex", -- Specifies the use of XeLaTeX
+    "-file-line-error",
+    "-synctex=1",
+    "-interaction=nonstopmode",
+  },
+}

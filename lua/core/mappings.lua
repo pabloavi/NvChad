@@ -1078,7 +1078,12 @@ M.typst = {
         local str = ""
         local parent_dir = vim.fn.fnamemodify(vim.fn.expand "%:p:h", ":t")
         local parent_dir_of_parent = vim.fn.fnamemodify(vim.fn.expand "%:p:h:h", ":t")
-        if parent_dir:match "practica" or parent_dir_of_parent:match "semestre" then
+        if
+          parent_dir:match "practica"
+          or parent_dir:match "tema"
+          or parent_dir:match "formulario"
+          or parent_dir_of_parent:match "semestre"
+        then
           str = " --root ../"
         end
         -- find main file and replace .typ with .pdf

@@ -46,6 +46,10 @@ M.on_attach = function(client, bufnr)
   if client.server_capabilities.signatureHelpProvider then
     require("nvchad_ui.signature").setup(client)
   end
+
+  -- if client.server_capabilities.inlayHintProvider then
+  --   vim.lsp.inlay_hint.enable(true)
+  -- end
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()

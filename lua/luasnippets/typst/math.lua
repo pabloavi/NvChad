@@ -100,11 +100,17 @@ autosnips = {
     { t "qty(", i(1), t ',"', i(2), t '")' },
     { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
   ),
-  -- s(
-  --   { trig = "si", name = "siunitx si unit", dscr = "siunitx si unit" },
-  --   { t 'unit("', i(1), t '")' },
-  --   { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
-  -- ),
+  s(
+    { trig = "si", name = "siunitx si unit", dscr = "siunitx si unit" },
+    { t 'unit("', i(1), t '")' },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+  s(
+    { trig = "SI", name = "siunitx si unit", dscr = "siunitx si unit" },
+    { t "qty(", i(1), t ',"', i(2), t '")' },
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+
   s(
     { trig = "num", name = "siunitx num", dscr = "siunitx num" },
     { t "num(", i(1), t ")" },
@@ -142,12 +148,37 @@ autosnips = {
   }, { condition = typst.in_mathzone }),
 
   s({
-    trig = "([%a])_(%d%d)",
+    trig = "([%a])_([%d][%d])",
     name = "auto subscript 2",
     regTrig = true,
+    wordTrig = false,
+  }, {
+    f(function(_, snip)
+      return string.format("%s_(%s)", snip.captures[1], snip.captures[2])
+    end, {}),
+    i(0),
+  }, { condition = typst.in_mathzone }),
+
+  s({
+    trig = "([rv])([xyzijk])",
+    name = "auto subscript letter",
+    regTrig = true,
+    wordTrig = false,
   }, {
     f(function(_, snip)
       return string.format("%s_%s", snip.captures[1], snip.captures[2])
+    end, {}),
+    i(0),
+  }, { condition = typst.in_mathzone }),
+
+  s({
+    trig = "([%a])_([%d])([xyzijk])",
+    name = "auto subscript number+letter",
+    regTrig = true,
+    wordTrig = false,
+  }, {
+    f(function(_, snip)
+      return string.format("%s_(%s,%s)", snip.captures[1], snip.captures[2], snip.captures[3])
     end, {}),
     i(0),
   }, { condition = typst.in_mathzone }),
