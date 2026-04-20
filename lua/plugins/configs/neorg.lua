@@ -13,11 +13,11 @@ M.setup = function()
     load = {
       ["core.defaults"] = {},
 
-      ["core.presenter"] = {
-        config = {
-          zen_mode = "truezen",
-        },
-      },
+      -- ["core.presenter"] = {
+      --   config = {
+      --     zen_mode = "truezen",
+      --   },
+      -- },
 
       ["core.dirman"] = {
         config = {

@@ -85,7 +85,23 @@ local function_snippets = { -- shorter, add pars, args
   { trig = "con", text = "^*", dscr = "conjugado", word = false },
 }
 
-snips = {}
+snips = {
+  s(
+    { trig = "sumi", name = "sum with index i", dscr = "sum with index i" },
+    fmt(
+      [[
+    sum_(i=<>)^(<>)<>
+    ]],
+      {
+        i(1, "1"),
+        i(2, "N"),
+        i(0),
+      },
+      { delimiters = "<>" }
+    ),
+    { condition = typst.in_mathzone, show_condition = typst.in_mathzone }
+  ),
+}
 
 autosnips = {
   s(

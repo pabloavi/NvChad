@@ -444,7 +444,7 @@ M.copilotChat = function()
   end
 
   local options = {
-    model = "claude-sonnet-4.5",
+    model = "gpt-5.2",
 
     -- temperature = 1,
     question_header = "  " .. vim.env.USER .. " ",
