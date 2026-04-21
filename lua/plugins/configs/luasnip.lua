@@ -6,13 +6,18 @@ end
 
 local utils = require "core.utils"
 local config = vim.fn.stdpath "config"
+local ft_functions = require "luasnip.extras.filetype_functions"
 
 local options = {
   history = true,
   enable_autosnippets = true,
   updateevents = "TextChanged,TextChangedI",
   ft_func = function()
-    local filetypes = require("luasnip.extras.filetype_functions").from_pos_or_filetype()
+    local ok, filetypes = pcall(ft_functions.from_pos_or_filetype)
+    if (not ok) or type(filetypes) ~= "table" or vim.tbl_isempty(filetypes) then
+      local current_ft = vim.bo.filetype
+      filetypes = { (current_ft ~= nil and current_ft ~= "") and current_ft or "all" }
+    end
     local replace = { -- for some edge cases where the function returns the wrong filetype
       latex = "tex",
       bash = "sh",
@@ -34,7 +39,7 @@ local options = {
     --
     return filetypes
   end,
-  load_ft_func = require("luasnip.extras.filetype_functions").extend_load_ft {
+  load_ft_func = ft_functions.extend_load_ft {
     markdown = { "lua", "json", "python", "rust", "tex" },
     norg = { "lua", "python", "rust", "tex" },
     lua = { "lua", "luasnips" },

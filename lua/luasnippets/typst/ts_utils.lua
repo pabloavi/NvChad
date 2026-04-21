@@ -1,7 +1,6 @@
 local M = {}
 
 local ts = require "vim.treesitter"
-local query = require "vim.treesitter.query"
 
 table.unpack = table.unpack or unpack
 

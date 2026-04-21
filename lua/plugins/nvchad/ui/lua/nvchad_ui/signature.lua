@@ -73,11 +73,15 @@ local open_signature = function()
       0,
       "textDocument/signatureHelp",
       params,
-      vim.lsp.with(M.signature_window, {
-        border = "single",
-        focusable = false,
-        silent = config.silent,
-      })
+      function(err, result, ctx, handler_config)
+        handler_config = vim.tbl_deep_extend("force", handler_config or {}, {
+          border = "single",
+          focusable = false,
+          silent = config.silent,
+        })
+
+        return M.signature_window(err, result, ctx, handler_config)
+      end
     )
   end
 end

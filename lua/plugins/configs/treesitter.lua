@@ -1,5 +1,5 @@
 local options = {
-  ensure_installed = {
+  parsers = {
     -- "vim",
     "vimdoc",
     "sxhkdrc",
@@ -19,15 +19,6 @@ local options = {
     "query",
     "diff",
     -- "hyprlang",
-  },
-
-  highlight = {
-    enable = true,
-    use_languagetree = true,
-  },
-
-  indent = {
-    enable = true,
   },
 
   textobjects = {
@@ -111,8 +102,6 @@ local options = {
     },
   },
 }
-
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 -- parser_config.hypr = {
 --   install_info = {
 --     url = "https://github.com/luckasRanarison/tree-sitter-hypr",
@@ -123,18 +112,18 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 -- }
 
 if vim.g.c_enabled then
-  table.insert(options.ensure_installed, "c")
-  table.insert(options.ensure_installed, "cpp")
+  table.insert(options.parsers, "c")
+  table.insert(options.parsers, "cpp")
 end
 
 if vim.g.java_enabled then
-  table.insert(options.ensure_installed, "java")
+  table.insert(options.parsers, "java")
 end
 
 if vim.g.webdev_enabled then
-  table.insert(options.ensure_installed, "html")
-  table.insert(options.ensure_installed, "css")
-  table.insert(options.ensure_installed, "javascript")
+  table.insert(options.parsers, "html")
+  table.insert(options.parsers, "css")
+  table.insert(options.parsers, "javascript")
 end
 
 return options

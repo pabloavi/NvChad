@@ -87,8 +87,8 @@ local plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    -- commit = "9637670", -- TODO: update to v3
-    version = "2.20.7",
+    -- -- commit = "9637670", -- TODO: update to v3
+    -- version = "2.20.7",
     init = function()
       require("core.utils").lazy_load "indent-blankline.nvim"
     end,
@@ -104,9 +104,19 @@ local plugins = {
 
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     init = function()
       require("core.utils").lazy_load "nvim-treesitter"
       require("core.utils").load_mappings "treesitter"
+
+      local group = vim.api.nvim_create_augroup("NvimTreesitter012", { clear = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = group,
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
@@ -115,7 +125,33 @@ local plugins = {
     end,
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "syntax")
-      require("nvim-treesitter.configs").setup(opts)
+
+      local ok_ts, ts = pcall(require, "nvim-treesitter")
+      if not ok_ts or type(ts.setup) ~= "function" then
+        return
+      end
+
+      ts.setup {}
+
+      local ok_config, ts_config = pcall(require, "nvim-treesitter.config")
+      if ok_config and type(ts_config.get_installed) == "function" and type(opts.parsers) == "table" then
+        local installed = ts_config.get_installed()
+        local missing = vim
+          .iter(opts.parsers)
+          :filter(function(parser)
+            return not vim.tbl_contains(installed, parser)
+          end)
+          :totable()
+
+        if #missing > 0 then
+          ts.install(missing)
+        end
+      end
+
+      local ok_textobjects, textobjects = pcall(require, "nvim-treesitter-textobjects")
+      if ok_textobjects and textobjects.setup and type(opts.textobjects) == "table" then
+        textobjects.setup(opts.textobjects)
+      end
     end,
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -142,12 +178,6 @@ local plugins = {
   {
     "nvim-treesitter/playground",
     cmd = { "TSCaptureUnderCursor", "TSNodeUnderCursor", "TSPlaygroundToggle" },
-    opts = function()
-      return require "plugins.configs.treesitter"
-    end,
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
-    end,
   },
 
   -- ["nvim-treesitter/nvim-treesitter-context"] = {
@@ -159,6 +189,7 @@ local plugins = {
 
   {
     "RRethy/nvim-treesitter-textsubjects",
+    enabled = false,
     init = function()
       require("core.utils").lazy_load "nvim-treesitter-textsubjects"
     end,
@@ -166,6 +197,7 @@ local plugins = {
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
     init = function()
       require("core.utils").lazy_load "nvim-treesitter-textobjects"
     end,
@@ -565,7 +597,7 @@ local plugins = {
 
   -- fast moving (like vimium)
   {
-    "ggandor/leap.nvim",
+    url = "https://codeberg.org/andyg/leap.nvim",
     event = "VeryLazy",
     config = function()
       require("leap").add_default_mappings()

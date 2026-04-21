@@ -1,7 +1,14 @@
-local present, lspconfig = pcall(require, "lspconfig")
+local has_native_lsp_config = vim.fn.has "nvim-0.11" == 1 and vim.lsp and vim.lsp.config ~= nil
+  and type(vim.lsp.enable) == "function"
+local lspconfig
 
-if not present then
-  return
+if not has_native_lsp_config then
+  local present
+  present, lspconfig = pcall(require, "lspconfig")
+
+  if not present then
+    return
+  end
 end
 
 dofile(vim.g.base46_cache .. "lsp")
@@ -32,7 +39,34 @@ if vim.g.java_enabled then
 end
 
 if vim.g.webdev_enabled then
-  table.insert(servers, { "html", "cssls", "eslint" })
+  vim.list_extend(servers, { "html", "cssls" })
+end
+
+local function setup_server(server_name, opts)
+  opts = opts or {}
+
+  if has_native_lsp_config then
+    local ok_config = pcall(function()
+      vim.lsp.config(server_name, opts)
+    end)
+    if not ok_config then
+      vim.schedule(function()
+        vim.notify("Failed to configure LSP server: " .. server_name, vim.log.levels.WARN)
+      end)
+      return
+    end
+
+    local ok_enable = pcall(vim.lsp.enable, server_name)
+    if not ok_enable then
+      vim.schedule(function()
+        vim.notify("Failed to enable LSP server: " .. server_name, vim.log.levels.WARN)
+      end)
+    end
+
+    return
+  end
+
+  lspconfig[server_name].setup(opts)
 end
 
 -- export on_attach & capabilities for custom lspconfigs
@@ -73,31 +107,35 @@ M.capabilities.textDocument.completion.completionItem = {
 }
 
 if vim.g.c_enabled then
-  lspconfig["clangd"].setup {
-    on_attach = function(client, bufnr)
-      M.on_attach(client, bufnr)
-      require("nvim-navbuddy").attach(client, bufnr)
-    end,
-    capabilities = {
-      cmd = {
-        "clangd",
-        "--offset-encoding=utf-16",
-      },
-    },
-  }
-end
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+  setup_server("clangd", {
     on_attach = function(client, bufnr)
       M.on_attach(client, bufnr)
       require("nvim-navbuddy").attach(client, bufnr)
     end,
     capabilities = M.capabilities,
-  }
+    cmd = {
+      "clangd",
+      "--offset-encoding=utf-16",
+    },
+  })
 end
 
-lspconfig.lua_ls.setup {
+local configured_servers = {}
+for _, lsp in ipairs(servers) do
+  if type(lsp) == "string" and not configured_servers[lsp] then
+    configured_servers[lsp] = true
+
+    setup_server(lsp, {
+      on_attach = function(client, bufnr)
+        M.on_attach(client, bufnr)
+        require("nvim-navbuddy").attach(client, bufnr)
+      end,
+      capabilities = M.capabilities,
+    })
+  end
+end
+
+setup_server("lua_ls", {
   on_attach = function(client, bufnr)
     M.on_attach(client, bufnr)
     require("nvim-navbuddy").attach(client, bufnr)
@@ -122,7 +160,7 @@ lspconfig.lua_ls.setup {
       },
     },
   },
-}
+})
 
 -- if vim.g.ltex_enabled then
 --   lspconfig["ltex"].setup {
@@ -148,7 +186,7 @@ lspconfig.lua_ls.setup {
 --   }
 -- end
 -- texlab config
-lspconfig["texlab"].setup {
+setup_server("texlab", {
   on_attach = function(client, bufnr)
     M.on_attach(client, bufnr)
     require("nvim-navbuddy").attach(client, bufnr)
@@ -188,10 +226,10 @@ lspconfig["texlab"].setup {
       },
     },
   },
-}
+})
 
 -- typst
-lspconfig["tinymist"].setup {
+setup_server("tinymist", {
   on_attach = function(client, bufnr)
     M.on_attach(client, bufnr)
     require("nvim-navbuddy").attach(client, bufnr)
@@ -200,6 +238,6 @@ lspconfig["tinymist"].setup {
   settings = {
     exportPdf = "never", -- onType, onSave or never.
   },
-}
+})
 
 return M

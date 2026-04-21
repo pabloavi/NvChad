@@ -88,7 +88,7 @@ function tailwind.setup_lsp_colors(buf, options, options_local, add_highlight)
           callback = function(args)
             local ok, client = pcall(vim.lsp.get_client_by_id, args.data.client_id)
             if ok then
-              if client.name == "tailwindcss" and client.supports_method "textDocument/documentColor" then
+              if client.name == "tailwindcss" and client:supports_method "textDocument/documentColor" then
                 -- wait 100 ms for the first request
                 TAILWIND[buf].CLIENT = client
                 vim.defer_fn(function()
@@ -136,7 +136,7 @@ function tailwind.setup_lsp_colors(buf, options, options_local, add_highlight)
         vim.tbl_isempty(tailwind_client or {})
         or not tailwind_client
         or not tailwind_client.supports_method
-        or not tailwind_client.supports_method "textDocument/documentColor"
+        or not tailwind_client:supports_method "textDocument/documentColor"
       )
     then
       return true

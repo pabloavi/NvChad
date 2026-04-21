@@ -1,7 +1,6 @@
 local M = {}
 
 local ts = require "vim.treesitter"
-local query = require "vim.treesitter.query"
 
 local MATH_NODES = {
   displayed_equation = true,

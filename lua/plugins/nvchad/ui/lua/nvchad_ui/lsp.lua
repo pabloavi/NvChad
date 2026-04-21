@@ -15,16 +15,28 @@ vim.diagnostic.config {
   signs = true,
   underline = true,
   update_in_insert = false,
+  float = {
+    border = "single",
+  },
 }
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "single",
-})
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "single",
-  focusable = false,
-  relative = "cursor",
-})
+vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+  config = vim.tbl_deep_extend("force", config or {}, {
+    border = "single",
+  })
+
+  return vim.lsp.handlers.hover(err, result, ctx, config)
+end
+
+vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+  config = vim.tbl_deep_extend("force", config or {}, {
+    border = "single",
+    focusable = false,
+    relative = "cursor",
+  })
+
+  return vim.lsp.handlers.signature_help(err, result, ctx, config)
+end
 
 -- suppress error messages from lang servers
 vim.notify = function(msg, log_level)
@@ -38,12 +50,3 @@ vim.notify = function(msg, log_level)
   end
 end
 
--- Borders for LspInfo winodw
-local win = require "lspconfig.ui.windows"
-local _default_opts = win.default_opts
-
-win.default_opts = function(options)
-  local opts = _default_opts(options)
-  opts.border = "single"
-  return opts
-end
