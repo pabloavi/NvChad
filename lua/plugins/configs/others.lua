@@ -2,25 +2,37 @@ local M = {}
 local utils = require "core.utils"
 
 M.blankline = {
-  indentLine_enabled = 1,
-  filetype_exclude = {
-    "help",
-    "terminal",
-    "lazy",
-    "lspinfo",
-    "TelescopePrompt",
-    "TelescopeResults",
-    "mason",
-    "nvdash",
-    "nvcheatsheet",
-    "oil_preview",
-    "",
+  indent = {
+    char = "│",
+    tab_char = "│",
+    highlight = "IblIndent",
   },
-  buftype_exclude = { "terminal" },
-  show_trailing_blankline_indent = false,
-  show_first_indent_level = false,
-  show_current_context = true,
-  show_current_context_start = true,
+  whitespace = {
+    highlight = "IblWhitespace",
+    remove_blankline_trail = true,
+  },
+  scope = {
+    enabled = true,
+    show_start = true,
+    show_end = false,
+    highlight = "IblScope",
+  },
+  exclude = {
+    filetypes = {
+      "help",
+      "terminal",
+      "lazy",
+      "lspinfo",
+      "TelescopePrompt",
+      "TelescopeResults",
+      "mason",
+      "nvdash",
+      "nvcheatsheet",
+      "oil_preview",
+      "",
+    },
+    buftypes = { "terminal" },
+  },
 }
 
 M.gitsigns = {
@@ -444,7 +456,7 @@ M.copilotChat = function()
   end
 
   local options = {
-    model = "gpt-5.2",
+    model = "gemini-3.1-pro-preview",
 
     -- temperature = 1,
     question_header = "  " .. vim.env.USER .. " ",

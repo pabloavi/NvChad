@@ -509,14 +509,31 @@ M.blankline = {
   n = {
     ["<leader>cc"] = {
       function()
-        local ok, start = require("indent_blankline.utils").get_current_context(
-          vim.g.indent_blankline_context_patterns,
-          vim.g.indent_blankline_use_treesitter_scope
-        )
+        local bufnr = vim.api.nvim_get_current_buf()
 
-        if ok then
-          vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start, 0 })
-          vim.cmd [[normal! _]]
+        local ok_config, config = pcall(require, "ibl.config")
+        local ok_scope, scope = pcall(require, "ibl.scope")
+
+        if ok_config and ok_scope and type(scope.get) == "function" and type(config.get_config) == "function" then
+          local current_scope = scope.get(bufnr, config.get_config(bufnr))
+          if current_scope and type(current_scope.start) == "function" then
+            vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { current_scope:start() + 1, 0 })
+            vim.cmd [[normal! _]]
+          end
+          return
+        end
+
+        local ok_utils, old_utils = pcall(require, "indent_blankline.utils")
+        if ok_utils and type(old_utils.get_current_context) == "function" then
+          local ok, start = old_utils.get_current_context(
+            vim.g.indent_blankline_context_patterns,
+            vim.g.indent_blankline_use_treesitter_scope
+          )
+
+          if ok then
+            vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start, 0 })
+            vim.cmd [[normal! _]]
+          end
         end
       end,
 

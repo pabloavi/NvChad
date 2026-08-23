@@ -64,7 +64,7 @@ M.polish_hl = {
     bg = M.base_30.white,
   },
 
-  IndentBlanklineContextStart = { bg = M.base_30.black2 },
+  IblScope = { bg = M.base_30.black2 },
   St_pos_text = { fg = M.base_30.white },
 }
 

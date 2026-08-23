@@ -1,4 +1,6 @@
-local has_native_lsp_config = vim.fn.has "nvim-0.11" == 1 and vim.lsp and vim.lsp.config ~= nil
+local has_native_lsp_config = vim.fn.has "nvim-0.11" == 1
+  and vim.lsp
+  and vim.lsp.config ~= nil
   and type(vim.lsp.enable) == "function"
 local lspconfig
 

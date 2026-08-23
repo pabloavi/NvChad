@@ -7,6 +7,7 @@ end
 local utils = require "core.utils"
 local config = vim.fn.stdpath "config"
 local ft_functions = require "luasnip.extras.filetype_functions"
+local types = require "luasnip.util.types"
 
 local options = {
   history = true,

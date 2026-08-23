@@ -62,7 +62,7 @@ M.polish_hl = {
   NvimTreeFolderName = { fg = "#4e565c" },
   TbLineThemeToggleBtn = { bg = M.base_30.one_bg },
   Pmenu = { bg = M.base_30.black2 },
-  IndentBlanklineContextStart = { bg = M.base_30.black2 },
+  IblScope = { bg = M.base_30.black2 },
   St_pos_text = { fg = M.base_30.white },
   ["@tag"] = { fg = M.base_30.orange },
   ["@field"] = { fg = M.base_16.base05 },

@@ -8,7 +8,7 @@ local options = {
     "markdown",
     "bash",
     "lua",
-    "norg",
+    -- "norg",
     "fortran",
     "python",
     "latex",

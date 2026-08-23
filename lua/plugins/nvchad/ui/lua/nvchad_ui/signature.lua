@@ -49,9 +49,14 @@ end
 
 local open_signature = function()
   local triggered = false
+  local position_encoding = "utf-16"
 
   for _, client in pairs(clients) do
     local triggers = client.server_capabilities.signatureHelpProvider.triggerCharacters
+
+    if client and (client.offset_encoding or client.position_encoding) then
+      position_encoding = client.offset_encoding or client.position_encoding
+    end
 
     -- csharp has wrong trigger chars for some odd reason
     if client.name == "csharp" then
@@ -68,7 +73,7 @@ local open_signature = function()
   end
 
   if triggered then
-    local params = util.make_position_params()
+    local params = util.make_position_params(0, position_encoding)
     vim.lsp.buf_request(
       0,
       "textDocument/signatureHelp",

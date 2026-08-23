@@ -50,6 +50,26 @@ local function in_comments()
   return in_ts_capture "comment"
 end
 
+local function in_code()
+  local node = get_node_at_cursor()
+  while node do
+    local t = node:type()
+
+    -- inside markup/content => NOT code
+    if t == "content" or t == "string" then
+      return false
+    end
+
+    -- real code/raw nodes
+    if t == "code" or t == "raw" or t == "code_block" or t == "raw_block" or t == "raw_inline" then
+      return true
+    end
+
+    node = node:parent()
+  end
+  return false
+end
+
 function M.in_text()
   -- check_parent = false
   local node = get_node_at_cursor()
@@ -63,13 +83,13 @@ function M.in_text()
         end
       end
 
-      return true and not in_comments()
+      return true and not in_comments() and not in_code()
     elseif node:type() == "math" then
       return false
     end
     node = node:parent()
   end
-  return true and not in_comments()
+  return true and not in_comments() and not in_code()
 end
 
 function M.in_mathzone()

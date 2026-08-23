@@ -385,10 +385,9 @@
 ---@field CmpItemKindTypeParameter Base46HLGroups # highlight group for cmp
 ---@field CmpItemKindCopilot Base46HLGroups # highlight group for cmp
 ---@field CmpBorder Base46HLGroups # highlight group for cmp
----@field IndentBlanklineSpaceChar Base46HLGroups # highlight group for blankline
----@field IndentBlanklineContextStart Base46HLGroups # highlight group for blankline
----@field IndentBlanklineContextChar Base46HLGroups # highlight group for blankline
----@field IndentBlanklineChar Base46HLGroups # highlight group for blankline
+---@field IblWhitespace Base46HLGroups # highlight group for blankline
+---@field IblScope Base46HLGroups # highlight group for blankline
+---@field IblIndent Base46HLGroups # highlight group for blankline
 
 ---@class ExtendedHLGroups
 ---@field NotifyERRORBorder Base46HLGroups # highlight group for notify

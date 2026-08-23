@@ -61,14 +61,17 @@ M.setup = function()
       },
 
       ["core.integrations.nvim-cmp"] = {},
+      ["core.integrations.treesitter"] = {
+        configure_parsers = true,
+      },
       ["core.export"] = {},
 
-      -- ["core.norg.esupports.indent"] = {
-      --   config = {
-      --     format_on_enter = false,
-      --     format_on_escape = false,
-      --   },
-      -- },
+      ["core.esupports.indent"] = {
+        config = {
+          format_on_enter = false,
+          format_on_escape = false,
+        },
+      },
     },
   }
 

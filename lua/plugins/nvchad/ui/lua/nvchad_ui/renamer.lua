@@ -50,7 +50,10 @@ M.apply = function(curr, win)
   vim.api.nvim_win_close(win, true)
 
   if #newName > 0 and newName ~= curr then
-    local params = vim.lsp.util.make_position_params()
+    local lsp_clients = vim.lsp.get_clients { bufnr = 0 }
+    local position_encoding = (lsp_clients[1] and (lsp_clients[1].offset_encoding or lsp_clients[1].position_encoding))
+      or "utf-16"
+    local params = vim.lsp.util.make_position_params(0, position_encoding)
     params.newName = newName
 
     vim.lsp.buf_request(0, "textDocument/rename", params)

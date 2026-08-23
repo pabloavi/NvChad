@@ -87,8 +87,7 @@ local plugins = {
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    -- -- commit = "9637670", -- TODO: update to v3
-    -- version = "2.20.7",
+    main = "ibl",
     init = function()
       require("core.utils").lazy_load "indent-blankline.nvim"
     end,
@@ -98,7 +97,10 @@ local plugins = {
     config = function(_, opts)
       require("core.utils").load_mappings "blankline"
       dofile(vim.g.base46_cache .. "blankline")
-      require("indent_blankline").setup(opts)
+      local hooks = require "ibl.hooks"
+      hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+      hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_tab_indent_level)
+      require("ibl").setup(opts)
     end,
   },
 
@@ -660,7 +662,7 @@ local plugins = {
     "nvim-neorg/neorg",
     ft = "norg",
     -- build = ":Neorg sync-parsers",
-    dependencies = { "luarocks.nvim" },
+    -- dependencies = { "rocks.nvim" },
     init = function()
       require("plugins.configs.neorg").autocmd()
       require("core.utils").load_mappings "neorg"
@@ -721,7 +723,7 @@ local plugins = {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    -- enabled = false,
+    enabled = false,
     lazy = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
