@@ -723,17 +723,29 @@ local plugins = {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
+    ft = { "markdown", "copilot-chat" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
     }, -- if you prefer nvim-web-devicons
     opts = {
-      file_types = { "markdown", "copilot-chat" },
+      enabled = false,
     },
     config = function(_, opts)
+      require("core.utils").load_mappings "render_markdown"
       require("render-markdown").setup(opts)
+    end,
+  },
+
+  {
+    "obsidian-nvim/obsidian.nvim",
+    version = "*", -- use latest release, remove to use latest commit
+    ft = "markdown",
+    opts = require("plugins.configs.others").obsidian,
+    config = function(_, opts)
+      require("obsidian").setup(opts)
     end,
   },
 

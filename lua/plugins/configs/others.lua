@@ -421,6 +421,15 @@ M.openrgb = function()
 ]]
 end
 
+M.obsidian = {
+  legacy_commands = false, -- this will be removed in 4.0.0
+  workspaces = {
+    { name = "obsidian", path = "~/Documentos/obsidian" },
+    { name = "temario", path = "~/Documentos/temario" },
+  },
+  ui = { enable = false },
+}
+
 M.gp = function()
   local present, gp = pcall(require, "gp")
 
@@ -456,7 +465,7 @@ M.copilotChat = function()
   end
 
   local options = {
-    model = "gemini-3.1-pro-preview",
+    model = "auto",
 
     -- temperature = 1,
     question_header = "  " .. vim.env.USER .. " ",

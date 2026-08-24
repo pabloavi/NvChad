@@ -41,7 +41,7 @@ local sources = {
   b.formatting.typstyle, -- installed through yay
   -- b.formatting.rustfmt,
   b.formatting.markdownlint,
-  b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json" } },
+  b.formatting.prettierd.with { filetypes = { "html", "css", "javascript", "json", "markdown" } },
 
   -- require("none-ls.formatting.jsonlint"),
 

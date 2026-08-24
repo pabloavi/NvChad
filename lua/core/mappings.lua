@@ -702,10 +702,10 @@ M.treesitter = {
   },
 }
 
-M.markdownpreview = {
+M.render_markdown = {
   plugin = true,
   n = {
-    ["<leader>mp"] = { "<cmd> MarkdownPreviewToggle <CR>", "toggle markdown preview" },
+    ["<leader>rm"] = { "<cmd> RenderMarkdown toggle <CR>", "toggle render-markdown" },
   },
 }
 
